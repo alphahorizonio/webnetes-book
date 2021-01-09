@@ -1,6 +1,6 @@
 # The Webnetes Project
 
-![Webnetes Header](./img/header.svg)
+![Webnetes Header](./img/header.png)
 
 **The Webnetes Project** is an an effort to build a distributed compute system running in the browser and in node. It uses [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) for compute, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) for networking and [WebTorrent](https://en.wikipedia.org/wiki/WebTorrent) for storage.
 
