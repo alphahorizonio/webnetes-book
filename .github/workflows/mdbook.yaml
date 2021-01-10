@@ -14,7 +14,10 @@ jobs:
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: "latest"
-      - run: mdbook build
+      - name: Build with mdBook
+        run: mdbook build
+      - name: Setup CNAME
+        run: echo "docs.webnetes.dev" > ./book/CNAME
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
