@@ -5,13 +5,17 @@
 
 - [Getting Started](getting-started/README.md)
 
-  - [C](getting-started/c.md)
-  - [C++](getting-started/cpp.md)
-  - [Go](getting-started/go.md)
-  - [Rust](getting-started/rust.md)
-  - [Zig](getting-started/zig.md)
-  - [Java](getting-started/java.md)
-  - [AssemblyScript](getting-started/assemblyscript.md)
+  - [Develop](getting-started/develop/README.md)
+    - [C](getting-started/develop/c.md)
+    - [C++](getting-started/develop/cpp.md)
+    - [Go](getting-started/develop/go.md)
+    - [Rust](getting-started/develop/rust.md)
+    - [Zig](getting-started/develop/zig.md)
+    - [Java](getting-started/develop/java.md)
+    - [AssemblyScript](getting-started/develop/assemblyscript.md)
+    - [More](getting-started/develop/more.md)
+  - [Distribute](getting-started/distribute.md)
+  - [Operate](getting-started/operate.md)
 
 - [Architecture](architecture/README.md)
 
@@ -22,9 +26,16 @@
 
 - [Components](components/README.md)
 
-  - [webnetes](components/webnetes.md)
-  - [webnetesctl](components/webnetesctl.md)
-  - [unisockets](components/unisockets.md)
-  - [tinynet](components/tinynet.md)
+  - [Node (webnetes)](components/webnetes.md)
+  - [App (webnetesctl)](components/webnetesctl.md)
+
+- [Bindings](bindings/README.md)
+
+  - [C/C++ Networking (unisockets)](bindings/unisockets.md)
+  - [Go Networking (tinynet)](bindings/tinynet.md)
+
+- [Reference](reference/README.md)
+  - [Resources YAML](reference/resources-yaml.md)
+  - [Embedding API](reference/embedding-api.md)
 
 [Contributing](CONTRIBUTING.md)
