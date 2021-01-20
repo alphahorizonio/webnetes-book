@@ -1,6 +1,10 @@
 # C
 
-## Support
+## Table of Contents
+
+<!-- toc -->
+
+## Language Support Status
 
 | Native | WebAssembly | Networking | Concurrency |
 | ------ | ----------- | ---------- | ----------- |
@@ -317,7 +321,7 @@ int main(int argc, char *argv[]) {
 
 It is a very simple TCP server that listens to messages, prefixes them with `You've sent: ` and sends them back to the sender.
 
-Now, copy and paste the [unisockets.h](https://raw.githubusercontent.com/alphahorizonio/webnetes/main/examples/c_echo_server/unisockets.h) header in the same directory as `main.c`.
+Now, copy and paste the [unisockets.h](https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h) header in the same directory as `main.c`, which allows networking to function.
 
 ### CMake Configuration
 
@@ -351,37 +355,11 @@ if(WASI)
 endif()
 ```
 
-It allows compilation of both the native & the WebAssembly target.
+It allows compilation of both the native & the WebAssembly target. Not `-DUNISOCKETS_WITH_ALIAS`, which allows networking to function.
 
 ### Make Configuration
 
-Create a `Makefile` with the following content:
-
-```Makefile
-all: native wasm
-
-native:
-	@docker run -v ${PWD}:/src:z silkeh/clang sh -c 'cd /src && mkdir -p build/native && cd build/native && cmake ../.. && make'
-
-wasm:
-	@docker run -v ${PWD}:/src:z alphahorizonio/wasi-sdk sh -c 'cd /src && mkdir -p build/wasm && cd build/wasm && cmake -DWASI=true ../.. && make'
-
-clean:
-	@rm -rf build
-
-seed: wasm
-	@docker run -it -v ${PWD}/build:/build:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c "/usr/local/bin/webtorrent-hybrid seed /build/wasm/*.wasm"
-```
-
-It provides five targets:
-
-- `make` builds both the native & the WebAssembly target
-- `make native` builds only the native target
-- `make wasm` builds only the WebAssembly target
-- `make clean` removes the built targets
-- `make seed` seeds the WebAssembly target, which will come in handy later.
-
-All of them use Docker, so there is no need to install any dependencies on the host.
+See [Hello, world! Make Configuration](#make-configuration).
 
 ### Next Steps
 
@@ -412,7 +390,7 @@ The server should now display the following:
 [DEBUG] Waiting for client 127.0.0.1:39644 to send
 ```
 
-If you type something into the second terminal, the server should return it as follows:
+If you type something into the second terminal and press <kbd>Enter</kbd>, the server should return it as follows:
 
 ```shell
 Hello, reader!

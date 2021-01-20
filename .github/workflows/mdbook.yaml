@@ -14,6 +14,8 @@ jobs:
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: "latest"
+      - name: Add Table of Contents support
+        run: cargo install mdbook-toc
       - name: Build with mdBook
         run: mdbook build
       - name: Setup CNAME
