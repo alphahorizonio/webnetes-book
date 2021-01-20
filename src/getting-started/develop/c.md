@@ -355,7 +355,7 @@ if(WASI)
 endif()
 ```
 
-It allows compilation of both the native & the WebAssembly target. Not `-DUNISOCKETS_WITH_ALIAS`, which allows networking to function.
+It allows compilation of both the native & the WebAssembly target. Note `-DUNISOCKETS_WITH_ALIAS`, which allows networking to function.
 
 ### Make Configuration
 
@@ -608,7 +608,7 @@ if(WASI)
 endif()
 ```
 
-It allows compilation of both the native & the WebAssembly target. Not `-DUNISOCKETS_WITH_ALIAS`, which allows networking to function.
+It allows compilation of both the native & the WebAssembly target. Note `-DUNISOCKETS_WITH_ALIAS`, which allows networking to function.
 
 ### Make Configuration
 
