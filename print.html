@@ -176,7 +176,27 @@
 <h1><a class="header" href="#getting-started" id="getting-started">Getting Started</a></h1>
 <h1><a class="header" href="#develop" id="develop">Develop</a></h1>
 <h1><a class="header" href="#c" id="c">C</a></h1>
-<h2><a class="header" href="#support" id="support">Support</a></h2>
+<h2><a class="header" href="#table-of-contents" id="table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="getting-started/develop/c.html#language-support-status">Language Support Status</a></li>
+<li><a href="getting-started/develop/c.html#hello-world">Hello, world!</a>
+<ul>
+<li><a href="getting-started/develop/c.html#source-code">Source Code</a></li>
+<li><a href="getting-started/develop/c.html#cmake-configuration">CMake Configuration</a></li>
+<li><a href="getting-started/develop/c.html#make-configuration">Make Configuration</a></li>
+<li><a href="getting-started/develop/c.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li><a href="getting-started/develop/c.html#tcp-echo-server">TCP Echo Server</a>
+<ul>
+<li><a href="getting-started/develop/c.html#source-code-1">Source Code</a></li>
+<li><a href="getting-started/develop/c.html#cmake-configuration-1">CMake Configuration</a></li>
+<li><a href="getting-started/develop/c.html#make-configuration-1">Make Configuration</a></li>
+<li><a href="getting-started/develop/c.html#next-steps-1">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td></tr>
 </tbody></table>
@@ -459,7 +479,7 @@ int main(int argc, char *argv[]) {
 }
 </code></pre>
 <p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
-<p>Now, copy and paste the <a href="https://raw.githubusercontent.com/alphahorizonio/webnetes/main/examples/c_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>.</p>
+<p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
 <h3><a class="header" href="#cmake-configuration-1" id="cmake-configuration-1">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
@@ -488,32 +508,9 @@ if(WASI)
 	)
 endif()
 </code></pre>
-<p>It allows compilation of both the native &amp; the WebAssembly target.</p>
+<p>It allows compilation of both the native &amp; the WebAssembly target. Not <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
 <h3><a class="header" href="#make-configuration-1" id="make-configuration-1">Make Configuration</a></h3>
-<p>Create a <code>Makefile</code> with the following content:</p>
-<pre><code class="language-Makefile">all: native wasm
-
-native:
-	@docker run -v ${PWD}:/src:z silkeh/clang sh -c 'cd /src &amp;&amp; mkdir -p build/native &amp;&amp; cd build/native &amp;&amp; cmake ../.. &amp;&amp; make'
-
-wasm:
-	@docker run -v ${PWD}:/src:z alphahorizonio/wasi-sdk sh -c 'cd /src &amp;&amp; mkdir -p build/wasm &amp;&amp; cd build/wasm &amp;&amp; cmake -DWASI=true ../.. &amp;&amp; make'
-
-clean:
-	@rm -rf build
-
-seed: wasm
-	@docker run -it -v ${PWD}/build:/build:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c &quot;/usr/local/bin/webtorrent-hybrid seed /build/wasm/*.wasm&quot;
-</code></pre>
-<p>It provides five targets:</p>
-<ul>
-<li><code>make</code> builds both the native &amp; the WebAssembly target</li>
-<li><code>make native</code> builds only the native target</li>
-<li><code>make wasm</code> builds only the WebAssembly target</li>
-<li><code>make clean</code> removes the built targets</li>
-<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
-</ul>
-<p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
+<p>See <a href="getting-started/develop/c.html#make-configuration">Hello, world! Make Configuration</a>.</p>
 <h3><a class="header" href="#next-steps-1" id="next-steps-1">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
@@ -530,7 +527,7 @@ seed: wasm
 <pre><code class="language-shell">[INFO] Accepted client 127.0.0.1:39644
 [DEBUG] Waiting for client 127.0.0.1:39644 to send
 </code></pre>
-<p>If you type something into the second terminal, the server should return it as follows:</p>
+<p>If you type something into the second terminal and press <kbd>Enter</kbd>, the server should return it as follows:</p>
 <pre><code class="language-shell">Hello, reader!
 You've sent: Hello, reader!
 </code></pre>
