@@ -195,6 +195,14 @@
 <li><a href="getting-started/develop/c.html#next-steps-1">Next Steps</a></li>
 </ul>
 </li>
+<li><a href="getting-started/develop/c.html#tcp-echo-client">TCP Echo Client</a>
+<ul>
+<li><a href="getting-started/develop/c.html#source-code-2">Source Code</a></li>
+<li><a href="getting-started/develop/c.html#cmake-configuration-2">CMake Configuration</a></li>
+<li><a href="getting-started/develop/c.html#make-configuration-2">Make Configuration</a></li>
+<li><a href="getting-started/develop/c.html#next-steps-2">Next Steps</a></li>
+</ul>
+</li>
 </ul>
 <h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
@@ -212,7 +220,7 @@ int main() {
   return 0;
 }
 </code></pre>
-<p>It prints <code>Hello, world!</code> to standard out.</p>
+<p>It prints <code>Hello, world!</code> to standard output.</p>
 <h3><a class="header" href="#cmake-configuration" id="cmake-configuration">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
@@ -527,14 +535,240 @@ endif()
 <pre><code class="language-shell">[INFO] Accepted client 127.0.0.1:39644
 [DEBUG] Waiting for client 127.0.0.1:39644 to send
 </code></pre>
-<p>If you type something into the second terminal and press <kbd>Enter</kbd>, the server should return it as follows:</p>
+<p>If you type something into the second terminal and press <kbd>Enter</kbd>, the server should echo it as follows:</p>
 <pre><code class="language-shell">Hello, reader!
 You've sent: Hello, reader!
+</code></pre>
+<p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
+<h2><a class="header" href="#tcp-echo-client" id="tcp-echo-client">TCP Echo Client</a></h2>
+<p>Now that we've got a TCP echo server, let's create a TCP echo client in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_client">GitHub</a>.</p>
+<h3><a class="header" href="#source-code-2" id="source-code-2">Source Code</a></h3>
+<p>Create <code>main.c</code> with the following content:</p>
+<pre><code class="language-c">#include &quot;unisockets.h&quot;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+#define RECONNECT_TIMEOUT 2
+
+#define SENT_MESSAGE_BUFFER_LENGTH 1024
+#define RECEIVED_MESSAGE_PREFIX &quot;You've sent: &quot;
+#define RECEIVED_MESSAGE_BUFFER_LENGTH                                         \
+  SENT_MESSAGE_BUFFER_LENGTH + sizeof(RECEIVED_MESSAGE_PREFIX)
+
+int main(int argc, char *argv[]) {
+  // Flags parsing
+  char *connect_host = &quot;127.0.0.1&quot;;
+  int connect_port = 1234;
+
+  int opt;
+  while ((opt = getopt(argc, argv, &quot;c:p:&quot;)) != -1) {
+    switch (opt) {
+    case 'c':
+      connect_host = optarg;
+
+      optind--;
+
+      break;
+
+    case 'p':
+      connect_port = atoi(optarg);
+
+      break;
+
+    default:
+      fprintf(stderr, &quot;Usage: %s -c HOST -p PORT\n&quot;, argv[0]);
+
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  // Variables
+  int server_sock;
+  struct sockaddr_in server_host;
+
+  ssize_t sent_message_length;
+  char read_message[SENT_MESSAGE_BUFFER_LENGTH];
+  size_t received_message_length;
+  char received_message[RECEIVED_MESSAGE_BUFFER_LENGTH];
+
+  socklen_t server_host_length = sizeof(struct sockaddr_in);
+
+  memset(&amp;server_host, 0, sizeof(server_host));
+
+  // Logging
+  char server_address_readable[sizeof(connect_host) + sizeof(connect_port) + 1];
+  sprintf(server_address_readable, &quot;%s:%d&quot;, connect_host, connect_port);
+
+  // Create address
+  server_host.sin_family = AF_INET;
+  server_host.sin_port = htons(connect_port);
+  if (inet_pton(AF_INET, connect_host, &amp;server_host.sin_addr) == -1) {
+    perror(&quot;[ERROR] Could not parse IP address:&quot;);
+
+    exit(EXIT_FAILURE);
+  }
+
+  // Create socket
+  if ((server_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    perror(&quot;[ERROR] Could not create socket:&quot;);
+
+    printf(&quot;[ERROR] Could not create socket %s\n&quot;, server_address_readable);
+
+    exit(EXIT_FAILURE);
+  }
+
+  // Connect loop
+  while (1) {
+    printf(&quot;[INFO] Connecting to server %s\n&quot;, server_address_readable);
+
+    // Connect
+    if ((connect(server_sock, (struct sockaddr *)&amp;server_host,
+                 server_host_length)) == -1) {
+      perror(&quot;[ERROR] Could not connect to server:&quot;);
+
+      printf(&quot;[ERROR] Could not connect to server %s, retrying in %ds\n&quot;,
+             server_address_readable, RECONNECT_TIMEOUT);
+
+      sleep(RECONNECT_TIMEOUT);
+
+      continue;
+    }
+
+    printf(&quot;[INFO] Connected to server %s\n&quot;, server_address_readable);
+
+    // Read loop
+    while (1) {
+      memset(&amp;received_message, 0, RECEIVED_MESSAGE_BUFFER_LENGTH);
+      memset(&amp;read_message, 0, SENT_MESSAGE_BUFFER_LENGTH);
+
+      printf(&quot;[DEBUG] Waiting for user input\n&quot;);
+
+      // Read
+      fgets(read_message, SENT_MESSAGE_BUFFER_LENGTH, stdin);
+
+      // Send
+      sent_message_length =
+          send(server_sock, read_message, strlen(read_message), 0);
+      if (sent_message_length == -1) {
+        perror(&quot;[ERROR] Could not send to server:&quot;);
+
+        printf(&quot;[ERROR] Could not send to server %s, dropping message\n&quot;,
+               server_address_readable);
+
+        break;
+      }
+
+      printf(&quot;[DEBUG] Sent %zd bytes to %s\n&quot;, sent_message_length,
+             server_address_readable);
+
+      printf(&quot;[DEBUG] Waiting for server %s to send\n&quot;,
+             server_address_readable);
+
+      // Receive
+      received_message_length = recv(server_sock, &amp;received_message,
+                                     RECEIVED_MESSAGE_BUFFER_LENGTH, 0);
+      if (received_message_length == -1) {
+        perror(&quot;[ERROR] Could not receive from server:&quot;);
+
+        printf(&quot;[ERROR] Could not receive from server %s, dropping message\n&quot;,
+               server_address_readable);
+
+        break;
+      }
+
+      if (received_message_length == 0) {
+        break;
+      }
+
+      printf(&quot;[DEBUG] Received %zd bytes from %s\n&quot;, received_message_length,
+             server_address_readable);
+
+      // Print
+      printf(&quot;%s&quot;, received_message);
+    }
+
+    printf(&quot;[INFO] Disconnected from server %s\n&quot;, server_address_readable);
+
+    // Shutdown
+    if ((shutdown(server_sock, SHUT_RDWR)) == -1) {
+      perror(&quot;[ERROR] Could not shutdown socket:&quot;);
+
+      printf(&quot;[ERROR] Could not shutdown socket %s, stopping\n&quot;,
+             server_address_readable);
+
+      break;
+    };
+  }
+
+  return 0;
+}
+</code></pre>
+<p>It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.</p>
+<p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
+<h3><a class="header" href="#cmake-configuration-2" id="cmake-configuration-2">CMake Configuration</a></h3>
+<p>Create <code>CMakeLists.txt</code> with the following content:</p>
+<pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
+
+# WASI Config
+if(WASI)
+	set(WASI_SDK_PREFIX &quot;/opt/wasi-sdk-12.0&quot;)
+	set(CMAKE_SYSROOT &quot;${WASI_SDK_PREFIX}/share/wasi-sysroot&quot;)
+	set(CMAKE_TOOLCHAIN_FILE &quot;${WASI_SDK_PREFIX}/share/cmake/wasi-sdk.cmake&quot;)
+endif()
+
+# Project
+project(echo_client)
+add_executable(echo_client &quot;main.c&quot;)
+
+# WASI Config
+if(WASI)
+	set(CMAKE_C_FLAGS &quot;-DUNISOCKETS_WITH_ALIAS&quot;)
+	set(CMAKE_EXE_LINKER_FLAGS &quot;-Wl,--allow-undefined&quot;)
+	set(CMAKE_EXECUTABLE_SUFFIX &quot;.wasm&quot;)
+
+	add_custom_command(TARGET echo_client
+		POST_BUILD
+		COMMAND sh -c &quot;wasm-opt --asyncify -O $&lt;TARGET_FILE:echo_client&gt; -o $&lt;TARGET_FILE:echo_client&gt;&quot;
+		VERBATIM
+	)
+endif()
+</code></pre>
+<p>It allows compilation of both the native &amp; the WebAssembly target. Not <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
+<h3><a class="header" href="#make-configuration-2" id="make-configuration-2">Make Configuration</a></h3>
+<p>See <a href="getting-started/develop/c.html#make-configuration">Hello, world! Make Configuration</a>.</p>
+<h3><a class="header" href="#next-steps-2" id="next-steps-2">Next Steps</a></h3>
+<p>First, <a href="http://localhost:3000/getting-started/develop/c.html#next-steps-1">build and run the TCP echo server</a>.</p>
+<p>In a second terminal, build the native target:</p>
+<pre><code class="language-shell">$ make native
+</code></pre>
+<p>Run the native target:</p>
+<pre><code class="language-shell">$ ./build/native/echo_client
+[INFO] Connecting to server 127.0.0.1:1234
+[INFO] Connected to server 127.0.0.1:1234
+[DEBUG] Waiting for user input
+</code></pre>
+<p>The server should now display the following:</p>
+<pre><code class="language-shell">[INFO] Accepted client 127.0.0.1:39644
+[DEBUG] Waiting for client 127.0.0.1:39644 to send
+</code></pre>
+<p>If you type something into the terminal and press <kbd>Enter</kbd>, the server should echo it as follows:</p>
+<pre><code class="language-shell">Hello, dear reader!
+[DEBUG] Sent 20 bytes to 127.0.0.1:1234
+[DEBUG] Waiting for server 127.0.0.1:1234 to send
+[DEBUG] Received 1038 bytes from 127.0.0.1:1234
+You've sent: Hello, dear reader!
+[DEBUG] Waiting for user input
 </code></pre>
 <p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://github.com/WebAssembly/threads">WebAssembly threads</a> are not yet implemented.</p>
 </div>
+<pre><code>
+</code></pre>
 <h1><a class="header" href="#c-1" id="c-1">C++</a></h1>
 <h1><a class="header" href="#go" id="go">Go</a></h1>
 <h1><a class="header" href="#rust" id="rust">Rust</a></h1>
