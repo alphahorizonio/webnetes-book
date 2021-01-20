@@ -243,16 +243,296 @@ seed: wasm
 <li><code>make native</code> builds only the native target</li>
 <li><code>make wasm</code> builds only the WebAssembly target</li>
 <li><code>make clean</code> removes the built targets</li>
-<li><code>make seeds</code> seeds the WebAssembly target, which will come in handy later.</li>
+<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
 <h3><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h3>
 <p>Build the native target:</p>
-<pre><code class="language-shell">$ make
+<pre><code class="language-shell">$ make native
 </code></pre>
 <p>Run the native target:</p>
 <pre><code class="language-shell">$ ./build/native/hello_world
 Hello, world!
+</code></pre>
+<p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
+<h2><a class="header" href="#tcp-echo-server" id="tcp-echo-server">TCP Echo Server</a></h2>
+<p>Webnetes has support for networking. Let's create a TCP echo server in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_server">GitHub</a>.</p>
+<h3><a class="header" href="#source-code-1" id="source-code-1">Source Code</a></h3>
+<p>Create <code>main.c</code> with the following content:</p>
+<pre><code class="language-c">#include &quot;unisockets.h&quot;
+#include &lt;arpa/inet.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+#define BACKLOG 5
+
+#define RECEIVED_MESSAGE_BUFFER_LENGTH 1024
+#define SENT_MESSAGE_PREFIX &quot;You've sent: &quot;
+#define SENT_MESSAGE_BUFFER_LENGTH                                             \
+  RECEIVED_MESSAGE_BUFFER_LENGTH + sizeof(SENT_MESSAGE_PREFIX)
+
+int main(int argc, char *argv[]) {
+  // Flags parsing
+  char *listen_host = &quot;127.0.0.1&quot;;
+  int listen_port = 1234;
+
+  int opt;
+  while ((opt = getopt(argc, argv, &quot;l:p:&quot;)) != -1) {
+    switch (opt) {
+    case 'l':
+      listen_host = optarg;
+
+      optind--;
+
+      break;
+
+    case 'p':
+      listen_port = atoi(optarg);
+
+      break;
+
+    default:
+      fprintf(stderr, &quot;Usage: %s -l HOST -p PORT\n&quot;, argv[0]);
+
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  // Variables
+  int server_sock;
+  int client_sock;
+
+  struct sockaddr_in server_address;
+  struct sockaddr_in client_address;
+
+  socklen_t server_socket_length = sizeof(struct sockaddr_in);
+
+  size_t received_message_length;
+  char received_message[RECEIVED_MESSAGE_BUFFER_LENGTH];
+  ssize_t sent_message_length;
+  char sent_message[SENT_MESSAGE_BUFFER_LENGTH];
+  char client_address_readable[sizeof(client_address.sin_addr) +
+                               client_address.sin_port + 1];
+  char client_address_human_readable[INET_ADDRSTRLEN];
+
+  // Logging
+  char server_address_readable[sizeof(listen_host) + sizeof(listen_port) + 1];
+  sprintf(server_address_readable, &quot;%s:%d&quot;, listen_host, listen_port);
+
+  memset(&amp;server_address, 0, sizeof(server_address));
+  memset(&amp;client_address, 0, sizeof(client_address));
+
+  // Create address
+  server_address.sin_family = AF_INET;
+  server_address.sin_port = htons(listen_port);
+  if (inet_pton(AF_INET, listen_host, &amp;server_address.sin_addr) == -1) {
+    perror(&quot;[ERROR] Could not parse IP address:&quot;);
+
+    exit(EXIT_FAILURE);
+  }
+
+  // Create socket
+  if ((server_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    perror(&quot;[ERROR] Could not create socket:&quot;);
+
+    printf(&quot;[ERROR] Could not create socket %s\n&quot;, server_address_readable);
+
+    exit(EXIT_FAILURE);
+  }
+
+  // Bind
+  if ((bind(server_sock, (struct sockaddr *)&amp;server_address,
+            server_socket_length)) == -1) {
+    perror(&quot;[ERROR] Could not bind to socket:&quot;);
+
+    printf(&quot;[ERROR] Could not bind to socket %s\n&quot;, server_address_readable);
+
+    exit(EXIT_FAILURE);
+  }
+
+  // Listen
+  if ((listen(server_sock, BACKLOG)) == -1) {
+    perror(&quot;[ERROR] Could not listen on socket:&quot;);
+
+    printf(&quot;[ERROR] Could not listen on socket %s\n&quot;, server_address_readable);
+
+    exit(EXIT_FAILURE);
+  }
+
+  printf(&quot;[INFO] Listening on %s\n&quot;, server_address_readable);
+
+  // Accept loop
+  while (1) {
+    printf(&quot;[DEBUG] Accepting on %s\n&quot;, server_address_readable);
+
+    // Accept
+    if ((client_sock = accept(server_sock, (struct sockaddr *)&amp;client_address,
+                              &amp;server_socket_length)) == -1) {
+      perror(&quot;[ERROR] Could not accept, continuing:&quot;);
+
+      continue;
+    }
+
+    if (inet_pton(AF_INET, listen_host, &amp;server_address.sin_addr) == -1) {
+      perror(&quot;[ERROR] Could not parse IP address:&quot;);
+
+      continue;
+    }
+
+    inet_ntop(AF_INET, &amp;client_address.sin_addr, client_address_human_readable,
+              sizeof(client_address_human_readable));
+
+    sprintf(client_address_readable, &quot;%s:%d&quot;, client_address_human_readable,
+            client_address.sin_port);
+
+    printf(&quot;[INFO] Accepted client %s\n&quot;, client_address_readable);
+
+    // Receive loop
+    received_message_length = 1;
+    while (received_message_length) {
+      memset(&amp;received_message, 0, RECEIVED_MESSAGE_BUFFER_LENGTH);
+      memset(&amp;sent_message, 0, SENT_MESSAGE_BUFFER_LENGTH);
+
+      printf(&quot;[DEBUG] Waiting for client %s to send\n&quot;,
+             client_address_readable);
+
+      // Receive
+      received_message_length = recv(client_sock, &amp;received_message,
+                                     RECEIVED_MESSAGE_BUFFER_LENGTH, 0);
+      if (received_message_length == -1) {
+        perror(&quot;[ERROR] Could not receive from client:&quot;);
+
+        printf(&quot;[ERROR] Could not receive from client %s, dropping message\n&quot;,
+               client_address_readable);
+
+        break;
+      }
+
+      if (received_message_length == 0) {
+        break;
+      }
+
+      printf(&quot;[DEBUG] Received %zd bytes from %s\n&quot;, received_message_length,
+             client_address_readable);
+
+      // Process
+      sprintf((char *)&amp;sent_message, &quot;%s%s&quot;, SENT_MESSAGE_PREFIX,
+              received_message);
+      sent_message[SENT_MESSAGE_BUFFER_LENGTH - 1] = '\0';
+
+      // Send
+      sent_message_length =
+          send(client_sock, sent_message, SENT_MESSAGE_BUFFER_LENGTH, 0);
+      if (sent_message_length == -1) {
+        perror(&quot;[ERROR] Could not send to client:&quot;);
+
+        printf(&quot;[ERROR] Could not send to client %s, dropping message\n&quot;,
+               client_address_readable);
+
+        break;
+      }
+
+      printf(&quot;[DEBUG] Sent %zd bytes to %s\n&quot;, sent_message_length,
+             client_address_readable);
+    }
+
+    printf(&quot;[INFO] Client %s disconnected\n&quot;, client_address_readable);
+
+    // Shutdown
+    if ((shutdown(client_sock, SHUT_RDWR)) == -1) {
+      perror(&quot;[ERROR] Could not shutdown socket:&quot;);
+
+      printf(&quot;[ERROR] Could not shutdown socket %s, stopping\n&quot;,
+             client_address_readable);
+
+      break;
+    };
+  }
+
+  return 0;
+}
+</code></pre>
+<p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
+<p>Now, copy and paste the <a href="https://raw.githubusercontent.com/alphahorizonio/webnetes/main/examples/c_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>.</p>
+<h3><a class="header" href="#cmake-configuration-1" id="cmake-configuration-1">CMake Configuration</a></h3>
+<p>Create <code>CMakeLists.txt</code> with the following content:</p>
+<pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
+
+# WASI Config
+if(WASI)
+	set(WASI_SDK_PREFIX &quot;/opt/wasi-sdk-12.0&quot;)
+	set(CMAKE_SYSROOT &quot;${WASI_SDK_PREFIX}/share/wasi-sysroot&quot;)
+	set(CMAKE_TOOLCHAIN_FILE &quot;${WASI_SDK_PREFIX}/share/cmake/wasi-sdk.cmake&quot;)
+endif()
+
+# Project
+project(echo_server)
+add_executable(echo_server &quot;main.c&quot;)
+
+# WASI Config
+if(WASI)
+	set(CMAKE_C_FLAGS &quot;-DUNISOCKETS_WITH_ALIAS&quot;)
+	set(CMAKE_EXE_LINKER_FLAGS &quot;-Wl,--allow-undefined&quot;)
+	set(CMAKE_EXECUTABLE_SUFFIX &quot;.wasm&quot;)
+
+	add_custom_command(TARGET echo_server
+		POST_BUILD
+		COMMAND sh -c &quot;wasm-opt --asyncify -O $&lt;TARGET_FILE:echo_server&gt; -o $&lt;TARGET_FILE:echo_server&gt;&quot;
+		VERBATIM
+	)
+endif()
+</code></pre>
+<p>It allows compilation of both the native &amp; the WebAssembly target.</p>
+<h3><a class="header" href="#make-configuration-1" id="make-configuration-1">Make Configuration</a></h3>
+<p>Create a <code>Makefile</code> with the following content:</p>
+<pre><code class="language-Makefile">all: native wasm
+
+native:
+	@docker run -v ${PWD}:/src:z silkeh/clang sh -c 'cd /src &amp;&amp; mkdir -p build/native &amp;&amp; cd build/native &amp;&amp; cmake ../.. &amp;&amp; make'
+
+wasm:
+	@docker run -v ${PWD}:/src:z alphahorizonio/wasi-sdk sh -c 'cd /src &amp;&amp; mkdir -p build/wasm &amp;&amp; cd build/wasm &amp;&amp; cmake -DWASI=true ../.. &amp;&amp; make'
+
+clean:
+	@rm -rf build
+
+seed: wasm
+	@docker run -it -v ${PWD}/build:/build:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c &quot;/usr/local/bin/webtorrent-hybrid seed /build/wasm/*.wasm&quot;
+</code></pre>
+<p>It provides five targets:</p>
+<ul>
+<li><code>make</code> builds both the native &amp; the WebAssembly target</li>
+<li><code>make native</code> builds only the native target</li>
+<li><code>make wasm</code> builds only the WebAssembly target</li>
+<li><code>make clean</code> removes the built targets</li>
+<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
+</ul>
+<p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
+<h3><a class="header" href="#next-steps-1" id="next-steps-1">Next Steps</a></h3>
+<p>Build the native target:</p>
+<pre><code class="language-shell">$ make native
+</code></pre>
+<p>Run the native target:</p>
+<pre><code class="language-shell">$ ./build/native/echo_server
+[INFO] Listening on 127.0.0.1:1234
+[DEBUG] Accepting on 127.0.0.1:1234
+</code></pre>
+<p>In a second terminal, connect to the server:</p>
+<pre><code class="language-shell">$ nc localhost 1234
+</code></pre>
+<p>The server should now display the following:</p>
+<pre><code class="language-shell">[INFO] Accepted client 127.0.0.1:39644
+[DEBUG] Waiting for client 127.0.0.1:39644 to send
+</code></pre>
+<p>If you type something into the second terminal, the server should return it as follows:</p>
+<pre><code class="language-shell">Hello, reader!
+You've sent: Hello, reader!
 </code></pre>
 <p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
