@@ -767,9 +767,68 @@ You've sent: Hello, dear reader!
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://github.com/WebAssembly/threads">WebAssembly threads</a> are not yet implemented.</p>
 </div>
-<pre><code>
-</code></pre>
 <h1><a class="header" href="#c-1" id="c-1">C++</a></h1>
+<h2><a class="header" href="#table-of-contents-1" id="table-of-contents-1">Table of Contents</a></h2>
+<ul>
+<li><a href="getting-started/develop/cpp.html#language-support-status">Language Support Status</a></li>
+<li><a href="getting-started/develop/cpp.html#hello-world">Hello, world!</a>
+<ul>
+<li><a href="getting-started/develop/cpp.html#source-code">Source Code</a></li>
+<li><a href="getting-started/develop/cpp.html#cmake-configuration">CMake Configuration</a></li>
+<li><a href="getting-started/develop/cpp.html#make-configuration">Make Configuration</a></li>
+<li><a href="getting-started/develop/cpp.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#language-support-status-1" id="language-support-status-1">Language Support Status</a></h2>
+<table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
+<tr><td>✅</td><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td></tr>
+</tbody></table>
+<h2><a class="header" href="#hello-world-1" id="hello-world-1">Hello, world!</a></h2>
+<p>Let's start by writing a hello world app in C++ with native and WebAssembly targets. For C++, the process is pretty much the same as for <a href="getting-started/develop/./c.html">C</a>. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_hello_world">GitHub</a>.</p>
+<h3><a class="header" href="#source-code-3" id="source-code-3">Source Code</a></h3>
+<p>Create <code>main.cpp</code> with the following content:</p>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+  std::cout &lt;&lt; &quot;Hello, world!&quot; &lt;&lt; std::endl;
+
+  return 0;
+}
+</code></pre>
+<p>It prints <code>Hello, world!</code> to standard output.</p>
+<h3><a class="header" href="#cmake-configuration-3" id="cmake-configuration-3">CMake Configuration</a></h3>
+<p>Create <code>CMakeLists.txt</code> with the following content:</p>
+<pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
+
+# WASI Config
+if(WASI)
+	set(WASI_SDK_PREFIX &quot;/opt/wasi-sdk-12.0&quot;)
+	set(CMAKE_SYSROOT &quot;${WASI_SDK_PREFIX}/share/wasi-sysroot&quot;)
+	set(CMAKE_TOOLCHAIN_FILE &quot;${WASI_SDK_PREFIX}/share/cmake/wasi-sdk.cmake&quot;)
+endif()
+
+# Project
+project(hello_world)
+add_executable(hello_world &quot;main.cpp&quot;)
+
+# WASI Config
+if(WASI)
+	set(CMAKE_EXE_LINKER_FLAGS &quot;-Wl,--allow-undefined&quot;)
+	set(CMAKE_EXECUTABLE_SUFFIX &quot;.wasm&quot;)
+
+	add_custom_command(TARGET hello_world
+		POST_BUILD
+		COMMAND sh -c &quot;wasm-opt --asyncify -O $&lt;TARGET_FILE:hello_world&gt; -o $&lt;TARGET_FILE:hello_world&gt;&quot;
+		VERBATIM
+	)
+endif()
+</code></pre>
+<p>It allows compilation of both the native &amp; the WebAssembly target.</p>
+<h3><a class="header" href="#make-configuration-3" id="make-configuration-3">Make Configuration</a></h3>
+<p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
+<h3><a class="header" href="#next-steps-3" id="next-steps-3">Next Steps</a></h3>
+<p>See <a href="getting-started/develop/./c.html#next-steps">C Hello, world! Next Steps</a>.</p>
 <h1><a class="header" href="#go" id="go">Go</a></h1>
 <h1><a class="header" href="#rust" id="rust">Rust</a></h1>
 <h1><a class="header" href="#zig" id="zig">Zig</a></h1>
