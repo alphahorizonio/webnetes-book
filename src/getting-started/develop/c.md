@@ -118,6 +118,9 @@ Webnetes has support for networking. Let's create a TCP echo server in C with na
 
 Create `main.c` with the following content:
 
+<details>
+	<summary>C Source</summary>
+
 ```c
 #include "unisockets.h"
 #include <arpa/inet.h>
@@ -319,6 +322,8 @@ int main(int argc, char *argv[]) {
 }
 ```
 
+</details>
+
 It is a very simple TCP server that listens to messages, prefixes them with `You've sent: ` and sends them back to the sender.
 
 Now, copy and paste the [unisockets.h](https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_server/unisockets.h) header in the same directory as `main.c`, which allows networking to function.
@@ -406,6 +411,9 @@ Now that we've got a TCP echo server, let's create a TCP echo client in C with n
 ### Source Code
 
 Create `main.c` with the following content:
+
+<details>
+	<summary>C Source</summary>
 
 ```c
 #include "unisockets.h"
@@ -571,6 +579,8 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 ```
+
+</details>
 
 It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.
 
