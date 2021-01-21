@@ -183,6 +183,14 @@
 <li><a href="#next-steps-1">Next Steps</a></li>
 </ul>
 </li>
+<li><a href="#tcp-echo-client">TCP Echo Client</a>
+<ul>
+<li><a href="#source-code-2">Source Code</a></li>
+<li><a href="#cmake-configuration-2">CMake Configuration</a></li>
+<li><a href="#make-configuration-2">Make Configuration</a></li>
+<li><a href="#next-steps-2">Next Steps</a></li>
+</ul>
+</li>
 </ul>
 <h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
@@ -438,6 +446,199 @@ endif()
 <p>See <a href="./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
 <h3><a class="header" href="#next-steps-1" id="next-steps-1">Next Steps</a></h3>
 <p>See <a href="./c.html#next-steps-1">C TCP Echo Server Next Steps</a>.</p>
+<h2><a class="header" href="#tcp-echo-client" id="tcp-echo-client">TCP Echo Client</a></h2>
+<p>Now that we've got a TCP echo server, let's create a TCP echo client in C++ with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_echo_client">GitHub</a>.</p>
+<h3><a class="header" href="#source-code-2" id="source-code-2">Source Code</a></h3>
+<p>Create <code>main.cpp</code> with the following content:</p>
+<details>
+	<summary>C++ Source</summary>
+<pre><code class="language-cpp">extern &quot;C&quot; {
+#include &quot;unisockets.h&quot;
+}
+#include &lt;arpa/inet.h&gt;
+#include &lt;cstdint&gt;
+#include &lt;iostream&gt;
+#include &lt;iterator&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;stdexcept&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;string&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;unistd.h&gt;
+
+const int BUFLEN_OUT = 1024;
+const int BUFLEN_IN = 1038;
+const int RECONNECT_TIMEOUT = 2;
+
+int main(int argc, char *argv[]) {
+  // Flags
+  std::string connect_host = &quot;127.0.0.1&quot;;
+  int connect_port = 1234;
+
+  int opt;
+  while ((opt = getopt(argc, argv, &quot;c:p:&quot;)) != -1) {
+    switch (opt) {
+    case 'c':
+      connect_host = optarg;
+
+      optind--;
+
+      break;
+
+    case 'p':
+      connect_port = std::stoi(optarg);
+
+      break;
+
+    default:
+      std::cout &lt;&lt; &quot;Usage: &quot; &lt;&lt; argv[0] &lt;&lt; &quot; -c HOST -p PORT&quot; &lt;&lt; std::endl;
+
+      return EXIT_FAILURE;
+    }
+  }
+
+  // Address
+  sockaddr_in server_address;
+  server_address.sin_family = AF_INET;
+  server_address.sin_port = htons(connect_port);
+  if (inet_pton(AF_INET, connect_host.c_str(), &amp;server_address.sin_addr) ==
+      -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not parse IP address: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+  std::string server_address_readable =
+      connect_host + &quot;:&quot; + std::to_string(connect_port);
+
+  // Socket
+  int server_socket;
+  if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not create socket: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+
+  // Connect loop
+  for (;;) {
+    std::cout &lt;&lt; &quot;[INFO] Connecting to server &quot; &lt;&lt; server_address_readable
+              &lt;&lt; std::endl;
+
+    // Connect
+    int server_address_length;
+    if ((connect(server_socket, reinterpret_cast&lt;sockaddr *&gt;(&amp;server_address),
+                 server_address_length = sizeof(server_address))) == -1) {
+      std::cout &lt;&lt; &quot;[ERROR] Could not connect to server &quot;
+                &lt;&lt; server_address_readable &lt;&lt; &quot;, retrying in &quot;
+                &lt;&lt; RECONNECT_TIMEOUT &lt;&lt; &quot;s: &quot; &lt;&lt; strerror(errno) &lt;&lt; std::endl;
+
+      sleep(RECONNECT_TIMEOUT);
+
+      continue;
+    }
+
+    std::cout &lt;&lt; &quot;[INFO] Connected to server &quot; &lt;&lt; server_address_readable
+              &lt;&lt; std::endl;
+
+    // Read loop
+    for (;;) {
+      std::cout &lt;&lt; &quot;[DEBUG] Waiting for user input&quot; &lt;&lt; std::endl;
+
+      // Read
+      std::string read_message;
+      std::getline(std::cin, read_message);
+      read_message += &quot;\n&quot;;
+
+      // Send
+      int sent_message_length = 0;
+      if ((sent_message_length = send(server_socket, read_message.c_str(),
+                                      BUFLEN_OUT, 0)) == -1) {
+        std::cout &lt;&lt; &quot;[ERROR] Could not send to server &quot;
+                  &lt;&lt; server_address_readable
+                  &lt;&lt; &quot;, dropping message: &quot; &lt;&lt; strerror(errno) &lt;&lt; std::endl;
+      }
+
+      std::cout &lt;&lt; &quot;[DEBUG] Sent &quot; &lt;&lt; sent_message_length &lt;&lt; &quot; bytes to &quot;
+                &lt;&lt; server_address_readable &lt;&lt; std::endl;
+
+      std::cout &lt;&lt; &quot;[DEBUG] Waiting for server &quot; &lt;&lt; server_address_readable
+                &lt;&lt; &quot; to send&quot; &lt;&lt; std::endl;
+
+      // Receive
+      int received_message_length = 1;
+      char received_message[BUFLEN_IN] = &quot;&quot;;
+      if ((received_message_length =
+               recv(server_socket, &amp;received_message, BUFLEN_IN, 0)) == -1) {
+        std::cout &lt;&lt; &quot;[ERROR] Could not receive from service &quot;
+                  &lt;&lt; server_address_readable
+                  &lt;&lt; &quot;, dropping message: &quot; &lt;&lt; strerror(errno) &lt;&lt; std::endl;
+      } else if (received_message_length == 0) {
+        break;
+      }
+
+      std::cout &lt;&lt; &quot;[DEBUG] Received &quot; &lt;&lt; received_message_length
+                &lt;&lt; &quot; bytes from &quot; &lt;&lt; server_address_readable &lt;&lt; std::endl;
+
+      // Print
+      std::cout &lt;&lt; received_message;
+    }
+  }
+
+  std::cout &lt;&lt; &quot;[INFO] Disconnected from server &quot; &lt;&lt; server_address_readable
+            &lt;&lt; std::endl;
+
+  // Shutdown
+  if ((shutdown(server_socket, SHUT_RDWR)) == -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not shutdown socket: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
+}
+</code></pre>
+</details>
+<p>It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.</p>
+<p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/cpp_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.cpp</code>, which allows networking to function.</p>
+<h3><a class="header" href="#cmake-configuration-2" id="cmake-configuration-2">CMake Configuration</a></h3>
+<p>Create <code>CMakeLists.txt</code> with the following content:</p>
+<pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
+
+# WASI Config
+if(WASI)
+	set(WASI_SDK_PREFIX &quot;/opt/wasi-sdk-12.0&quot;)
+	set(CMAKE_SYSROOT &quot;${WASI_SDK_PREFIX}/share/wasi-sysroot&quot;)
+	set(CMAKE_TOOLCHAIN_FILE &quot;${WASI_SDK_PREFIX}/share/cmake/wasi-sdk.cmake&quot;)
+endif()
+
+# Project
+project(echo_client)
+add_executable(echo_client &quot;main.cpp&quot;)
+
+# WASI Config
+if(WASI)
+	set(CMAKE_CXX_FLAGS &quot;-DUNISOCKETS_WITH_ALIAS&quot;)
+	set(CMAKE_EXE_LINKER_FLAGS &quot;-Wl,--allow-undefined&quot;)
+	set(CMAKE_EXECUTABLE_SUFFIX &quot;.wasm&quot;)
+
+	add_custom_command(TARGET echo_client
+		POST_BUILD
+		COMMAND sh -c &quot;wasm-opt --asyncify -O $&lt;TARGET_FILE:echo_client&gt; -o $&lt;TARGET_FILE:echo_client&gt;&quot;
+		VERBATIM
+	)
+endif()
+</code></pre>
+<p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
+<h3><a class="header" href="#make-configuration-2" id="make-configuration-2">Make Configuration</a></h3>
+<p>See <a href="./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
+<h3><a class="header" href="#next-steps-2" id="next-steps-2">Next Steps</a></h3>
+<p>See <a href="./c.html#next-steps-2">C TCP Echo Client Next Steps</a>.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://github.com/WebAssembly/threads">WebAssembly threads</a> are not yet implemented.</p>
+</div>
 
                     </main>
 
