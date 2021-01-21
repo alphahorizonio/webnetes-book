@@ -19,9 +19,9 @@ jobs:
       - name: Build with mdBook
         run: mdbook build
       - name: Setup CNAME
-        run: echo "docs.webnetes.dev" > ./book/CNAME
+        run: echo "docs.webnetes.dev" > ./book/html/CNAME
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book
+          publish_dir: ./book/html
