@@ -275,6 +275,8 @@ Hello, world!
 <p>Webnetes has support for networking. Let's create a TCP echo server in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_server">GitHub</a>.</p>
 <h3><a class="header" href="#source-code-1" id="source-code-1">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
+<details>
+	<summary>C Source</summary>
 <pre><code class="language-c">#include &quot;unisockets.h&quot;
 #include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
@@ -474,6 +476,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 </code></pre>
+</details>
 <p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
 <h3><a class="header" href="#cmake-configuration-1" id="cmake-configuration-1">CMake Configuration</a></h3>
@@ -532,6 +535,8 @@ You've sent: Hello, reader!
 <p>Now that we've got a TCP echo server, let's create a TCP echo client in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_client">GitHub</a>.</p>
 <h3><a class="header" href="#source-code-2" id="source-code-2">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
+<details>
+	<summary>C Source</summary>
 <pre><code class="language-c">#include &quot;unisockets.h&quot;
 #include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
@@ -695,6 +700,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 </code></pre>
+</details>
 <p>It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
 <h3><a class="header" href="#cmake-configuration-2" id="cmake-configuration-2">CMake Configuration</a></h3>

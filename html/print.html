@@ -287,6 +287,8 @@ Hello, world!
 <p>Webnetes has support for networking. Let's create a TCP echo server in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_server">GitHub</a>.</p>
 <h3><a class="header" href="#source-code-1" id="source-code-1">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
+<details>
+	<summary>C Source</summary>
 <pre><code class="language-c">#include &quot;unisockets.h&quot;
 #include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
@@ -486,6 +488,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 </code></pre>
+</details>
 <p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
 <h3><a class="header" href="#cmake-configuration-1" id="cmake-configuration-1">CMake Configuration</a></h3>
@@ -544,6 +547,8 @@ You've sent: Hello, reader!
 <p>Now that we've got a TCP echo server, let's create a TCP echo client in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_client">GitHub</a>.</p>
 <h3><a class="header" href="#source-code-2" id="source-code-2">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
+<details>
+	<summary>C Source</summary>
 <pre><code class="language-c">#include &quot;unisockets.h&quot;
 #include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
@@ -707,6 +712,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 </code></pre>
+</details>
 <p>It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
 <h3><a class="header" href="#cmake-configuration-2" id="cmake-configuration-2">CMake Configuration</a></h3>
@@ -782,6 +788,9 @@ You've sent: Hello, dear reader!
 <li><a href="getting-started/develop/cpp.html#tcp-echo-server">TCP Echo Server</a>
 <ul>
 <li><a href="getting-started/develop/cpp.html#source-code-1">Source Code</a></li>
+<li><a href="getting-started/develop/cpp.html#cmake-configuration-1">CMake Configuration</a></li>
+<li><a href="getting-started/develop/cpp.html#make-configuration-1">Make Configuration</a></li>
+<li><a href="getting-started/develop/cpp.html#next-steps-1">Next Steps</a></li>
 </ul>
 </li>
 </ul>
@@ -1006,6 +1015,39 @@ int main(int argc, char *argv[]) {
 </details>
 <p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/cpp_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.cpp</code>, which allows networking to function.</p>
+<h3><a class="header" href="#cmake-configuration-4" id="cmake-configuration-4">CMake Configuration</a></h3>
+<p>Create <code>CMakeLists.txt</code> with the following content:</p>
+<pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
+
+# WASI Config
+if(WASI)
+	set(WASI_SDK_PREFIX &quot;/opt/wasi-sdk-12.0&quot;)
+	set(CMAKE_SYSROOT &quot;${WASI_SDK_PREFIX}/share/wasi-sysroot&quot;)
+	set(CMAKE_TOOLCHAIN_FILE &quot;${WASI_SDK_PREFIX}/share/cmake/wasi-sdk.cmake&quot;)
+endif()
+
+# Project
+project(echo_server)
+add_executable(echo_server &quot;main.cpp&quot;)
+
+# WASI Config
+if(WASI)
+	set(CMAKE_CXX_FLAGS &quot;-DUNISOCKETS_WITH_ALIAS&quot;)
+	set(CMAKE_EXE_LINKER_FLAGS &quot;-Wl,--allow-undefined&quot;)
+	set(CMAKE_EXECUTABLE_SUFFIX &quot;.wasm&quot;)
+
+	add_custom_command(TARGET echo_server
+		POST_BUILD
+		COMMAND sh -c &quot;wasm-opt --asyncify -O $&lt;TARGET_FILE:echo_server&gt; -o $&lt;TARGET_FILE:echo_server&gt;&quot;
+		VERBATIM
+	)
+endif()
+</code></pre>
+<p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
+<h3><a class="header" href="#make-configuration-4" id="make-configuration-4">Make Configuration</a></h3>
+<p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
+<h3><a class="header" href="#next-steps-4" id="next-steps-4">Next Steps</a></h3>
+<p>See <a href="getting-started/develop/./c.html#next-steps-1">C TCP Echo Server Next Steps</a>.</p>
 <h1><a class="header" href="#go" id="go">Go</a></h1>
 <h1><a class="header" href="#rust" id="rust">Rust</a></h1>
 <h1><a class="header" href="#zig" id="zig">Zig</a></h1>
