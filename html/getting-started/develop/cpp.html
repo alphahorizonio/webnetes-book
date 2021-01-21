@@ -175,6 +175,11 @@
 <li><a href="#next-steps">Next Steps</a></li>
 </ul>
 </li>
+<li><a href="#tcp-echo-server">TCP Echo Server</a>
+<ul>
+<li><a href="#source-code-1">Source Code</a></li>
+</ul>
+</li>
 </ul>
 <h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
@@ -225,6 +230,178 @@ endif()
 <p>See <a href="./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
 <h3><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h3>
 <p>See <a href="./c.html#next-steps">C Hello, world! Next Steps</a>.</p>
+<h2><a class="header" href="#tcp-echo-server" id="tcp-echo-server">TCP Echo Server</a></h2>
+<p>Webnetes has support for networking. Let's create a TCP echo server in C++ with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_echo_server">GitHub</a>.</p>
+<h3><a class="header" href="#source-code-1" id="source-code-1">Source Code</a></h3>
+<p>Create <code>main.cpp</code> with the following content:</p>
+<details>
+	<summary>C++ Source</summary>
+<pre><code class="language-cpp">extern &quot;C&quot; {
+#include &quot;unisockets.h&quot;
+}
+#include &lt;arpa/inet.h&gt;
+#include &lt;cstdint&gt;
+#include &lt;iostream&gt;
+#include &lt;iterator&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;stdexcept&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;string&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;unistd.h&gt;
+
+const int BUFLEN_IN = 1024;
+const int BUFLEN_OUT = 1038;
+
+int main(int argc, char *argv[]) {
+  // Flags
+  std::string listen_host = &quot;127.0.0.1&quot;;
+  int listen_port = 1234;
+
+  int opt;
+  while ((opt = getopt(argc, argv, &quot;l:p:&quot;)) != -1) {
+    switch (opt) {
+    case 'l':
+      listen_host = optarg;
+
+      optind--;
+
+      break;
+
+    case 'p':
+      listen_port = std::stoi(optarg);
+
+      break;
+
+    default:
+      std::cout &lt;&lt; &quot;Usage: &quot; &lt;&lt; argv[0] &lt;&lt; &quot; -l HOST -p PORT&quot; &lt;&lt; std::endl;
+
+      return EXIT_FAILURE;
+    }
+  }
+
+  // Address
+  sockaddr_in server_address;
+  server_address.sin_family = AF_INET;
+  server_address.sin_port = htons(listen_port);
+  if (inet_pton(AF_INET, listen_host.c_str(), &amp;server_address.sin_addr) == -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not parse IP address: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+  std::string server_address_readable =
+      listen_host + &quot;:&quot; + std::to_string(listen_port);
+
+  // Socket
+  int server_socket;
+  if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not create socket: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+
+  // Bind
+  if ((bind(server_socket, reinterpret_cast&lt;sockaddr *&gt;(&amp;server_address),
+            sizeof(server_address))) == -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not bind to socket: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+
+  // Listen
+  if ((listen(server_socket, 5)) == -1) {
+    std::cout &lt;&lt; &quot;[ERROR] Could not listen on socket: &quot; &lt;&lt; strerror(errno)
+              &lt;&lt; std::endl;
+
+    return EXIT_FAILURE;
+  }
+
+  std::cout &lt;&lt; &quot;[INFO] Listening on &quot; &lt;&lt; server_address_readable &lt;&lt; std::endl;
+
+  // Accept loop
+  for (;;) {
+    std::cout &lt;&lt; &quot;[DEBUG] Accepting on &quot; &lt;&lt; server_address_readable
+              &lt;&lt; std::endl;
+
+    // Accept
+    int client_socket;
+    sockaddr_in client_address;
+    socklen_t client_address_length;
+
+    if ((client_socket = accept(
+             server_socket, reinterpret_cast&lt;sockaddr *&gt;(&amp;client_address),
+             &amp;(client_address_length = sizeof(client_address)))) == -1) {
+      std::cout &lt;&lt; &quot;[ERROR] Could not accept, continuing: &quot; &lt;&lt; strerror(errno)
+                &lt;&lt; std::endl;
+    }
+
+    char client_host[INET_ADDRSTRLEN];
+    inet_ntop(AF_INET, &amp;client_address.sin_addr, client_host,
+              sizeof(client_host));
+    std::string client_address_readable =
+        std::string(client_host) + &quot;:&quot; +
+        std::to_string(client_address.sin_port);
+
+    std::cout &lt;&lt; &quot;[INFO] Accepted client &quot; &lt;&lt; client_address_readable
+              &lt;&lt; std::endl;
+
+    // Receive loop
+    for (;;) {
+      std::cout &lt;&lt; &quot;[DEBUG] Waiting for client &quot; &lt;&lt; client_address_readable
+                &lt;&lt; &quot; to send&quot; &lt;&lt; std::endl;
+
+      // Receive
+      int received_message_length = 1;
+      char received_message[BUFLEN_IN] = &quot;&quot;;
+      if ((received_message_length =
+               recv(client_socket, &amp;received_message, BUFLEN_IN, 0)) == -1) {
+        std::cout &lt;&lt; &quot;[ERROR] Could not receive from client &quot;
+                  &lt;&lt; client_address_readable
+                  &lt;&lt; &quot;, dropping message: &quot; &lt;&lt; strerror(errno) &lt;&lt; std::endl;
+      } else if (received_message_length == 0) {
+        break;
+      }
+
+      std::cout &lt;&lt; &quot;[DEBUG] Received &quot; &lt;&lt; received_message_length
+                &lt;&lt; &quot; bytes from &quot; &lt;&lt; client_address_readable &lt;&lt; std::endl;
+
+      // Process
+      char sent_message[BUFLEN_OUT] = &quot;&quot;;
+      sprintf((char *)(&amp;sent_message), &quot;You've sent: %s&quot;, received_message);
+      sent_message[BUFLEN_OUT - 1] = '\0';
+
+      // Send
+      int sent_message_length = 0;
+      if ((sent_message_length =
+               send(client_socket, sent_message, BUFLEN_OUT, 0)) == -1) {
+        std::cout &lt;&lt; &quot;[ERROR] Could not send to client &quot;
+                  &lt;&lt; client_address_readable
+                  &lt;&lt; &quot;, dropping message: &quot; &lt;&lt; strerror(errno) &lt;&lt; std::endl;
+      }
+
+      std::cout &lt;&lt; &quot;[DEBUG] Sent &quot; &lt;&lt; sent_message_length &lt;&lt; &quot; bytes to &quot;
+                &lt;&lt; client_address_readable &lt;&lt; std::endl;
+    }
+
+    // Shutdown
+    if ((shutdown(client_socket, SHUT_RDWR)) == -1) {
+      std::cout &lt;&lt; &quot;[ERROR] Could not shutdown socket: &quot; &lt;&lt; strerror(errno)
+                &lt;&lt; std::endl;
+
+      return EXIT_FAILURE;
+    }
+  }
+
+  return EXIT_SUCCESS;
+}
+</code></pre>
+</details>
+<p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
+<p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/cpp_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.cpp</code>, which allows networking to function.</p>
 
                     </main>
 
