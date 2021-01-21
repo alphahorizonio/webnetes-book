@@ -8,3 +8,7 @@ title = "The Webnetes Project"
 [preprocessor.toc]
 command = "mdbook-toc"
 renderer = ["html"]
+
+[output.html]
+
+[output.linkcheck]

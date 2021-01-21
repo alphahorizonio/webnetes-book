@@ -654,7 +654,3 @@ You've sent: Hello, dear reader!
 The native target works! Now continue to [Distribute](../distribute.md) to learn how to run the WebAssembly target.
 
 [^1]: [WebAssembly threads](https://github.com/WebAssembly/threads) are not yet implemented.
-
-```
-
-```
