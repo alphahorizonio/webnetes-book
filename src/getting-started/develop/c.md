@@ -321,7 +321,7 @@ int main(int argc, char *argv[]) {
 
 It is a very simple TCP server that listens to messages, prefixes them with `You've sent: ` and sends them back to the sender.
 
-Now, copy and paste the [unisockets.h](https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h) header in the same directory as `main.c`, which allows networking to function.
+Now, copy and paste the [unisockets.h](https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_server/unisockets.h) header in the same directory as `main.c`, which allows networking to function.
 
 ### CMake Configuration
 
