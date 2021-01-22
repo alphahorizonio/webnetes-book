@@ -16,7 +16,7 @@ Let's start by writing a hello world app in Zig with native and WebAssembly targ
 
 ### Source Code
 
-Replace `main.zig` with the following content:
+Create `main.zig` with the following content:
 
 ```zig
 const std = @import("std");
