@@ -1405,6 +1405,71 @@ Hello, world!
 <p>No Rust bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
 </div>
 <h1><a class="header" href="#zig" id="zig">Zig</a></h1>
+<h2><a class="header" href="#table-of-contents-4" id="table-of-contents-4">Table of Contents</a></h2>
+<ul>
+<li><a href="getting-started/develop/zig.html#language-support-status">Language Support Status</a></li>
+<li><a href="getting-started/develop/zig.html#hello-world">Hello, world!</a>
+<ul>
+<li><a href="getting-started/develop/zig.html#source-code">Source Code</a></li>
+<li><a href="getting-started/develop/zig.html#make-configuration">Make Configuration</a></li>
+<li><a href="getting-started/develop/zig.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#language-support-status-4" id="language-support-status-4">Language Support Status</a></h2>
+<table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
+<tr><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td></tr>
+</tbody></table>
+<h2><a class="header" href="#hello-world-4" id="hello-world-4">Hello, world!</a></h2>
+<p>Let's start by writing a hello world app in Zig with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/zig_hello_world">GitHub</a>.</p>
+<h3><a class="header" href="#source-code-8" id="source-code-8">Source Code</a></h3>
+<p>Replace <code>main.zig</code> with the following content:</p>
+<pre><code class="language-zig">const std = @import(&quot;std&quot;);
+
+pub fn main() !void {
+    const stdout = std.io.getStdOut().outStream();
+    try stdout.print(&quot;Hello, world!\n&quot;, .{});
+}
+</code></pre>
+<p>It prints <code>Hello, world!</code> to standard output.</p>
+<h3><a class="header" href="#make-configuration-8" id="make-configuration-8">Make Configuration</a></h3>
+<p>Create a <code>Makefile</code> with the following content:</p>
+<pre><code class="language-Makefile">all: native wasm
+
+native:
+	@docker run -v ${PWD}:/src:z alphahorizonio/zig-sdk sh -c 'cd /src &amp;&amp; zig build-exe --output-dir out main.zig'
+
+wasm:
+	@docker run -v ${PWD}:/src:z alphahorizonio/zig-sdk sh -c 'cd /src &amp;&amp; zig build-exe --output-dir out -target wasm32-wasi main.zig'
+	@docker run -v ${PWD}:/src:z alphahorizonio/wasi-sdk sh -c 'cd /src &amp;&amp; wasm-opt --asyncify -O out/main.wasm -o out/main.wasm'
+
+clean:
+	@rm -rf out
+
+seed: wasm
+	@docker run -it -v ${PWD}/out:/out:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c &quot;/usr/local/bin/webtorrent-hybrid seed /out/*.wasm&quot;
+</code></pre>
+<p>It provides five targets:</p>
+<ul>
+<li><code>make</code> builds both the native &amp; the WebAssembly target</li>
+<li><code>make native</code> builds only the native target</li>
+<li><code>make wasm</code> builds only the WebAssembly target</li>
+<li><code>make clean</code> removes the built targets</li>
+<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
+</ul>
+<p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
+<h3><a class="header" href="#next-steps-8" id="next-steps-8">Next Steps</a></h3>
+<p>Build the native target:</p>
+<pre><code class="language-shell">$ make native
+</code></pre>
+<p>Run the native target:</p>
+<pre><code class="language-shell">$ ./out/main
+Hello, world!
+</code></pre>
+<p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>No Zig bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
+</div>
 <h1><a class="header" href="#java" id="java">Java</a></h1>
 <h1><a class="header" href="#assemblyscript" id="assemblyscript">AssemblyScript</a></h1>
 <h1><a class="header" href="#more" id="more">More</a></h1>
