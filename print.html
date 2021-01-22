@@ -1423,7 +1423,7 @@ Hello, world!
 <h2><a class="header" href="#hello-world-4" id="hello-world-4">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Zig with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/zig_hello_world">GitHub</a>.</p>
 <h3><a class="header" href="#source-code-8" id="source-code-8">Source Code</a></h3>
-<p>Replace <code>main.zig</code> with the following content:</p>
+<p>Create <code>main.zig</code> with the following content:</p>
 <pre><code class="language-zig">const std = @import(&quot;std&quot;);
 
 pub fn main() !void {
@@ -1471,6 +1471,193 @@ Hello, world!
 <p>No Zig bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
 </div>
 <h1><a class="header" href="#java" id="java">Java</a></h1>
+<h2><a class="header" href="#table-of-contents-5" id="table-of-contents-5">Table of Contents</a></h2>
+<ul>
+<li><a href="getting-started/develop/java.html#language-support-status">Language Support Status</a></li>
+<li><a href="getting-started/develop/java.html#hello-world">Hello, world!</a>
+<ul>
+<li><a href="getting-started/develop/java.html#pom">POM</a></li>
+<li><a href="getting-started/develop/java.html#source-code">Source Code</a></li>
+<li><a href="getting-started/develop/java.html#make-configuration">Make Configuration</a></li>
+<li><a href="getting-started/develop/java.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#language-support-status-5" id="language-support-status-5">Language Support Status</a></h2>
+<table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
+<tr><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td></tr>
+</tbody></table>
+<h2><a class="header" href="#hello-world-5" id="hello-world-5">Hello, world!</a></h2>
+<p>Let's start by writing a hello world app in Java with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/rust_hello_world">GitHub</a>.</p>
+<h3><a class="header" href="#pom" id="pom">POM</a></h3>
+<p>Create <code>pom.xml</code> with the following content:</p>
+<details>
+	<summary>XML Source</summary>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;dev.webnetes.examples.java.hello_world&lt;/groupId&gt;
+    &lt;artifactId&gt;hello_world&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+        &lt;teavm.version&gt;0.7.0-dev-1145&lt;/teavm.version&gt;
+        &lt;mainClass&gt;dev.webnetes.examples.java.hello_world.Application&lt;/mainClass&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.teavm&lt;/groupId&gt;
+            &lt;artifactId&gt;teavm-classlib&lt;/artifactId&gt;
+            &lt;version&gt;${teavm.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.teavm&lt;/groupId&gt;
+            &lt;artifactId&gt;teavm-metaprogramming-impl&lt;/artifactId&gt;
+            &lt;version&gt;${teavm.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.1.2&lt;/version&gt;
+            &lt;type&gt;maven-plugin&lt;/type&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;central&lt;/id&gt;
+            &lt;name&gt;Maven Central&lt;/name&gt;
+            &lt;layout&gt;default&lt;/layout&gt;
+            &lt;url&gt;https://repo1.maven.org/maven2&lt;/url&gt;
+        &lt;/repository&gt;
+
+        &lt;repository&gt;
+            &lt;id&gt;teavm-dev&lt;/id&gt;
+            &lt;url&gt;https://dl.bintray.com/konsoletyper/teavm&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+
+    &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;central&lt;/id&gt;
+            &lt;name&gt;Maven Central&lt;/name&gt;
+            &lt;layout&gt;default&lt;/layout&gt;
+            &lt;url&gt;https://repo1.maven.org/maven2&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+
+        &lt;pluginRepository&gt;
+            &lt;id&gt;teavm-dev&lt;/id&gt;
+            &lt;url&gt;https://dl.bintray.com/konsoletyper/teavm&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+    &lt;/pluginRepositories&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.1&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;source&gt;${java.version}&lt;/source&gt;
+                    &lt;target&gt;${java.version}&lt;/target&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.2.4&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;package&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;shade&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;transformers&gt;
+                                &lt;transformer implementation=&quot;org.apache.maven.plugins.shade.resource.ManifestResourceTransformer&quot;&gt;
+                                    &lt;manifestEntries&gt;
+                                        &lt;Main-Class&gt;${mainClass}&lt;/Main-Class&gt;
+                                    &lt;/manifestEntries&gt;
+                                &lt;/transformer&gt;
+                            &lt;/transformers&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.teavm&lt;/groupId&gt;
+                &lt;artifactId&gt;teavm-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;${teavm.version}&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;web-client&lt;/id&gt;
+                        &lt;phase&gt;prepare-package&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;compile&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;mainClass&gt;${mainClass}&lt;/mainClass&gt;
+                            &lt;optimizationLevel&gt;FULL&lt;/optimizationLevel&gt;
+                            &lt;targetType&gt;WEBASSEMBLY&lt;/targetType&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;
+</code></pre>
+</details>
+<p>Don't forget to change <code>groupId</code> etc. to more appropriate values.</p>
+<h3><a class="header" href="#source-code-9" id="source-code-9">Source Code</a></h3>
+<p>Create <code>src/main/java/dev/webnetes/examples/java/hello_world/Application.java</code> with the following content:</p>
+<pre><code class="language-java">package dev.webnetes.examples.java.hello_world;
+
+public class Application {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello, world!&quot;);
+    }
+}
+</code></pre>
+<p>It prints <code>Hello, world!</code> to standard output.</p>
+<h3><a class="header" href="#make-configuration-9" id="make-configuration-9">Make Configuration</a></h3>
+<p>Create a <code>Makefile</code> with the following content:</p>
+<pre><code class="language-Makefile">all:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.m2:/root/.m2:z maven sh -c 'cd /src &amp;&amp; mvn clean install'
+	@docker run -v ${PWD}:/src:z alphahorizonio/wasi-sdk sh -c 'cd /src &amp;&amp; wasm-opt --asyncify -O target/javascript/classes.wasm -o target/javascript/classes.wasm'
+
+clean:
+	@rm -rf target
+
+seed: all
+	@docker run -it -v ${PWD}/target:/target:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c &quot;/usr/local/bin/webtorrent-hybrid seed /target/javascript/classes.wasm&quot;
+</code></pre>
+<p>It provides three targets:</p>
+<ul>
+<li><code>make</code> builds both the native &amp; the WebAssembly target</li>
+<li><code>make clean</code> removes the built targets</li>
+<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
+</ul>
+<p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
+<h3><a class="header" href="#next-steps-9" id="next-steps-9">Next Steps</a></h3>
+<p>Build the native &amp; the WebAssembly target:</p>
+<pre><code class="language-shell">$ make
+</code></pre>
+<p>Run the native target:</p>
+<pre><code class="language-shell">$ java -jar target/hello_world-1.0-SNAPSHOT.jar
+Hello, world!
+</code></pre>
+<p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>No Java bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
+</div>
 <h1><a class="header" href="#assemblyscript" id="assemblyscript">AssemblyScript</a></h1>
 <h1><a class="header" href="#more" id="more">More</a></h1>
 <h1><a class="header" href="#distribute" id="distribute">Distribute</a></h1>
