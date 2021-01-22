@@ -164,6 +164,114 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#assemblyscript" id="assemblyscript">AssemblyScript</a></h1>
+<h2><a class="header" href="#table-of-contents" id="table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#language-support-status">Language Support Status</a></li>
+<li><a href="#hello-world">Hello, world!</a>
+<ul>
+<li><a href="#package">Package</a></li>
+<li><a href="#source-code">Source Code</a></li>
+<li><a href="#make-configuration">Make Configuration</a></li>
+<li><a href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
+<table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
+<tr><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#2">2</a></sup></td><td>❌<sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
+</tbody></table>
+<h2><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h2>
+<p>Let's start by writing a hello world app in AssemblyScript. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/assemblyscript_hello_world">GitHub</a>.</p>
+<h3><a class="header" href="#package" id="package">Package</a></h3>
+<p>Create <code>package.json</code> with the following content:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;@alphahorizonio/assemblyscript_hello_world&quot;,
+  &quot;version&quot;: &quot;0.0.1-alpha1&quot;,
+  &quot;description&quot;: &quot;AssemblyScript webnetes Hello World example&quot;,
+  &quot;main&quot;: &quot;main.ts&quot;,
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;asbuild:untouched&quot;: &quot;asc main.ts --target debug&quot;,
+    &quot;asbuild:optimized&quot;: &quot;asc main.ts --target release&quot;,
+    &quot;asbuild&quot;: &quot;yarn asbuild:untouched &amp;&amp; yarn asbuild:optimized&quot;
+  },
+  &quot;author&quot;: &quot;Felix Pojtinger &lt;felix@pojtinger.com&gt;&quot;,
+  &quot;license&quot;: &quot;AGPL-3.0&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;assemblyscript&quot;: &quot;^0.17.13&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;as-wasi&quot;: &quot;^0.4.4&quot;
+  }
+}
+</code></pre>
+<p>Don't forget to change <code>@alphahorizonio/assemblyscript_hello_world</code> to a more appropriate package name.</p>
+<p>Now, setup TypeScript by creating <code>tsconfig.json</code> with the following content:</p>
+<pre><code class="language-json">{
+  &quot;extends&quot;: &quot;assemblyscript/std/assembly.json&quot;,
+  &quot;include&quot;: [&quot;./**/*.ts&quot;]
+}
+</code></pre>
+<p>AssemblyScript requires another config file, so let's create <code>asconfig.json</code> with the following content:</p>
+<pre><code class="language-json">{
+  &quot;targets&quot;: {
+    &quot;debug&quot;: {
+      &quot;binaryFile&quot;: &quot;build/untouched.wasm&quot;,
+      &quot;textFile&quot;: &quot;build/untouched.wat&quot;,
+      &quot;sourceMap&quot;: true,
+      &quot;debug&quot;: true
+    },
+    &quot;release&quot;: {
+      &quot;binaryFile&quot;: &quot;build/optimized.wasm&quot;,
+      &quot;textFile&quot;: &quot;build/optimized.wat&quot;,
+      &quot;sourceMap&quot;: true,
+      &quot;optimize&quot;: true
+    }
+  },
+  &quot;options&quot;: {}
+}
+</code></pre>
+<p>Finally, run the following to install the dependencies:</p>
+<pre><code class="language-shell">$ yarn
+</code></pre>
+<h3><a class="header" href="#source-code" id="source-code">Source Code</a></h3>
+<p>Create <code>main.ts</code> with the following content:</p>
+<pre><code class="language-typescript">import { Console } from &quot;as-wasi&quot;;
+import &quot;wasi&quot;;
+
+Console.log(&quot;Hello, world!&quot;);
+</code></pre>
+<p>It prints <code>Hello, world!</code> to standard output.</p>
+<h3><a class="header" href="#make-configuration" id="make-configuration">Make Configuration</a></h3>
+<p>Create a <code>Makefile</code> with the following content:</p>
+<pre><code class="language-Makefile">all:
+	@docker run -v ${PWD}:/src:z node sh -c 'cd /src &amp;&amp; yarn &amp;&amp; yarn asbuild'
+	@docker run -v ${PWD}:/src:z alphahorizonio/wasi-sdk sh -c 'cd /src &amp;&amp; wasm-opt --asyncify -O build/optimized.wasm -o build/optimized.wasm'
+
+clean:
+	@rm -rf build
+
+seed: all
+	@docker run -it -v ${PWD}/build:/build:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c &quot;/usr/local/bin/webtorrent-hybrid seed /build/optimized.wasm&quot;
+</code></pre>
+<p>It provides three targets:</p>
+<ul>
+<li><code>make</code> builds the WebAssembly target</li>
+<li><code>make clean</code> removes the built target</li>
+<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
+</ul>
+<p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
+<h3><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h3>
+<p>Now continue to <a href="../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>AssemblyScript targets only WebAssembly.<br></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>No AssemblyScript bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.<br></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>AssemblyScript does <a href="https://github.com/AssemblyScript/assemblyscript/issues/376">not yet support async/await</a>.<br></p>
+</div>
 
                     </main>
 
