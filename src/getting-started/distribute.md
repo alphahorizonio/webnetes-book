@@ -279,3 +279,37 @@ spec:
   repository: webtorrent_public
   uri: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
 ```
+
+## Creating a Cluster
+
+Let's create a cluster for our app. We'll use [webnetesctl](https://webnetes.dev/) from now on, but feel free to use [webnetesctl Lite](https://lite.webnetes.dev/) if you prefer something more lightweight.
+
+First, open webnetesctl:
+
+[<img src="./img/launch.png" width="240">](https://webnetes.dev/)
+
+You'll be presented with a screen like the following:
+
+![webnetesctl start screen](./img/start.png)
+
+We now have to create a cluster using a cluster ID. We'll choose `69.42.8` in this example. Enter this value in the `New Cluster ID` field and click on `Create Cluster`. You should be greeted by the following:
+
+![webnetesctl created screen](./img/created.png)
+
+You've now created a cluster! Next up is joining nodes. You can either scan the QR code with your phone or click on/share the link; nodes can join the cluster without any further configuration, after which they will see the following screen:
+
+![webnetesctl joined screen](./img/joined.png)
+
+Once node have joined, a quick CPU & Network benchmark runs and a short introduction is displayed. On the manager (where you got the link from), you can now go to the management interface by clicking on `Continue to Overview`. It looks something like this, depending on how many nodes you've added and whether the nodes have enabled location access by clicking on the location arrow in the center:
+
+![webnetesctl overview screen](./img/overview.png)
+
+Before we'll continue deploying the resources, feel free to click around. By clicking a node you can get more information:
+
+![webnetesctl inspector](./img/inspector.png)
+
+If you prefer a more traditional overview or are searching for something, the Explorer tab might be of use to you:
+
+![webnetesctl explorer](./img/explorer.png)
+
+Feel free to try out the other screens before you continue!
