@@ -164,6 +164,14 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#more" id="more">More</a></h1>
+<p>Webnetes can, in addition to the languages documented before, also run any further languages supported by the following runtimes:</p>
+<ul>
+<li><a href="https://wasi.dev/">WASI</a> via <a href="https://github.com/wasmerio/wasmer-js">wasmer-js</a> — currently used to support C, C++, Rust, Zig, AssemblyScript and TinyGo (<code>wasm32-wasi</code> target)</li>
+<li><a href="https://github.com/golang/go/blob/master/misc/wasm/wasm_exec.js">Go's wasm_exec</a> — currently used to support Go</li>
+<li><a href="https://github.com/tinygo-org/tinygo/blob/release/targets/wasm_exec.js">TinyGo's wasm_exec</a> — currently used to support TinyGo (<code>wasm</code> target)</li>
+<li><a href="http://teavm.org/">TeaVM</a> — currently used to support Java</li>
+</ul>
+<p>Even if your language doesn't support any of the ones specified above, adding support for another one is easy (just add your own handler to the <a href="https://github.com/alphahorizonio/webnetes/blob/main/lib/controllers/virtual-machine.ts#L12-L18">virtual machine</a>). If you wish to have another runtime officially supported, please open a new issue in the <a href="https://github.com/alphahorizonio/webnetes/issues">GitHub issue tracker</a> and we'll look into it.</p>
 
                     </main>
 
