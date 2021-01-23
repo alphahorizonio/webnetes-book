@@ -173,9 +173,9 @@
 <li>Open your app's terminal and interact with it!</li>
 </ol>
 <p>Let's get started!</p>
-<h2><a class="header" href="#defining-resources" id="defining-resources">Defining Resources</a></h2>
-<p>The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime and binary. Its quite similar to how <a href="https://kubernetes.io/">Kubernetes</a> handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.</p>
-<p>You can find a pre-configured <code>stack.yaml</code> file for the examples in the corresponding source code; see <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">alphahorizonio/webnetes/examples</a> for a list of all examples the. To get a head start, you can use the <code>stack.yaml</code> of the example you've used. A typical <code>stack.yaml</code> (here of the C TCP Echo Server example) looks something like the following:</p>
+<h2><a class="header" href="#defining-the-resources" id="defining-the-resources">Defining the Resources</a></h2>
+<p>The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime etc. It is quite similar to how <a href="https://kubernetes.io/">Kubernetes</a> handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.</p>
+<p>You can find a pre-configured <code>stack.yaml</code> file for the examples in the corresponding source code; see <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">alphahorizonio/webnetes/examples</a> for a list of all examples. To get a head start, you can use the <code>stack.yaml</code> of the example you've used. A typical <code>stack.yaml</code> (here of the C TCP Echo Server example) looks something like the following:</p>
 <details>
 	<summary>YAML Source</summary>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
@@ -406,6 +406,26 @@ spec:
 </code></pre>
 </details>
 <p>You can find a full reference of the available resources in the <a href="../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<h2><a class="header" href="#seeding-the-webassembly-binary" id="seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
+<p>Next up, you have to make the WebAssembly binary available to Webnetes. This is done using <a href="https://webtorrent.io/">WebTorrent</a>, a BitTorrent implementation using WebRTC. For your convenience, a <code>seed</code> Make target has been added to the examples, but you can also seed using something like <a href="https://webtorrent.io/desktop/">WebTorrent Desktop</a>, <a href="https://instant.io/">instant.io</a>, <a href="https://webnetes.dev/">webnetesctl</a> or <a href="https://lite.webnetes.dev/">webnetesctl Lite</a>. For the following we'll use the <code>seed</code> Make target because it's the most convenient. Note that for Go there are two targets: <code>seed-go</code> and <code>seed-tinygo</code>. Consult the relevant <a href="./develop/go.html">Develop section</a> for more information on what each target does.</p>
+<p>Let's seed the WebAssembly binary; we'll use the <a href="./develop/c.html#tcp-echo-server">C TCP Echo Server</a> as an example:</p>
+<pre><code class="language-shell">$ make seed
+Seeding: echo_server.wasm
+Info hash: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
+Speed: 0 B/s Downloaded: 47 KB/47 KB Uploaded: 0 B
+Running time: 10 seconds  Time remaining: N/A  Peers: 0/
+</code></pre>
+<p>Note the <code>Info hash</code> value; using it, for as long as you keep the terminal open, you can now fetch the WebAssembly binary from anywhere in the world, using for example <a href="https://instant.io/">instant.io</a>. The info hash changes whenever your binary changes, which means that it also serves as a kind of checksum.</p>
+<p>Before we can start deployment, don't forget to replace the <code>uri</code> of the <code>File</code> resource in the <code>stack.yaml</code> above with the <code>Info hash</code> from the <code>make seed</code> command. It should look something like this (depending on the example you're using):</p>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: File
+metadata:
+  name: C Echo Server Binary
+  label: c_echo_server
+spec:
+  repository: webtorrent_public
+  uri: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
+</code></pre>
 
                     </main>
 
