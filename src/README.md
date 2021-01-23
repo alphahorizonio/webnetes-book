@@ -1,6 +1,6 @@
 # The Webnetes Project
 
-![Webnetes Header](./img/header.png)
+[![webnetesctl start screen](./getting-started/img/start.png)](https://webnetes.dev/)
 
 **The Webnetes Project** is an effort to build a peer-to-peer computing platform for the browser and node. It uses [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) for compute, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) for networking and [WebTorrent](https://en.wikipedia.org/wiki/WebTorrent) for storage.
 

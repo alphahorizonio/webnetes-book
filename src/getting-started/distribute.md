@@ -286,7 +286,7 @@ Let's create a cluster for our app. We'll use [webnetesctl](https://webnetes.dev
 
 First, open webnetesctl:
 
-[<img src="./img/launch.png" width="240">](https://webnetes.dev/)
+[<img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">](https://webnetes.dev/)
 
 You'll be presented with a screen like the following:
 
@@ -313,3 +313,61 @@ If you prefer a more traditional overview or are searching for something, the Ex
 ![webnetesctl explorer](./img/explorer.png)
 
 Feel free to try out the other screens before you continue!
+
+## Deploying the Resources
+
+Let's deploy the resources. Doing so is simple; just click `+ Create` in the top menu and select `Resource`. Now, paste the contents of the `stack.yaml` file you've created above into the `Definition` editor; it's structure will be visualized to the right:
+
+![webnetesctl create resource dialog](./img/create-resource.png)
+
+Next, let's adjust the server's network configuration by changing the `Arguments` resource to use an IP address in the within the cluster ID subnet we've created above (`69.42.8`):
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Arguments
+metadata:
+  name: C Echo Server Configuration
+  label: c_echo_server
+spec:
+  argv:
+    - -l
+    - 69.42.8.1
+    - -p
+    - 1234
+```
+
+This will set up the server to listen on `69.42.8.1:1234`.
+
+Another thing you might want to change is the `terminalHostNodeId` of the `Workload` resource. This parameter specifies where to attach the terminal to; you probably want to attach it to your manager node for your convenience. To find your manager node's IP, minimize the dialog using the `_` button in the top right, and go to the `Config` tab:
+
+![webnetesctl config tab](./img/config.png)
+
+Copy your IP, and open up the resource dialog again by clicking the tray in the bottom center. Now, replace the `Workload` resource's `terminalHostNodeId` key:
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Workload
+metadata:
+  name: C Echo Server
+  label: c_echo_server
+spec:
+  file: c_echo_server
+  runtime: wasi_generic
+  capabilities:
+    - net_socket
+    - net_send
+    - net_receive
+    - net_bind
+    - net_listen
+    - net_accept
+  networkInterface: c_echo_network
+  arguments: c_echo_server
+  terminalLabel: c_echo_server
+  terminalHostNodeId: 69.42.8.1
+```
+
+Now, let's select the node you want to deploy to:
+
+![webnetesctl node selection dialog](./img/select-node.png)
+
+And click `+ Create resource`. This can take a while; feel free to minimize the dialog while the deployment is in process.
