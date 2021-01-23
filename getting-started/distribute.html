@@ -426,6 +426,24 @@ spec:
   repository: webtorrent_public
   uri: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
 </code></pre>
+<h2><a class="header" href="#creating-a-cluster" id="creating-a-cluster">Creating a Cluster</a></h2>
+<p>Let's create a cluster for our app. We'll use <a href="https://webnetes.dev/">webnetesctl</a> from now on, but feel free to use <a href="https://lite.webnetes.dev/">webnetesctl Lite</a> if you prefer something more lightweight.</p>
+<p>First, open webnetesctl:</p>
+<p><a href="https://webnetes.dev/"><img src="./img/launch.png" width="240">
+</a></p>
+<p>You'll be presented with a screen like the following:</p>
+<p><img src="./img/start.png" alt="webnetesctl start screen" /></p>
+<p>We now have to create a cluster using a cluster ID. We'll choose <code>69.42.8</code> in this example. Enter this value in the <code>New Cluster ID</code> field and click on <code>Create Cluster</code>. You should be greeted by the following:</p>
+<p><img src="./img/created.png" alt="webnetesctl created screen" /></p>
+<p>You've now created a cluster! Next up is joining nodes. You can either scan the QR code with your phone or click on/share the link; nodes can join the cluster without any further configuration, after which they will see the following screen:</p>
+<p><img src="./img/joined.png" alt="webnetesctl joined screen" /></p>
+<p>Once node have joined, a quick CPU &amp; Network benchmark runs and a short introduction is displayed. On the manager (where you got the link from), you can now go to the management interface by clicking on <code>Continue to Overview</code>. It looks something like this, depending on how many nodes you've added and whether the nodes have enabled location access by clicking on the location arrow in the center:</p>
+<p><img src="./img/overview.png" alt="webnetesctl overview screen" /></p>
+<p>Before we'll continue deploying the resources, feel free to click around. By clicking a node you can get more information:</p>
+<p><img src="./img/inspector.png" alt="webnetesctl inspector" /></p>
+<p>If you prefer a more traditional overview or are searching for something, the Explorer tab might be of use to you:</p>
+<p><img src="./img/explorer.png" alt="webnetesctl explorer" /></p>
+<p>Feel free to try out the other screens before you continue!</p>
 
                     </main>
 
