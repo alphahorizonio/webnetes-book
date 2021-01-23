@@ -10,11 +10,11 @@ Now that you've got your app's build configuration up and running, you can start
 
 Let's get started!
 
-## Defining Resources
+## Defining the Resources
 
-The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime and binary. Its quite similar to how [Kubernetes](https://kubernetes.io/) handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.
+The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime etc. It is quite similar to how [Kubernetes](https://kubernetes.io/) handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.
 
-You can find a pre-configured `stack.yaml` file for the examples in the corresponding source code; see [alphahorizonio/webnetes/examples](https://github.com/alphahorizonio/webnetes/tree/main/examples) for a list of all examples the. To get a head start, you can use the `stack.yaml` of the example you've used. A typical `stack.yaml` (here of the C TCP Echo Server example) looks something like the following:
+You can find a pre-configured `stack.yaml` file for the examples in the corresponding source code; see [alphahorizonio/webnetes/examples](https://github.com/alphahorizonio/webnetes/tree/main/examples) for a list of all examples. To get a head start, you can use the `stack.yaml` of the example you've used. A typical `stack.yaml` (here of the C TCP Echo Server example) looks something like the following:
 
 <details>
 	<summary>YAML Source</summary>
@@ -250,3 +250,32 @@ spec:
 </details>
 
 You can find a full reference of the available resources in the [Resources YAML Reference](../reference/resources-yaml.md).
+
+## Seeding the WebAssembly Binary
+
+Next up, you have to make the WebAssembly binary available to Webnetes. This is done using [WebTorrent](https://webtorrent.io/), a BitTorrent implementation using WebRTC. For your convenience, a `seed` Make target has been added to the examples, but you can also seed using something like [WebTorrent Desktop](https://webtorrent.io/desktop/), [instant.io](https://instant.io/), [webnetesctl](https://webnetes.dev/) or [webnetesctl Lite](https://lite.webnetes.dev/). For the following we'll use the `seed` Make target because it's the most convenient. Note that for Go there are two targets: `seed-go` and `seed-tinygo`. Consult the relevant [Develop section](./develop/go.md) for more information on what each target does.
+
+Let's seed the WebAssembly binary; we'll use the [C TCP Echo Server](./develop/c.md#tcp-echo-server) as an example:
+
+```shell
+$ make seed
+Seeding: echo_server.wasm
+Info hash: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
+Speed: 0 B/s Downloaded: 47 KB/47 KB Uploaded: 0 B
+Running time: 10 seconds  Time remaining: N/A  Peers: 0/
+```
+
+Note the `Info hash` value; using it, for as long as you keep the terminal open, you can now fetch the WebAssembly binary from anywhere in the world, using for example [instant.io](https://instant.io/). The info hash changes whenever your binary changes, which means that it also serves as a kind of checksum.
+
+Before we can start deployment, don't forget to replace the `uri` of the `File` resource in the `stack.yaml` above with the `Info hash` from the `make seed` command. It should look something like this (depending on the example you're using):
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: File
+metadata:
+  name: C Echo Server Binary
+  label: c_echo_server
+spec:
+  repository: webtorrent_public
+  uri: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
+```
