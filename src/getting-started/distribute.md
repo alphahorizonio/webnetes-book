@@ -371,3 +371,9 @@ Now, let's select the node you want to deploy to:
 ![webnetesctl node selection dialog](./img/select-node.png)
 
 And click `+ Create resource`. This can take a while; feel free to minimize the dialog while the deployment is in process.
+
+After the deployment has finished, and assuming you've set the `terminalHostNodeId` to the manager node's IP, a terminal should open up:
+
+![webnetesctl terminal](./img/terminal.png)
+
+Awesome, you've just deployed your first app to webnetes! You could now repeat this process for the [C TCP Echo Client](./develop/c.md#tcp-echo-client) and test the full network, or continue to [Operate](./operate.md) for further operation resources.

@@ -11,4 +11,4 @@ renderer = ["html"]
 
 [output.html]
 
-[output.linkcheck]
+# [output.linkcheck]
