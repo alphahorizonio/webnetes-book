@@ -164,7 +164,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#compute" id="compute">Compute</a></h1>
-<p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this component is called a runtime; the following are currently supported:</p>
+<p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. The stack is configured using resources. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this component is called a runtime; the following are currently supported:</p>
 <ul>
 <li><a href="https://wasi.dev/">WASI</a> via <a href="https://github.com/wasmerio/wasmer-js">wasmer-js</a> — currently used to support C, C++, Rust, Zig, AssemblyScript and TinyGo (<code>wasm32-wasi</code> target)</li>
 <li><a href="https://github.com/golang/go/blob/master/misc/wasm/wasm_exec.js">Go's wasm_exec</a> — currently used to support Go</li>
