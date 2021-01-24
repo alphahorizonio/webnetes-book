@@ -2185,6 +2185,14 @@ spec:
 <p>Here you can find reference information on the <a href="reference/./resources-yaml.html">Resources YAML</a> and the <a href="reference/./embedding-api.html">embedding API</a>.</p>
 <h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
 <p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources. Many examples of resource YAML usage can be found in the <code>stack.yaml</code> files in the <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">repository</a>.</p>
+<p>Resources have a few common fields:</p>
+<ul>
+<li><code>apiVersion</code>: The API version, currently always <code>schema.webnetes.dev/v1alpha1</code></li>
+<li><code>kind</code>: The resource type</li>
+<li><code>metadata</code>: Contains a <code>label</code> (the node-unique identifier) and a <code>name</code> (the human-readable descriptor)</li>
+<li><code>spec</code>: The resource-specific data</li>
+</ul>
+<p>This pattern is strongly influenced by <a href="https://kubernetes.io/">Kubernetes</a>.</p>
 <h2><a class="header" href="#runtime" id="runtime">Runtime</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Runtime
@@ -2219,6 +2227,24 @@ spec: {}
 <li><code>net_accept</code>: Enables accepting on a socket</li>
 <li><code>net_connect</code>: Enables connecting to a socket</li>
 </ul>
+<h2><a class="header" href="#processor" id="processor">Processor</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Processor
+metadata:
+  name: Felix's iPhone
+  label: felixs_iphone
+spec:
+  runtimes:
+    - jssi_go
+  capabilities:
+    - net_socket
+    - net_send
+    - net_receive
+    - net_bind
+    - net_listen
+    - net_accept
+</code></pre>
+<p>A processor defines a virtual node. It references the runtimes and capabilities of the virtual node by their label in it's spec.</p>
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="reference/../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
 <h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
