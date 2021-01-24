@@ -2115,6 +2115,8 @@ spec:
 <h2><a class="header" href="#youre-done" id="youre-done">You're Done!</a></h2>
 <p>🎉 That's it! You now know how to develop, distribute and operate your apps on Webnetes. There are many more features of Webnetes that we haven't touched on yet (the augmented reality resource graph, cluster statistics in the overview etc.), so feel free to play around with it!</p>
 <h1><a class="header" href="#architecture" id="architecture">Architecture</a></h1>
+<p>Webnetes is made up of four high-level, independent systems: a <a href="architecture/./compute.html">compute system</a>, a <a href="architecture/./networking.html">networking system</a>, a <a href="architecture/./storage.html">storage system</a> and finally a <a href="architecture/./management.html">management system</a>, which, once combined, form a <a href="architecture/../components/webnetes.html">Webnetes node</a>.</p>
+<p>While the following is not exhaustive documentation, it should give you a quick overview of the systems; for a deeper understanding, please consult the linked source code documentation.</p>
 <h1><a class="header" href="#compute" id="compute">Compute</a></h1>
 <p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. The stack is configured using resources. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this component is called a runtime; the following are currently supported:</p>
 <ul>
@@ -2138,7 +2140,7 @@ spec:
 <p>For more information on how the storage system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/filerepository.html">file repository documentation</a>.</p>
 <h1><a class="header" href="#management" id="management">Management</a></h1>
 <p>Webnetes is based on resources, which are documented in the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>. The management system manages these resources across the cluster using a peer-to-peer client protocol based on the <a href="architecture/./networking.html">networking system</a>. This protocol is also used to transmit status messages and node information, such as benchmark scores and network performance.</p>
-<p>For more information on how the management system works, two pieces are important: the <a href="https://alphahorizonio.github.io/webnetes/classes/resources.html">resources pipe</a>, which handles resources on the local node and the <a href="https://alphahorizonio.github.io/webnetes/classes/peers.html">peer pipe</a>, which manages remote peer pipes and takes care of synchronization.</p>
+<p>For getting a deeper understanding on how the management system works, two pieces are important: the <a href="https://alphahorizonio.github.io/webnetes/classes/resources.html">resources pipe</a>, which handles resources on the local node and the <a href="https://alphahorizonio.github.io/webnetes/classes/peers.html">peer pipe</a>, which manages remote peer pipes and takes care of synchronization.</p>
 <h1><a class="header" href="#components" id="components">Components</a></h1>
 <h1><a class="header" href="#node-webnetes" id="node-webnetes">Node (webnetes)</a></h1>
 <h1><a class="header" href="#app-webnetesctl" id="app-webnetesctl">App (webnetesctl)</a></h1>
