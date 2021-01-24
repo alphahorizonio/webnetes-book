@@ -2167,8 +2167,17 @@ spec:
 <p>For advanced users who prefer something more lightweight. Webnetesctl Lite is built with Vanilla JS; for more information, check out the <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">source code</a>.</p>
 <p><a href="https://lite.webnetes.dev/"><img src="https://img.shields.io/badge/webnetesctl%20Lite-lite.webnetes.dev-blueviolet" alt="Lite" /></a></p>
 <h1><a class="header" href="#bindings" id="bindings">Bindings</a></h1>
+<p>If you want to support something that isn't part of your language's libraries or not supported by your runtime, you can polyfill it using bindings to Webnetes.</p>
+<p>There are currently two bindings for this, in particular to support networking:</p>
+<ul>
+<li><a href="bindings/./unisockets.html">unisockets</a>, a universal Berkeley sockets implementation</li>
+<li><a href="bindings/./tinynet.html">tinynet</a>, a net implementation for Go and TinyGo based on unisockets</li>
+</ul>
+<p>These bindings are enabled using capabilities.</p>
 <h1><a class="header" href="#cc-networking-unisockets" id="cc-networking-unisockets">C/C++ Networking (unisockets)</a></h1>
+<p>To support networking in C ABI compatible languages, such as C, C++, Go or TinyGo, unisockets is used. Consult the <a href="https://github.com/alphahorizonio/unisockets">unisockets Documentation</a> for more information.</p>
 <h1><a class="header" href="#go-networking-tinynet" id="go-networking-tinynet">Go Networking (tinynet)</a></h1>
+<p>To support networking in Go and TinyGo, you can either use <a href="bindings/./unisockets.html">unisockets</a> directly, or preferably tinynet, a <code>net</code> implementation for Go and TinyGo based on unisockets. Consult the <a href="https://github.com/alphahorizonio/tinynet">tinynet Documentation</a> for more information.</p>
 <h1><a class="header" href="#reference" id="reference">Reference</a></h1>
 <h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
