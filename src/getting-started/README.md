@@ -7,3 +7,5 @@ In this guide, we'll do the following:
 3. [Operate](./operate.md) the running app
 
 After you've finished this guide, you'll have a good understanding of how to use Webnetes.
+
+> Need help? Join [Webnetes Users on Matrix](https://matrix.to/#/#webnetes-contributors:matrix.org?via=matrix.org) and we'll help you.

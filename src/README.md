@@ -4,7 +4,7 @@
 
 **The Webnetes Project** is an effort to build a peer-to-peer computing platform for the browser and node. It uses [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly) for compute, [WebRTC](https://en.wikipedia.org/wiki/WebRTC) for networking and [WebTorrent](https://en.wikipedia.org/wiki/WebTorrent) for storage.
 
-The Webnetes Project is free and open source, you can find the source code on [GitHub](https://github.com/alphahorizonio/webnetes). Issues and feature requests can be posted on the [GitHub issue tracker](https://github.com/alphahorizonio/webnetes/issues).
+The Webnetes Project is free and open source, you can find the source code on [GitHub](https://github.com/alphahorizonio/webnetes). Issues and feature requests can be posted on the [GitHub issue tracker](https://github.com/alphahorizonio/webnetes/issues). For more information on contributing, see the [contributing guide](./CONTRIBUTING.md).
 
 ## Next Steps
 
