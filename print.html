@@ -1282,6 +1282,14 @@ endif()
 <li><a href="getting-started/develop/go.html#next-steps">Next Steps</a></li>
 </ul>
 </li>
+<li><a href="getting-started/develop/go.html#tcp-chat-server">TCP Chat Server</a>
+<ul>
+<li><a href="getting-started/develop/go.html#module-1">Module</a></li>
+<li><a href="getting-started/develop/go.html#source-code-1">Source Code</a></li>
+<li><a href="getting-started/develop/go.html#make-configuration-1">Make Configuration</a></li>
+<li><a href="getting-started/develop/go.html#next-steps-1">Next Steps</a></li>
+</ul>
+</li>
 </ul>
 <h2><a class="header" href="#language-support-status-2" id="language-support-status-2">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
@@ -1357,6 +1365,167 @@ Hello, world!
 Hello, world!
 </code></pre>
 <p>The native targets work! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly targets.</p>
+<h2><a class="header" href="#tcp-chat-server" id="tcp-chat-server">TCP Chat Server</a></h2>
+<p>Webnetes has support for networking. Let's create a TCP chat server in Go with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/go_chat_server">GitHub</a>.</p>
+<h3><a class="header" href="#module-1" id="module-1">Module</a></h3>
+<p>See <a href="getting-started/develop/go.html#module">Hello, world! Module</a>.</p>
+<h3><a class="header" href="#source-code-7" id="source-code-7">Source Code</a></h3>
+<p>Create <code>main.go</code> with the following content:</p>
+<details>
+	<summary>Go Source</summary>
+<pre><code class="language-go">package main
+
+import (
+	&quot;flag&quot;
+	&quot;fmt&quot;
+	&quot;log&quot;
+
+	&quot;github.com/alphahorizonio/tinynet/pkg/tinynet&quot;
+	&quot;github.com/google/uuid&quot;
+	&quot;github.com/ugjka/messenger&quot;
+)
+
+func main() {
+	// Parse flags
+	laddr := flag.String(&quot;laddr&quot;, &quot;127.0.0.1:4206&quot;, &quot;Address to listen on&quot;)
+	flag.Parse()
+
+	// Listen
+	lis, err := tinynet.Listen(&quot;tcp&quot;, *laddr)
+	if err != nil {
+		log.Fatal(&quot;could not listen&quot;, err)
+	}
+
+	log.Println(&quot;Listening on&quot;, *laddr)
+
+	// Receive &amp; broadcast
+	msgr := messenger.New(0, true)
+	for {
+		// Accept
+		conn, err := lis.Accept()
+		if err != nil {
+			log.Fatal(&quot;could not accept&quot;, err)
+		}
+
+		// Notify peers of new node
+		log.Println(&quot;Client connected&quot;)
+		clientID := uuid.New()
+		msgr.Broadcast(fmt.Sprintf(&quot;&lt;system&gt;:\tClient %v joined\n&quot;, clientID.String()))
+
+		// Receive from clients &amp; send to bus
+		go func(innerConn tinynet.Conn) {
+			for {
+				// Receive
+				buf := make([]byte, 1024)
+				if n, err := innerConn.Read(buf); err != nil {
+					if n == 0 {
+						break
+					}
+
+					log.Println(&quot;could not read from connection, removing connection&quot;, err)
+
+					break
+				}
+
+				// Send to bus
+				msgr.Broadcast(fmt.Sprintf(&quot;&lt;%v&gt;:\t%v&quot;, clientID.String(), string(buf)))
+			}
+
+			// Close client socket
+			log.Println(&quot;Client disconnected&quot;)
+
+			_ = innerConn.Close() // We keep closing to the OS
+		}(conn)
+
+		// Receive from bus &amp; broadcast to clients
+		go func(innerConn tinynet.Conn) {
+			// Subscribe to new messages
+			bus, err := msgr.Sub()
+			if err != nil {
+				log.Println(&quot;could not subscribe to broadcasted messages&quot;, err)
+			}
+			defer msgr.Unsub(bus)
+
+			for msg := range bus {
+				// Send to client
+				if n, err := innerConn.Write([]byte(fmt.Sprintf(&quot;%v&quot;, msg))); err != nil {
+					if n == 0 {
+						break
+					}
+
+					fmt.Println(&quot;could not write to connection, removing connection&quot;, err)
+
+					break
+				}
+			}
+
+			// Close client socket
+			log.Println(&quot;Client disconnected&quot;)
+
+			_ = innerConn.Close() // We keep closing to the OS
+		}(conn)
+	}
+}
+</code></pre>
+</details>
+<p>It is a very simple TCP server that listens to messages, assigns an ID to clients, and broadcasts the messages to every other client.</p>
+<h3><a class="header" href="#make-configuration-7" id="make-configuration-7">Make Configuration</a></h3>
+<p>Create a <code>Makefile</code> with the following content:</p>
+<pre><code class="language-Makefile">all: native wasm
+
+native:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.go:/go:z golang sh -c 'cd /src &amp;&amp; go build -o out/go/chat_server main.go'
+
+wasm:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.go:/go:z -e GOOS=js -e GOARCH=wasm golang sh -c 'cd /src &amp;&amp; go build -o out/go/chat_server.wasm main.go'
+
+clean:
+	@rm -rf out
+
+seed: wasm
+	@docker run -it -v ${PWD}/out:/out:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c &quot;/usr/local/bin/webtorrent-hybrid seed /out/go/*.wasm&quot;
+</code></pre>
+<p>It provides five targets:</p>
+<ul>
+<li><code>make</code> builds both the native &amp; the WebAssembly target</li>
+<li><code>make native</code> builds only the native target</li>
+<li><code>make wasm</code> builds only the WebAssembly target</li>
+<li><code>make clean</code> removes the built targets</li>
+<li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
+</ul>
+<p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
+<h3><a class="header" href="#next-steps-8" id="next-steps-8">Next Steps</a></h3>
+<p>Build the native target:</p>
+<pre><code class="language-shell">$ make native
+</code></pre>
+<p>Run the native target:</p>
+<pre><code class="language-shell">$ ./out/go/chat_server
+2021/01/24 17:48:43 Listening on 127.0.0.1:4206
+</code></pre>
+<p>In a second terminal, connect to the server:</p>
+<pre><code class="language-shell">$ nc localhost 4206
+</code></pre>
+<p>The server should now display the following:</p>
+<pre><code class="language-shell">2021/01/24 17:49:07 Client connected
+</code></pre>
+<p>If you type something into the second terminal and press <kbd>Enter</kbd>, the server should echo it as follows:</p>
+<pre><code class="language-shell">Hello, reader!
+&lt;25b81b38-5ad5-4478-931f-564f2fd313f7&gt;: Hello, reader!
+</code></pre>
+<p>Let's open up another terminal:</p>
+<pre><code class="language-shell">$ nc localhost 4206
+</code></pre>
+<p>The second terminal should now contain a message like this:</p>
+<pre><code class="language-shell">&lt;system&gt;:       Client 80f9391f-7eea-45f6-9b50-1f0482bee9e7 joined
+</code></pre>
+<p>If you type something into the third terminal and press <kbd>Enter</kbd>, the server should echo it to as follows:</p>
+<pre><code class="language-shell">Hello from client 2 in terminal 3!
+&lt;80f9391f-7eea-45f6-9b50-1f0482bee9e7&gt;: Hello from client 2 in terminal 3!
+</code></pre>
+<p>The second terminal should now also contain your message:</p>
+<pre><code>&lt;80f9391f-7eea-45f6-9b50-1f0482bee9e7&gt;: Hello from client 2 in terminal 3!
+</code></pre>
+<p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <h1><a class="header" href="#rust" id="rust">Rust</a></h1>
 <h2><a class="header" href="#table-of-contents-3" id="table-of-contents-3">Table of Contents</a></h2>
 <ul>
@@ -1380,14 +1549,14 @@ Hello, world!
 <p>Run the following to initialize your crate:</p>
 <pre><code class="language-shell">$ cargo new --bin rust_hello_world
 </code></pre>
-<h3><a class="header" href="#source-code-7" id="source-code-7">Source Code</a></h3>
+<h3><a class="header" href="#source-code-8" id="source-code-8">Source Code</a></h3>
 <p>Replace <code>src/main.rs</code> with the following content:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
 }
 </code></pre></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-7" id="make-configuration-7">Make Configuration</a></h3>
+<h3><a class="header" href="#make-configuration-8" id="make-configuration-8">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -1413,7 +1582,7 @@ seed: clean wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-8" id="next-steps-8">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-9" id="next-steps-9">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1443,7 +1612,7 @@ Hello, world!
 </tbody></table>
 <h2><a class="header" href="#hello-world-4" id="hello-world-4">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Zig with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/zig_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-8" id="source-code-8">Source Code</a></h3>
+<h3><a class="header" href="#source-code-9" id="source-code-9">Source Code</a></h3>
 <p>Create <code>main.zig</code> with the following content:</p>
 <pre><code class="language-zig">const std = @import(&quot;std&quot;);
 
@@ -1453,7 +1622,7 @@ pub fn main() !void {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-8" id="make-configuration-8">Make Configuration</a></h3>
+<h3><a class="header" href="#make-configuration-9" id="make-configuration-9">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -1479,7 +1648,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-9" id="next-steps-9">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-10" id="next-steps-10">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1637,7 +1806,7 @@ Hello, world!
 </code></pre>
 </details>
 <p>Don't forget to change <code>groupId</code> etc. to more appropriate values.</p>
-<h3><a class="header" href="#source-code-9" id="source-code-9">Source Code</a></h3>
+<h3><a class="header" href="#source-code-10" id="source-code-10">Source Code</a></h3>
 <p>Create <code>src/main/java/dev/webnetes/examples/java/hello_world/Application.java</code> with the following content:</p>
 <pre><code class="language-java">package dev.webnetes.examples.java.hello_world;
 
@@ -1648,7 +1817,7 @@ public class Application {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-9" id="make-configuration-9">Make Configuration</a></h3>
+<h3><a class="header" href="#make-configuration-10" id="make-configuration-10">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all:
 	@docker run -v ${PWD}:/src:z -v ${PWD}/.m2:/root/.m2:z maven sh -c 'cd /src &amp;&amp; mvn clean install'
@@ -1667,7 +1836,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-10" id="next-steps-10">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-11" id="next-steps-11">Next Steps</a></h3>
 <p>Build the native &amp; the WebAssembly target:</p>
 <pre><code class="language-shell">$ make
 </code></pre>
@@ -1750,7 +1919,7 @@ Hello, world!
 <p>Finally, run the following to install the dependencies:</p>
 <pre><code class="language-shell">$ yarn
 </code></pre>
-<h3><a class="header" href="#source-code-10" id="source-code-10">Source Code</a></h3>
+<h3><a class="header" href="#source-code-11" id="source-code-11">Source Code</a></h3>
 <p>Create <code>main.ts</code> with the following content:</p>
 <pre><code class="language-typescript">import { Console } from &quot;as-wasi&quot;;
 import &quot;wasi&quot;;
@@ -1758,7 +1927,7 @@ import &quot;wasi&quot;;
 Console.log(&quot;Hello, world!&quot;);
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-10" id="make-configuration-10">Make Configuration</a></h3>
+<h3><a class="header" href="#make-configuration-11" id="make-configuration-11">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all:
 	@docker run -v ${PWD}:/src:z node sh -c 'cd /src &amp;&amp; yarn &amp;&amp; yarn asbuild'
@@ -1777,7 +1946,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-11" id="next-steps-11">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-12" id="next-steps-12">Next Steps</a></h3>
 <p>Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>AssemblyScript targets only WebAssembly.<br></p>
