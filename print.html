@@ -2137,6 +2137,8 @@ spec:
 <p>For more information on how to use the storage system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
 <p>For more information on how the storage system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/filerepository.html">file repository documentation</a>.</p>
 <h1><a class="header" href="#management" id="management">Management</a></h1>
+<p>Webnetes is based on resources, which are documented in the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>. The management system manages these resources across the cluster using a peer-to-peer client protocol based on the <a href="architecture/./networking.html">networking system</a>. This protocol is also used to transmit status messages and node information, such as benchmark scores and network performance.</p>
+<p>For more information on how the management system works, two pieces are important: the <a href="https://alphahorizonio.github.io/webnetes/classes/resources.html">resources pipe</a>, which handles resources on the local node and the <a href="https://alphahorizonio.github.io/webnetes/classes/peers.html">peer pipe</a>, which manages remote peer pipes and takes care of synchronization.</p>
 <h1><a class="header" href="#components" id="components">Components</a></h1>
 <h1><a class="header" href="#node-webnetes" id="node-webnetes">Node (webnetes)</a></h1>
 <h1><a class="header" href="#app-webnetesctl" id="app-webnetesctl">App (webnetesctl)</a></h1>
