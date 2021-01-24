@@ -2184,16 +2184,8 @@ spec:
 <h1><a class="header" href="#reference" id="reference">Reference</a></h1>
 <p>Here you can find reference information on the <a href="reference/./resources-yaml.html">Resources YAML</a> and the <a href="reference/./embedding-api.html">embedding API</a>.</p>
 <h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
-<p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources.</p>
+<p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources. Many examples of resource YAML usage can be found in the <code>stack.yaml</code> files in the <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">repository</a>.</p>
 <h2><a class="header" href="#runtime" id="runtime">Runtime</a></h2>
-<p>A runtime, as described in <a href="reference/../architecture/compute.html">compute</a>. The label can be one of:</p>
-<ul>
-<li><code>wasi_generic</code>, for languages using WASI</li>
-<li><code>wasi_tinygo</code>, extended for TinyGo using WASI</li>
-<li><code>jssi_go</code>, for Go using JSSI</li>
-<li><code>jssi_tinygo</code>, for TinyGo using JSSI</li>
-<li><code>jssi_teavm</code>, for Java using JSSI</li>
-</ul>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Runtime
 metadata:
@@ -2201,6 +2193,32 @@ metadata:
   label: jssi_go
 spec: {}
 </code></pre>
+<p>A runtime adds support for a language, as described in <a href="reference/../architecture/compute.html">compute</a>. The label can be one of:</p>
+<ul>
+<li><code>wasi_generic</code>: For languages using WASI</li>
+<li><code>wasi_tinygo</code>: Extended WASI for TinyGo</li>
+<li><code>jssi_go</code>: For Go using JSSI</li>
+<li><code>jssi_tinygo</code>: For TinyGo using JSSI</li>
+<li><code>jssi_teavm</code>: For Java using JSSI</li>
+</ul>
+<h2><a class="header" href="#capability" id="capability">Capability</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Runtime
+metadata:
+  name: Go JSSI
+  label: jssi_go
+spec: {}
+</code></pre>
+<p>A capability enables imports, as described in <a href="reference/../architecture/compute.html">compute</a>. The label can be one of:</p>
+<ul>
+<li><code>net_socket</code>: Enables creating a socket</li>
+<li><code>net_send</code>: Enables sending from a socket</li>
+<li><code>net_receive</code>: Enables receiving from a socket</li>
+<li><code>net_bind</code>: Enables binding a socket</li>
+<li><code>net_listen</code>: Enables listening on a socket</li>
+<li><code>net_accept</code>: Enables accepting on a socket</li>
+<li><code>net_connect</code>: Enables connecting to a socket</li>
+</ul>
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="reference/../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
 <h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
