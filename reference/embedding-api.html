@@ -164,6 +164,128 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
+<p>Embedding the <a href="../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
+<h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
+<p>Webnetes is available on npm. You can add it to your app like so:</p>
+<pre><code class="language-shell">yarn add @alphahorizonio/webnetes
+# Or with npm
+npm i -s @alphahorizonio/webnetes
+</code></pre>
+<p>If you don't have a bundler available, we also provide a ready-to-use precompiled script which you can include like so:</p>
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>If you're using the script, the node will be available as <code>window.WebnetesNode</code>. If you used the NPM package, you can import it like so:</p>
+<pre><code class="language-typescript">import { Node } from &quot;@alphahorizonio/webnetes&quot;;
+</code></pre>
+<h2><a class="header" href="#using-the-library-in-the-browser" id="using-the-library-in-the-browser">Using the Library in the Browser</a></h2>
+<p>This should enable you to create a minimal node in the browser:</p>
+<pre><code class="language-typescript">const node = new Node(
+  async (nodeId, resource) =&gt; {
+    console.console.log(&quot;Created resource&quot;, nodeId, resource);
+  },
+  async (nodeId, resource) =&gt; {
+    console.console.log(&quot;Deleted resource&quot;, nodeId, resource);
+
+    if (resource.kind === &quot;workload&quot;) window.location.reload();
+  },
+  async (frame) =&gt; {
+    console.console.log(&quot;Rejected resource&quot;, frame);
+  },
+  async (id) =&gt; {
+    console.console.log(&quot;Management node acknowledged&quot;, id);
+  },
+  async (id) =&gt; {
+    console.console.log(&quot;Management node joined&quot;, id);
+  },
+  async (id) =&gt; {
+    console.console.log(&quot;Management node left&quot;, id);
+  },
+  async (metadata, spec, id) =&gt; {
+    console.console.log(&quot;Resource node acknowledged&quot;, metadata, spec, id);
+  },
+  async (metadata, spec: INetworkInterfaceSpec, id) =&gt; {
+    console.console.log(&quot;Resource node joined&quot;, metadata, spec, id);
+  },
+  async (metadata, spec, id) =&gt; {
+    console.console.log(&quot;Resource node left&quot;, metadata, spec, id);
+  },
+  async (onStdin: (key: string) =&gt; Promise&lt;void&gt;, id) =&gt; {
+    // TODO: Implement terminal creation
+  },
+  async (id, msg) =&gt; {
+    // TODO: Implement terminal write
+  },
+  async (id) =&gt; {
+    // TODO: Implement terminal deletion
+  },
+  (id) =&gt; {
+    const rawInput = prompt(`Please enter standard input for ${id}\n`);
+
+    if (rawInput) return new TextEncoder().encode(rawInput);
+
+    return null;
+  }
+);
+</code></pre>
+<p>Now, implement the <code>TODO</code>s and <code>open</code> the node using the configuration resources. You can find the full source code <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">in the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
+<h2><a class="header" href="#using-the-library-in-nodejs" id="using-the-library-in-nodejs">Using the Library in Node.js</a></h2>
+<p>Webnetes also has Node.js support. This should enable you to create a minimal node in this context:</p>
+<pre><code class="language-typescript">const node = new Node(
+  async (nodeId, resource) =&gt; {
+    console.log(&quot;Created resource&quot;, nodeId, resource);
+  },
+  async (nodeId, resource) =&gt; {
+    console.log(&quot;Deleted resource&quot;, nodeId, resource);
+
+    if (resource.kind === &quot;workload&quot;) {
+      spawn(process.execPath, process.argv.slice(1), {
+        cwd: process.cwd(),
+        detached: true,
+        env: process.env,
+        stdio: &quot;inherit&quot;,
+      }).unref();
+
+      process.exit(0);
+    }
+  },
+  async (frame) =&gt; {
+    console.log(&quot;Rejected resource&quot;, frame);
+  },
+  async (id) =&gt; {
+    console.log(&quot;Management node acknowledged&quot;, id);
+  },
+  async (id) =&gt; {
+    console.log(&quot;Management node joined&quot;, id);
+  },
+  async (id) =&gt; {
+    console.log(&quot;Management node left&quot;, id);
+  },
+  async (metadata, spec, id) =&gt; {
+    console.log(&quot;Resource node acknowledged&quot;, metadata, spec, id);
+  },
+  async (metadata, spec: INetworkInterfaceSpec, id) =&gt; {
+    console.log(&quot;Resource node joined&quot;, metadata, spec, id);
+  },
+  async (metadata, spec, id) =&gt; {
+    console.log(&quot;Resource node left&quot;, metadata, spec, id);
+  },
+  async (onStdin: (key: string) =&gt; Promise&lt;void&gt;, id) =&gt; {
+    console.log(&quot;Creating terminal (STDOUT only)&quot;, id);
+  },
+  async (id, msg) =&gt; {
+    console.log(&quot;Writing to terminal (STDOUT only)&quot;, id, msg);
+  },
+  async (id) =&gt; {
+    console.log(&quot;Deleting terminal&quot;, id);
+  },
+  (id) =&gt; {
+    console.error(&quot;STDIN is not supported on node&quot;);
+
+    process.exit(1);
+  }
+);
+</code></pre>
+<p>Now, <code>open</code> the node using the configuration resources. You can find the full source code <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node">in the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
 
                     </main>
 
