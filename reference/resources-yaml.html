@@ -261,6 +261,64 @@ spec:
   credential: mypassword
 </code></pre>
 <p>A TURN server relays messages when peer-to-peer connections are not possible.</p>
+<h2><a class="header" href="#network" id="network">Network</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Network
+metadata:
+  name: Public unisockets network
+  label: unisockets_public
+spec:
+  signaler: unisockets_public
+  stunServers:
+    - google
+    - twillio
+  turnServers:
+    - twillio_udp
+    - twillio_tcp
+    - twillio_tcp_fallback
+</code></pre>
+<p>A network references the signalers, STUN &amp; TURN servers by their label and thus defines a overlay network by which the <a href="../architecture/networking.html">networking system</a> can connect nodes.</p>
+<h2><a class="header" href="#network-interface" id="network-interface">Network Interface</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: NetworkInterface
+metadata:
+  name: Go Echo Network
+  label: go_echo_network
+spec:
+  network: unisockets_public
+  prefix: 127.19.0
+</code></pre>
+<p>A network interface allows connecting to a network by a prefix, which is the first three octets of an IPv4 address.</p>
+<h2><a class="header" href="#tracker" id="tracker">Tracker</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Tracker
+metadata:
+  name: OpenWebTorrent
+  label: openwebtorrent
+spec:
+  urls:
+    - wss://tracker.openwebtorrent.com
+</code></pre>
+<p>A tracker is a WebTorrent tracker. It tracks the files which are currently being seeded and by whom they are being seeded.</p>
+<h2><a class="header" href="#repository" id="repository">Repository</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Repository
+metadata:
+  name: Public WebTorrent
+  label: webtorrent_public
+spec:
+  trackers:
+    - openwebtorrent
+    - fastcast
+  stunServers:
+    - google
+    - twillio
+  turnServers:
+    - twillio_udp
+    - twillio_tcp
+    - twillio_tcp_fallback
+</code></pre>
+<p>A repository references the trackers, STUN servers &amp; TURN servers by their labels and thus creates a file repository which can be used to seed &amp; add files.</p>
 
                     </main>
 
