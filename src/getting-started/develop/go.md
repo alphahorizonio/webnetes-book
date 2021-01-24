@@ -108,3 +108,209 @@ Hello, world!
 ```
 
 The native targets work! Now continue to [Distribute](../distribute.md) to learn how to run the WebAssembly targets.
+
+## TCP Chat Server
+
+Webnetes has support for networking. Let's create a TCP chat server in Go with native and WebAssembly targets. The full source code of this example is available on [GitHub](https://github.com/alphahorizonio/webnetes/tree/main/examples/go_chat_server).
+
+### Module
+
+See [Hello, world! Module](#module).
+
+### Source Code
+
+Create `main.go` with the following content:
+
+<details>
+	<summary>Go Source</summary>
+
+```go
+package main
+
+import (
+	"flag"
+	"fmt"
+	"log"
+
+	"github.com/alphahorizonio/tinynet/pkg/tinynet"
+	"github.com/google/uuid"
+	"github.com/ugjka/messenger"
+)
+
+func main() {
+	// Parse flags
+	laddr := flag.String("laddr", "127.0.0.1:4206", "Address to listen on")
+	flag.Parse()
+
+	// Listen
+	lis, err := tinynet.Listen("tcp", *laddr)
+	if err != nil {
+		log.Fatal("could not listen", err)
+	}
+
+	log.Println("Listening on", *laddr)
+
+	// Receive & broadcast
+	msgr := messenger.New(0, true)
+	for {
+		// Accept
+		conn, err := lis.Accept()
+		if err != nil {
+			log.Fatal("could not accept", err)
+		}
+
+		// Notify peers of new node
+		log.Println("Client connected")
+		clientID := uuid.New()
+		msgr.Broadcast(fmt.Sprintf("<system>:\tClient %v joined\n", clientID.String()))
+
+		// Receive from clients & send to bus
+		go func(innerConn tinynet.Conn) {
+			for {
+				// Receive
+				buf := make([]byte, 1024)
+				if n, err := innerConn.Read(buf); err != nil {
+					if n == 0 {
+						break
+					}
+
+					log.Println("could not read from connection, removing connection", err)
+
+					break
+				}
+
+				// Send to bus
+				msgr.Broadcast(fmt.Sprintf("<%v>:\t%v", clientID.String(), string(buf)))
+			}
+
+			// Close client socket
+			log.Println("Client disconnected")
+
+			_ = innerConn.Close() // We keep closing to the OS
+		}(conn)
+
+		// Receive from bus & broadcast to clients
+		go func(innerConn tinynet.Conn) {
+			// Subscribe to new messages
+			bus, err := msgr.Sub()
+			if err != nil {
+				log.Println("could not subscribe to broadcasted messages", err)
+			}
+			defer msgr.Unsub(bus)
+
+			for msg := range bus {
+				// Send to client
+				if n, err := innerConn.Write([]byte(fmt.Sprintf("%v", msg))); err != nil {
+					if n == 0 {
+						break
+					}
+
+					fmt.Println("could not write to connection, removing connection", err)
+
+					break
+				}
+			}
+
+			// Close client socket
+			log.Println("Client disconnected")
+
+			_ = innerConn.Close() // We keep closing to the OS
+		}(conn)
+	}
+}
+```
+
+</details>
+
+It is a very simple TCP server that listens to messages, assigns an ID to clients, and broadcasts the messages to every other client.
+
+### Make Configuration
+
+Create a `Makefile` with the following content:
+
+```Makefile
+all: native wasm
+
+native:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.go:/go:z golang sh -c 'cd /src && go build -o out/go/chat_server main.go'
+
+wasm:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.go:/go:z -e GOOS=js -e GOARCH=wasm golang sh -c 'cd /src && go build -o out/go/chat_server.wasm main.go'
+
+clean:
+	@rm -rf out
+
+seed: wasm
+	@docker run -it -v ${PWD}/out:/out:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c "/usr/local/bin/webtorrent-hybrid seed /out/go/*.wasm"
+```
+
+It provides five targets:
+
+- `make` builds both the native & the WebAssembly target
+- `make native` builds only the native target
+- `make wasm` builds only the WebAssembly target
+- `make clean` removes the built targets
+- `make seed` seeds the WebAssembly target, which will come in handy later.
+
+All of them use Docker, so there is no need to install any dependencies on the host.
+
+### Next Steps
+
+Build the native target:
+
+```shell
+$ make native
+```
+
+Run the native target:
+
+```shell
+$ ./out/go/chat_server
+2021/01/24 17:48:43 Listening on 127.0.0.1:4206
+```
+
+In a second terminal, connect to the server:
+
+```shell
+$ nc localhost 4206
+```
+
+The server should now display the following:
+
+```shell
+2021/01/24 17:49:07 Client connected
+```
+
+If you type something into the second terminal and press <kbd>Enter</kbd>, the server should echo it as follows:
+
+```shell
+Hello, reader!
+<25b81b38-5ad5-4478-931f-564f2fd313f7>: Hello, reader!
+```
+
+Let's open up another terminal:
+
+```shell
+$ nc localhost 4206
+```
+
+The second terminal should now contain a message like this:
+
+```shell
+<system>:       Client 80f9391f-7eea-45f6-9b50-1f0482bee9e7 joined
+```
+
+If you type something into the third terminal and press <kbd>Enter</kbd>, the server should echo it to as follows:
+
+```shell
+Hello from client 2 in terminal 3!
+<80f9391f-7eea-45f6-9b50-1f0482bee9e7>: Hello from client 2 in terminal 3!
+```
+
+The second terminal should now also contain your message:
+
+```
+<80f9391f-7eea-45f6-9b50-1f0482bee9e7>: Hello from client 2 in terminal 3!
+```
+
+The native target works! Now continue to [Distribute](../distribute.md) to learn how to run the WebAssembly target.
