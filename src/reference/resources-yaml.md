@@ -71,7 +71,7 @@ spec:
     - net_accept
 ```
 
-A processor defines a virtual node. It references the runtimes and capabilities of the virtual node by their label in it's spec.
+A processor defines a virtual node. It references the [runtimes](#runtime) and [capabilities](#capability) of the virtual node by their label in it's spec.
 
 ## Signaler
 
@@ -140,7 +140,7 @@ spec:
     - twillio_tcp_fallback
 ```
 
-A network references the signalers, STUN & TURN servers by their label and thus defines a overlay network by which the [networking system](../architecture/networking.md) can connect nodes.
+A network references the [signalers](#signaler), [STUN servers](#stun-server) & [TURN servers](#turn-server) by their label and thus defines a overlay network by which the [networking system](../architecture/networking.md) can connect nodes.
 
 ## Network Interface
 
@@ -155,7 +155,7 @@ spec:
   prefix: 127.19.0
 ```
 
-A network interface allows connecting to a network by a prefix, which is the first three octets of an IPv4 address.
+A network interface allows connecting to a [network](#network)'s subnet by a prefix, which is the first three octets of an IPv4 address.
 
 ## Tracker
 
@@ -170,7 +170,7 @@ spec:
     - wss://tracker.openwebtorrent.com
 ```
 
-A tracker is a WebTorrent tracker. It tracks the files which are currently being seeded and by whom they are being seeded.
+A tracker is a WebTorrent tracker. It tracks the [files](#file) which are currently being seeded and by whom they are being seeded.
 
 ## Repository
 
@@ -193,9 +193,9 @@ spec:
     - twillio_tcp_fallback
 ```
 
-A repository references the trackers, STUN servers & TURN servers by their labels and thus creates a file repository which can be used to seed & add files.
+A repository references the [trackers](#tracker), [STUN servers](#stun-server) & [TURN servers](#turn-server) by their labels and thus creates a file repository which can be used to seed & add files.
 
-## Files
+## File
 
 ```yaml
 apiVersion: schema.webnetes.dev/v1alpha1
@@ -208,7 +208,7 @@ spec:
   uri: 83db73bb4b044a05df306330e421b2e3d38849e4
 ```
 
-A file references a file seeded using WebTorrent using the `uri` field, which can be either a BitTorrent info hash or a magnet link.
+A file references a file seeded using WebTorrent in a [repository](#repository) using the `uri` field, which can be either a BitTorrent info hash or a magnet link.
 
 ## Arguments
 
@@ -224,7 +224,7 @@ spec:
     - 127.0.8.1:4206
 ```
 
-A arguments resource supplies the command line arguments for a workload and thus allows configuring your app without requiring interactivity and without re-compiling the binary.
+A arguments resource supplies the command line arguments for a [workload](#workload) and thus allows configuring your app without requiring interactivity and without re-compiling the binary.
 
 ## Workload
 
@@ -252,9 +252,9 @@ spec:
 
 A workload configures an app's resources. It has the following fields:
 
-- `file`: Specifies the file resource to use for the workload (the WASM binary)
-- `runtime`: The runtime for the file
-- `capabilities`: The capabilities to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).
-- `networkInterface`: The network interface to attach
-- `terminalLabel`: Unique label by which to identify the workload's terminal
+- `file`: Specifies the [file resource](#file) to use for the workload (the WASM binary)
+- `runtime`: The [runtime](#runtime) for the file
+- `capabilities`: The [capabilities](#capability) to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).
+- `networkInterface`: The [network interface](#network-interface) to attach
+- `terminalLabel`: Unique label by which to identify the [workload](#workload)'s terminal
 - `terminalHostNodeId`: The node ID to attach the resource to
