@@ -1775,14 +1775,7 @@ seed: all
 <p>AssemblyScript does <a href="https://github.com/AssemblyScript/assemblyscript/issues/376">not yet support async/await</a>.<br></p>
 </div>
 <h1><a class="header" href="#more" id="more">More</a></h1>
-<p>Webnetes can, in addition to the languages documented before, also run any further languages supported by the following runtimes:</p>
-<ul>
-<li><a href="https://wasi.dev/">WASI</a> via <a href="https://github.com/wasmerio/wasmer-js">wasmer-js</a> — currently used to support C, C++, Rust, Zig, AssemblyScript and TinyGo (<code>wasm32-wasi</code> target)</li>
-<li><a href="https://github.com/golang/go/blob/master/misc/wasm/wasm_exec.js">Go's wasm_exec</a> — currently used to support Go</li>
-<li><a href="https://github.com/tinygo-org/tinygo/blob/release/targets/wasm_exec.js">TinyGo's wasm_exec</a> — currently used to support TinyGo (<code>wasm</code> target)</li>
-<li><a href="http://teavm.org/">TeaVM</a> — currently used to support Java</li>
-</ul>
-<p>Even if your language doesn't support any of the ones specified above, adding support for another one is easy (just add your own handler to the <a href="https://github.com/alphahorizonio/webnetes/blob/main/lib/controllers/virtual-machine.ts#L12-L18">virtual machine</a>). If you wish to have another runtime officially supported, please open a new issue in the <a href="https://github.com/alphahorizonio/webnetes/issues">GitHub issue tracker</a> and we'll look into it.</p>
+<p>Webnetes can, in addition to the languages documented before, also run any further languages supported by the runtimes as <a href="getting-started/develop/../../architecture/compute.html">documented in Compute</a>. Even if your language doesn't support any of the ones specified there, adding support for another one is easy (just add your own handler to the <a href="https://github.com/alphahorizonio/webnetes/blob/main/lib/controllers/virtual-machine.ts#L12-L18">virtual machine</a>). If you wish to have another runtime officially supported, please open a new issue in the <a href="https://github.com/alphahorizonio/webnetes/issues">GitHub issue tracker</a> and we'll look into it.</p>
 <h1><a class="header" href="#distribute" id="distribute">Distribute</a></h1>
 <p>Now that you've got your app's build configuration up and running, you can start deploying your app to Webnetes. Doing so is a pretty simple process:</p>
 <ol>
@@ -2123,6 +2116,16 @@ spec:
 <p>🎉 That's it! You now know how to develop, distribute and operate your apps on Webnetes. There are many more features of Webnetes that we haven't touched on yet (the augmented reality resource graph, cluster statistics in the overview etc.), so feel free to play around with it!</p>
 <h1><a class="header" href="#architecture" id="architecture">Architecture</a></h1>
 <h1><a class="header" href="#compute" id="compute">Compute</a></h1>
+<p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this is called a runtime; the following are currently supported:</p>
+<ul>
+<li><a href="https://wasi.dev/">WASI</a> via <a href="https://github.com/wasmerio/wasmer-js">wasmer-js</a> — currently used to support C, C++, Rust, Zig, AssemblyScript and TinyGo (<code>wasm32-wasi</code> target)</li>
+<li><a href="https://github.com/golang/go/blob/master/misc/wasm/wasm_exec.js">Go's wasm_exec</a> — currently used to support Go</li>
+<li><a href="https://github.com/tinygo-org/tinygo/blob/release/targets/wasm_exec.js">TinyGo's wasm_exec</a> — currently used to support TinyGo (<code>wasm</code> target)</li>
+<li><a href="http://teavm.org/">TeaVM</a> — currently used to support Java</li>
+</ul>
+<p>In Webnetes, a runtime also supports imports, which are enabled using capabilities. Imports are implemented using either the <a href="https://wasi.dev/">WebAssembly System Interface (WASI)</a> whenever supported by the runtime or a custom implementation which we call the JavaScript System Interface (JSSI).</p>
+<p>Another feature is <code>stdin</code>/<code>stdout</code> redirection. Using the <a href="architecture/./networking.html">networking system</a>, Webnetes separates a workload from it's terminal, and enables attaching remote terminals to workloads anywhere in the cluster.</p>
+<p>For more information on how to use the compute system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
 <h1><a class="header" href="#networking" id="networking">Networking</a></h1>
 <h1><a class="header" href="#storage" id="storage">Storage</a></h1>
 <h1><a class="header" href="#management" id="management">Management</a></h1>
