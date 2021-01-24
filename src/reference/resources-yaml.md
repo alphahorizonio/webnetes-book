@@ -194,3 +194,67 @@ spec:
 ```
 
 A repository references the trackers, STUN servers & TURN servers by their labels and thus creates a file repository which can be used to seed & add files.
+
+## Files
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: File
+metadata:
+  name: Go Echo Server Binary
+  label: go_echo_server
+spec:
+  repository: webtorrent_public
+  uri: 83db73bb4b044a05df306330e421b2e3d38849e4
+```
+
+A file references a file seeded using WebTorrent using the `uri` field, which can be either a BitTorrent info hash or a magnet link.
+
+## Arguments
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Arguments
+metadata:
+  name: Go Echo Server Configuration
+  label: go_echo_server
+spec:
+  argv:
+    - -laddr
+    - 127.0.8.1:4206
+```
+
+A arguments resource supplies the command line arguments for a workload and thus allows configuring your app without requiring interactivity and without re-compiling the binary.
+
+## Workload
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Workload
+metadata:
+  name: Go Echo Server
+  label: go_echo_server
+spec:
+  file: go_echo_server
+  runtime: jssi_go
+  capabilities:
+    - net_socket
+    - net_send
+    - net_receive
+    - net_bind
+    - net_listen
+    - net_accept
+  networkInterface: go_echo_network
+  arguments: go_echo_server
+  terminalLabel: go_echo_server
+  terminalHostNodeId: localhost
+```
+
+A workload configures an app's resources. It has the following fields:
+
+- `file`: Specifies the file resource to use for the workload (the WASM binary)
+- `runtime`: The runtime for the file
+- `capabilities`: The capabilities to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).
+- `networkInterface`: The network interface to attach
+- `terminalLabel`: Unique label by which to identify the workload's terminal
+- `terminalHostNodeId`: The node ID to attach the resource to
