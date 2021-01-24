@@ -164,6 +164,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
+<p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources.</p>
+<h2><a class="header" href="#runtime" id="runtime">Runtime</a></h2>
+<p>A runtime, as described in <a href="../architecture/compute.html">compute</a>. The label can be one of:</p>
+<ul>
+<li><code>wasi_generic</code>, for languages using WASI</li>
+<li><code>wasi_tinygo</code>, extended for TinyGo using WASI</li>
+<li><code>jssi_go</code>, for Go using JSSI</li>
+<li><code>jssi_tinygo</code>, for TinyGo using JSSI</li>
+<li><code>jssi_teavm</code>, for Java using JSSI</li>
+</ul>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Runtime
+metadata:
+  name: Go JSSI
+  label: jssi_go
+spec: {}
+</code></pre>
 
                     </main>
 
