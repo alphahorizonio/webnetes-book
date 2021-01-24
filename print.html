@@ -169,6 +169,11 @@
 <p><a href="https://webnetes.dev/"><img src="./getting-started/img/start.png" alt="webnetesctl start screen" /></a></p>
 <p><strong>The Webnetes Project</strong> is an effort to build a peer-to-peer computing platform for the browser and node. It uses <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a> for compute, <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> for networking and <a href="https://en.wikipedia.org/wiki/WebTorrent">WebTorrent</a> for storage.</p>
 <p>The Webnetes Project is free and open source, you can find the source code on <a href="https://github.com/alphahorizonio/webnetes">GitHub</a>. Issues and feature requests can be posted on the <a href="https://github.com/alphahorizonio/webnetes/issues">GitHub issue tracker</a>.</p>
+<h2><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h2>
+<p><strong>Want to learn more about the project?</strong> Continue to the <a href="./INTRODUCTION.html">introduction</a>.</p>
+<p><strong>Want to use Webnetes or develop for it?</strong> Follow the <a href="./getting-started">getting started guide</a> or run the app directly:<br></p>
+<p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
+</a></p>
 <h2><a class="header" href="#license" id="license">License</a></h2>
 <p>The Webnetes Project © 2021 Felix Pojtinger and contributors</p>
 <p>SPDX-License-Identifier: AGPL-3.0</p>
@@ -276,7 +281,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-1" id="next-steps-1">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -524,7 +529,7 @@ endif()
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
 <h3><a class="header" href="#make-configuration-1" id="make-configuration-1">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/c.html#make-configuration">Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-1" id="next-steps-1">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-2" id="next-steps-2">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -748,7 +753,7 @@ endif()
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
 <h3><a class="header" href="#make-configuration-2" id="make-configuration-2">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/c.html#make-configuration">Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-2" id="next-steps-2">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-3" id="next-steps-3">Next Steps</a></h3>
 <p>First, <a href="http://localhost:3000/getting-started/develop/c.html#next-steps-1">build and run the TCP echo server</a>.</p>
 <p>In a second terminal, build the native target:</p>
 <pre><code class="language-shell">$ make native
@@ -851,7 +856,7 @@ endif()
 <p>It allows compilation of both the native &amp; the WebAssembly target.</p>
 <h3><a class="header" href="#make-configuration-3" id="make-configuration-3">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-3" id="next-steps-3">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-4" id="next-steps-4">Next Steps</a></h3>
 <p>See <a href="getting-started/develop/./c.html#next-steps">C Hello, world! Next Steps</a>.</p>
 <h2><a class="header" href="#tcp-echo-server-1" id="tcp-echo-server-1">TCP Echo Server</a></h2>
 <p>Webnetes has support for networking. Let's create a TCP echo server in C++ with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_echo_server">GitHub</a>.</p>
@@ -1056,7 +1061,7 @@ endif()
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
 <h3><a class="header" href="#make-configuration-4" id="make-configuration-4">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-4" id="next-steps-4">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-5" id="next-steps-5">Next Steps</a></h3>
 <p>See <a href="getting-started/develop/./c.html#next-steps-1">C TCP Echo Server Next Steps</a>.</p>
 <h2><a class="header" href="#tcp-echo-client-1" id="tcp-echo-client-1">TCP Echo Client</a></h2>
 <p>Now that we've got a TCP echo server, let's create a TCP echo client in C++ with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_echo_client">GitHub</a>.</p>
@@ -1246,7 +1251,7 @@ endif()
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
 <h3><a class="header" href="#make-configuration-5" id="make-configuration-5">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-5" id="next-steps-5">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-6" id="next-steps-6">Next Steps</a></h3>
 <p>See <a href="getting-started/develop/./c.html#next-steps-2">C TCP Echo Client Next Steps</a>.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://github.com/WebAssembly/threads">WebAssembly threads</a> are not yet implemented.</p>
@@ -1325,7 +1330,7 @@ seed-tinygo: wasm-tinygo
 <li><code>make seed-tinygo</code> seeds the WebAssembly target built with TinyGo, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-6" id="next-steps-6">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-7" id="next-steps-7">Next Steps</a></h3>
 <p>Build all targets:</p>
 <pre><code class="language-shell">$ make
 </code></pre>
@@ -1394,7 +1399,7 @@ seed: clean wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-7" id="next-steps-7">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-8" id="next-steps-8">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1460,7 +1465,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-8" id="next-steps-8">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-9" id="next-steps-9">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1648,7 +1653,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-9" id="next-steps-9">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-10" id="next-steps-10">Next Steps</a></h3>
 <p>Build the native &amp; the WebAssembly target:</p>
 <pre><code class="language-shell">$ make
 </code></pre>
@@ -1758,7 +1763,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-10" id="next-steps-10">Next Steps</a></h3>
+<h3><a class="header" href="#next-steps-11" id="next-steps-11">Next Steps</a></h3>
 <p>Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>AssemblyScript targets only WebAssembly.<br></p>
@@ -2102,7 +2107,20 @@ spec:
 <p>Now, let's select the node you want to deploy to:</p>
 <p><img src="getting-started/./img/select-node.png" alt="webnetesctl node selection dialog" /></p>
 <p>And click <code>+ Create resource</code>. This can take a while; feel free to minimize the dialog while the deployment is in process.</p>
+<p>After the deployment has finished, and assuming you've set the <code>terminalHostNodeId</code> to the manager node's IP, a terminal should open up:</p>
+<p><img src="getting-started/./img/terminal.png" alt="webnetesctl terminal" /></p>
+<p>Awesome, you've just deployed your first app to webnetes! You could now repeat this process for the <a href="getting-started/./develop/c.html#tcp-echo-client">C TCP Echo Client</a> and test the full network, or continue to <a href="getting-started/./operate.html">Operate</a> for further operation resources.</p>
 <h1><a class="header" href="#operate" id="operate">Operate</a></h1>
+<p>After <a href="getting-started/./distribute.html">distributing</a>, we have now successfully deployed some resources to the cluster.</p>
+<p>You can also check the resource graph of the target node to see the resource:</p>
+<p><img src="getting-started/./img/target-node-resource-graph.png" alt="webnetesctl target node resource graph" /></p>
+<p>If we minimize the terminal and click on the target node in the manager node, we can also see the newly created resources:</p>
+<p><img src="getting-started/./img/target-node-on-globe.png" alt="webnetesctl resources on node in globe" /></p>
+<p>The resources can also be found in the explorer:</p>
+<p><img src="getting-started/./img/resources-in-explorer.png" alt="webnetesctl resource on node in explorer" /></p>
+<p>Using the explorer or the overview, resources can now also be deleted.</p>
+<h2><a class="header" href="#youre-done" id="youre-done">You're Done!</a></h2>
+<p>🎉 That's it! You now know how to develop, distribute and operate your apps on Webnetes. There are many more features of Webnetes that we haven't touched on yet (the augmented reality resource graph, cluster statistics in the overview etc.), so feel free to play around with it!</p>
 <h1><a class="header" href="#architecture" id="architecture">Architecture</a></h1>
 <h1><a class="header" href="#compute" id="compute">Compute</a></h1>
 <h1><a class="header" href="#networking" id="networking">Networking</a></h1>
