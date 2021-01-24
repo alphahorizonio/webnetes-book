@@ -72,3 +72,51 @@ spec:
 ```
 
 A processor defines a virtual node. It references the runtimes and capabilities of the virtual node by their label in it's spec.
+
+## Signaler
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Signaler
+metadata:
+  name: Public unisockets Signaling Server
+  label: unisockets_public
+spec:
+  urls:
+    - wss://signaler.webnetes.dev
+  retryAfter: 1000
+```
+
+A signaler signals connections as described in [unisockets](https://github.com/alphahorizonio/unisockets#components).
+
+## STUN Server
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: StunServer
+metadata:
+  name: Google STUN Server
+  label: google
+spec:
+  urls:
+    - stun:stun.l.google.com:19302
+```
+
+A STUN Server creates peer-to-peer connections by hole-punching NATs.
+
+## TURN Server
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: TurnServer
+metadata:
+  name: Twillio TURN Server (UDP)
+  label: twillio_udp
+spec:
+  urls:
+    - turn:global.turn.twilio.com:3478?transport=tcp
+  username: myusername
+  credential: mypassword
+```
+
+A TURN server relays messages when peer-to-peer connections are not possible.
