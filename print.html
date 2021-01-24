@@ -2245,6 +2245,42 @@ spec:
     - net_accept
 </code></pre>
 <p>A processor defines a virtual node. It references the runtimes and capabilities of the virtual node by their label in it's spec.</p>
+<h2><a class="header" href="#signaler" id="signaler">Signaler</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: Signaler
+metadata:
+  name: Public unisockets Signaling Server
+  label: unisockets_public
+spec:
+  urls:
+    - wss://signaler.webnetes.dev
+  retryAfter: 1000
+</code></pre>
+<p>A signaler signals connections as described in <a href="https://github.com/alphahorizonio/unisockets#components">unisockets</a>.</p>
+<h2><a class="header" href="#stun-server" id="stun-server">STUN Server</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: StunServer
+metadata:
+  name: Google STUN Server
+  label: google
+spec:
+  urls:
+    - stun:stun.l.google.com:19302
+</code></pre>
+<p>A STUN Server creates peer-to-peer connections by hole-punching NATs.</p>
+<h2><a class="header" href="#turn-server" id="turn-server">TURN Server</a></h2>
+<pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
+kind: TurnServer
+metadata:
+  name: Twillio TURN Server (UDP)
+  label: twillio_udp
+spec:
+  urls:
+    - turn:global.turn.twilio.com:3478?transport=tcp
+  username: myusername
+  credential: mypassword
+</code></pre>
+<p>A TURN server relays messages when peer-to-peer connections are not possible.</p>
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="reference/../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
 <h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
