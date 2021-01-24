@@ -626,7 +626,7 @@ See [Hello, world! Make Configuration](#make-configuration).
 
 ### Next Steps
 
-First, [build and run the TCP echo server](http://localhost:3000/getting-started/develop/c.html#next-steps-1).
+First, [build and run the TCP echo server](#next-steps-1).
 
 In a second terminal, build the native target:
 

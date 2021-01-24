@@ -314,3 +314,176 @@ The second terminal should now also contain your message:
 ```
 
 The native target works! Now continue to [Distribute](../distribute.md) to learn how to run the WebAssembly target.
+
+## TCP Chat Client
+
+Now that we've got a TCP chat server, let's create a TCP chat client in Go with native and WebAssembly targets. The full source code of this example is available on [GitHub](https://github.com/alphahorizonio/webnetes/tree/main/examples/go_chat_client).
+
+### Module
+
+See [Hello, world! Module](#module).
+
+### Source Code
+
+Create `main.go` with the following content:
+
+<details>
+	<summary>Go Source</summary>
+
+```go
+package main
+
+import (
+	"bufio"
+	"flag"
+	"fmt"
+	"os"
+	"sync"
+
+	"github.com/alphahorizonio/tinynet/pkg/tinynet"
+)
+
+func main() {
+	// Parse flags
+	raddr := flag.String("raddr", "127.0.0.1:4206", "Address to connect to")
+	flag.Parse()
+
+	// Dial
+	conn, err := tinynet.Dial("tcp", *raddr)
+	if err != nil {
+		fmt.Println("could not dial", err)
+
+		os.Exit(1)
+	}
+
+	fmt.Println("Connected to", *raddr)
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	// Read from stdin & send
+	go func(innerWg *sync.WaitGroup) {
+		reader := bufio.NewReader(os.Stdin)
+		for {
+			out, err := reader.ReadString('\n')
+			if err != nil {
+				fmt.Println("could not read from stdin", err)
+
+				os.Exit(1)
+			}
+
+			if n, err := conn.Write([]byte(out)); err != nil {
+				if n == 0 {
+					break
+				}
+
+				fmt.Println("could not write from connection, removing connection", err)
+
+				break
+			}
+		}
+
+		fmt.Println("Disconnected")
+
+		if err := conn.Close(); err != nil {
+			fmt.Println("could not close connection", err)
+		}
+
+		innerWg.Done()
+	}(&wg)
+
+	// Receive & print
+	go func(innerWg *sync.WaitGroup) {
+		for {
+			buf := make([]byte, 1038)
+			if n, err := conn.Read(buf); err != nil {
+				if n == 0 {
+					break
+				}
+
+				fmt.Println("could not read from connection, removing connection", err)
+
+				break
+			}
+
+			fmt.Printf("%v", string(buf))
+		}
+
+		fmt.Println("Disconnected")
+
+		if err := conn.Close(); err != nil {
+			fmt.Println("could not close connection", err)
+		}
+
+		innerWg.Done()
+	}(&wg)
+
+	wg.Wait()
+}
+```
+
+</details>
+
+It is a very simple TCP client that reads a message from standard input and sends it to the server. In another Goroutine, it waits for any messages from the server, and prints them to standard out.
+
+### Make Configuration
+
+Create a `Makefile` with the following content:
+
+```Makefile
+all: native wasm
+
+native:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.go:/go:z golang sh -c 'cd /src && go build -o out/go/chat_client main.go'
+
+wasm:
+	@docker run -v ${PWD}:/src:z -v ${PWD}/.go:/go:z -e GOOS=js -e GOARCH=wasm golang sh -c 'cd /src && go build -o out/go/chat_client.wasm main.go'
+
+clean:
+	@rm -rf out
+
+seed: wasm
+	@docker run -it -v ${PWD}/out:/out:z --entrypoint=/bin/sh schaurian/webtorrent-hybrid -c "/usr/local/bin/webtorrent-hybrid seed /out/go/*.wasm"
+```
+
+It provides five targets:
+
+- `make` builds both the native & the WebAssembly target
+- `make native` builds only the native target
+- `make wasm` builds only the WebAssembly target
+- `make clean` removes the built targets
+- `make seed` seeds the WebAssembly target, which will come in handy later.
+
+All of them use Docker, so there is no need to install any dependencies on the host.
+
+### Next Steps
+
+First, [build and run the TCP chat server](#next-steps-1).
+
+In a second terminal, build the native target:
+
+```shell
+$ make native
+```
+
+Run the native target:
+
+```shell
+$ ./out/go/chat_client
+Connected to 127.0.0.1:4206
+```
+
+The server should now display the following:
+
+```shell
+2021/01/24 18:00:47 Client connected
+```
+
+If you type something into the terminal and press <kbd>Enter</kbd>, the server should echo it as follows:
+
+```shell
+Hello from the native Go chat client!
+<c22c532b-bd68-42d6-b2d3-bf69cf0dce8b>: Hello from the native Go chat client!
+```
+
+The native target works! Now continue to [Distribute](../distribute.md) to learn how to run the WebAssembly target.
