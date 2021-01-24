@@ -120,3 +120,77 @@ spec:
 ```
 
 A TURN server relays messages when peer-to-peer connections are not possible.
+
+## Network
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Network
+metadata:
+  name: Public unisockets network
+  label: unisockets_public
+spec:
+  signaler: unisockets_public
+  stunServers:
+    - google
+    - twillio
+  turnServers:
+    - twillio_udp
+    - twillio_tcp
+    - twillio_tcp_fallback
+```
+
+A network references the signalers, STUN & TURN servers by their label and thus defines a overlay network by which the [networking system](../architecture/networking.md) can connect nodes.
+
+## Network Interface
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: NetworkInterface
+metadata:
+  name: Go Echo Network
+  label: go_echo_network
+spec:
+  network: unisockets_public
+  prefix: 127.19.0
+```
+
+A network interface allows connecting to a network by a prefix, which is the first three octets of an IPv4 address.
+
+## Tracker
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Tracker
+metadata:
+  name: OpenWebTorrent
+  label: openwebtorrent
+spec:
+  urls:
+    - wss://tracker.openwebtorrent.com
+```
+
+A tracker is a WebTorrent tracker. It tracks the files which are currently being seeded and by whom they are being seeded.
+
+## Repository
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Repository
+metadata:
+  name: Public WebTorrent
+  label: webtorrent_public
+spec:
+  trackers:
+    - openwebtorrent
+    - fastcast
+  stunServers:
+    - google
+    - twillio
+  turnServers:
+    - twillio_udp
+    - twillio_tcp
+    - twillio_tcp_fallback
+```
+
+A repository references the trackers, STUN servers & TURN servers by their labels and thus creates a file repository which can be used to seed & add files.
