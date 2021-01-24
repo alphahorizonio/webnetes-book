@@ -2,6 +2,15 @@
 
 Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources. Many examples of resource YAML usage can be found in the `stack.yaml` files in the [repository](https://github.com/alphahorizonio/webnetes/tree/main/examples).
 
+Resources have a few common fields:
+
+- `apiVersion`: The API version, currently always `schema.webnetes.dev/v1alpha1`
+- `kind`: The resource type
+- `metadata`: Contains a `label` (the node-unique identifier) and a `name` (the human-readable descriptor)
+- `spec`: The resource-specific data
+
+This pattern is strongly influenced by [Kubernetes](https://kubernetes.io/).
+
 ## Runtime
 
 ```yaml
@@ -41,3 +50,25 @@ A capability enables imports, as described in [compute](../architecture/compute.
 - `net_listen`: Enables listening on a socket
 - `net_accept`: Enables accepting on a socket
 - `net_connect`: Enables connecting to a socket
+
+## Processor
+
+```yaml
+apiVersion: schema.webnetes.dev/v1alpha1
+kind: Processor
+metadata:
+  name: Felix's iPhone
+  label: felixs_iphone
+spec:
+  runtimes:
+    - jssi_go
+  capabilities:
+    - net_socket
+    - net_send
+    - net_receive
+    - net_bind
+    - net_listen
+    - net_accept
+```
+
+A processor defines a virtual node. It references the runtimes and capabilities of the virtual node by their label in it's spec.
