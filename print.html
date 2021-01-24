@@ -2116,7 +2116,7 @@ spec:
 <p>🎉 That's it! You now know how to develop, distribute and operate your apps on Webnetes. There are many more features of Webnetes that we haven't touched on yet (the augmented reality resource graph, cluster statistics in the overview etc.), so feel free to play around with it!</p>
 <h1><a class="header" href="#architecture" id="architecture">Architecture</a></h1>
 <h1><a class="header" href="#compute" id="compute">Compute</a></h1>
-<p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this is called a runtime; the following are currently supported:</p>
+<p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this component is called a runtime; the following are currently supported:</p>
 <ul>
 <li><a href="https://wasi.dev/">WASI</a> via <a href="https://github.com/wasmerio/wasmer-js">wasmer-js</a> — currently used to support C, C++, Rust, Zig, AssemblyScript and TinyGo (<code>wasm32-wasi</code> target)</li>
 <li><a href="https://github.com/golang/go/blob/master/misc/wasm/wasm_exec.js">Go's wasm_exec</a> — currently used to support Go</li>
@@ -2126,7 +2126,11 @@ spec:
 <p>In Webnetes, a runtime also supports imports, which are enabled using capabilities. Imports are implemented using either the <a href="https://wasi.dev/">WebAssembly System Interface (WASI)</a> whenever supported by the runtime or a custom implementation which we call the JavaScript System Interface (JSSI).</p>
 <p>Another feature is <code>stdin</code>/<code>stdout</code> redirection. Using the <a href="architecture/./networking.html">networking system</a>, Webnetes separates a workload from it's terminal, and enables attaching remote terminals to workloads anywhere in the cluster.</p>
 <p>For more information on how to use the compute system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<p>For more information on how the compute system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/virtualmachine.html">virtual machine documentation</a>.</p>
 <h1><a class="header" href="#networking" id="networking">Networking</a></h1>
+<p>The Webnetes network stack is build on <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a>, a peer-to-peer real-time communication technology. This stack is used universally for both <a href="architecture/./management.html">management</a> and inter-workload communication and exposed using <a href="https://github.com/alphahorizonio/unisockets">unisockets</a>, a universal Berkeley sockets implementation for WebRTC.</p>
+<p>For more information on how to use the networking system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<p>For more information on how the networking system works, consult the <a href="https://alphahorizonio.github.io/unisockets/">unisockets Documentation</a> and in particular the <a href="https://alphahorizonio.github.io/unisockets/classes/transporter.html">unisockets Transporter documentation</a>.</p>
 <h1><a class="header" href="#storage" id="storage">Storage</a></h1>
 <h1><a class="header" href="#management" id="management">Management</a></h1>
 <h1><a class="header" href="#components" id="components">Components</a></h1>
