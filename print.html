@@ -2150,9 +2150,21 @@ spec:
 <p>For getting a deeper understanding on how the management system works, two pieces are important: the <a href="https://alphahorizonio.github.io/webnetes/classes/resources.html">resources pipe</a>, which handles resources on the local node and the <a href="https://alphahorizonio.github.io/webnetes/classes/peers.html">peer pipe</a>, which manages remote peer pipes and takes care of synchronization.</p>
 <h1><a class="header" href="#components" id="components">Components</a></h1>
 <h1><a class="header" href="#node-webnetes" id="node-webnetes">Node (webnetes)</a></h1>
-<p>The node is the embeddable version of Webnetes. It exposes the <a href="components/../architecture">four base systems</a> with an easy-to-use API and is used to power the <a href="components/./webnetes.html">app</a>. Using basic knowledge of JavaScript or TypeScript, it can be effortlessly embedded in any Node or web app if you wish to use any of Webnetes' features.</p>
+<p>The node is the embeddable version of Webnetes. It exposes the <a href="components/../architecture">four base systems</a> with an easy-to-use API and is used to power the <a href="components/./webnetesctl.html">app</a>. Using basic knowledge of JavaScript or TypeScript, it can be effortlessly embedded in any Node or web app if you wish to use any of Webnetes' features.</p>
 <p>For more information, see the <a href="components/../reference/embedding-api.html">embedding API</a>.</p>
 <h1><a class="header" href="#app-webnetesctl" id="app-webnetesctl">App (webnetesctl)</a></h1>
+<h2><a class="header" href="#introduction-1" id="introduction-1">Introduction</a></h2>
+<p>To interact with the <a href="components/./webnetes.html">node</a>, an app is used. It provides an easy-to-use interface to develop, distribute and operate apps on Webnetes. It should be noted that while webnetesctl is the primary app, you can also choose to use an alternative for a more lightweight experience or even build your own app without too much effort.</p>
+<h2><a class="header" href="#implementations" id="implementations">Implementations</a></h2>
+<h3><a class="header" href="#webnetesctl" id="webnetesctl">webnetesctl</a></h3>
+<p><a href="https://webnetes.dev/"><img src="components/../getting-started/img/start.png" alt="webnetesctl start screen" /></a></p>
+<p>Recommended for most users. Webnetesctl is built with React, Ant Design and the <a href="components/./webnetes.html">node</a>. For more information, check out the <a href="https://github.com/alphahorizonio/webnetesctl">source code</a>.</p>
+<p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
+</a></p>
+<h3><a class="header" href="#webnetesctl-lite" id="webnetesctl-lite">webnetesctl Lite</a></h3>
+<p><a href="https://lite.webnetes.dev/"><img src="components/../getting-started/img/start-lite.png" alt="webnetesctl Lite start screen" /></a></p>
+<p>For advanced users who prefer something more lightweight. Webnetesctl Lite is built with Vanilla JS; for more information, check out the <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">source code</a>.</p>
+<p><a href="https://lite.webnetes.dev/"><img src="https://img.shields.io/badge/webnetesctl%20Lite-lite.webnetes.dev-blueviolet" alt="Lite" /></a></p>
 <h1><a class="header" href="#bindings" id="bindings">Bindings</a></h1>
 <h1><a class="header" href="#cc-networking-unisockets" id="cc-networking-unisockets">C/C++ Networking (unisockets)</a></h1>
 <h1><a class="header" href="#go-networking-tinynet" id="go-networking-tinynet">Go Networking (tinynet)</a></h1>
