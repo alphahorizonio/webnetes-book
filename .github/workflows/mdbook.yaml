@@ -14,14 +14,14 @@ jobs:
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: "latest"
-      - name: Add Table of Contents and link checking support
-        run: cargo install mdbook-toc mdbook-linkcheck
+      - name: Add Table of Contents support
+        run: cargo install mdbook-toc
       - name: Build with mdBook
         run: mdbook build
       - name: Setup CNAME
-        run: echo "docs.webnetes.dev" > ./book/html/CNAME
+        run: echo "docs.webnetes.dev" > ./book/CNAME
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book/html
+          publish_dir: ./book
