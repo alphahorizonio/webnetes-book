@@ -2244,7 +2244,7 @@ spec:
     - net_listen
     - net_accept
 </code></pre>
-<p>A processor defines a virtual node. It references the runtimes and capabilities of the virtual node by their label in it's spec.</p>
+<p>A processor defines a virtual node. It references the <a href="reference/resources-yaml.html#runtime">runtimes</a> and <a href="reference/resources-yaml.html#capability">capabilities</a> of the virtual node by their label in it's spec.</p>
 <h2><a class="header" href="#signaler" id="signaler">Signaler</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Signaler
@@ -2297,7 +2297,7 @@ spec:
     - twillio_tcp
     - twillio_tcp_fallback
 </code></pre>
-<p>A network references the signalers, STUN &amp; TURN servers by their label and thus defines a overlay network by which the <a href="reference/../architecture/networking.html">networking system</a> can connect nodes.</p>
+<p>A network references the <a href="reference/resources-yaml.html#signaler">signalers</a>, <a href="reference/resources-yaml.html#stun-server">STUN servers</a> &amp; <a href="reference/resources-yaml.html#turn-server">TURN servers</a> by their label and thus defines a overlay network by which the <a href="reference/../architecture/networking.html">networking system</a> can connect nodes.</p>
 <h2><a class="header" href="#network-interface" id="network-interface">Network Interface</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: NetworkInterface
@@ -2308,7 +2308,7 @@ spec:
   network: unisockets_public
   prefix: 127.19.0
 </code></pre>
-<p>A network interface allows connecting to a network by a prefix, which is the first three octets of an IPv4 address.</p>
+<p>A network interface allows connecting to a <a href="reference/resources-yaml.html#network">network</a>'s subnet by a prefix, which is the first three octets of an IPv4 address.</p>
 <h2><a class="header" href="#tracker" id="tracker">Tracker</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Tracker
@@ -2319,7 +2319,7 @@ spec:
   urls:
     - wss://tracker.openwebtorrent.com
 </code></pre>
-<p>A tracker is a WebTorrent tracker. It tracks the files which are currently being seeded and by whom they are being seeded.</p>
+<p>A tracker is a WebTorrent tracker. It tracks the <a href="reference/resources-yaml.html#file">files</a> which are currently being seeded and by whom they are being seeded.</p>
 <h2><a class="header" href="#repository" id="repository">Repository</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Repository
@@ -2338,8 +2338,8 @@ spec:
     - twillio_tcp
     - twillio_tcp_fallback
 </code></pre>
-<p>A repository references the trackers, STUN servers &amp; TURN servers by their labels and thus creates a file repository which can be used to seed &amp; add files.</p>
-<h2><a class="header" href="#files" id="files">Files</a></h2>
+<p>A repository references the <a href="reference/resources-yaml.html#tracker">trackers</a>, <a href="reference/resources-yaml.html#stun-server">STUN servers</a> &amp; <a href="reference/resources-yaml.html#turn-server">TURN servers</a> by their labels and thus creates a file repository which can be used to seed &amp; add files.</p>
+<h2><a class="header" href="#file" id="file">File</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: File
 metadata:
@@ -2349,7 +2349,7 @@ spec:
   repository: webtorrent_public
   uri: 83db73bb4b044a05df306330e421b2e3d38849e4
 </code></pre>
-<p>A file references a file seeded using WebTorrent using the <code>uri</code> field, which can be either a BitTorrent info hash or a magnet link.</p>
+<p>A file references a file seeded using WebTorrent in a <a href="reference/resources-yaml.html#repository">repository</a> using the <code>uri</code> field, which can be either a BitTorrent info hash or a magnet link.</p>
 <h2><a class="header" href="#arguments" id="arguments">Arguments</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Arguments
@@ -2361,7 +2361,7 @@ spec:
     - -laddr
     - 127.0.8.1:4206
 </code></pre>
-<p>A arguments resource supplies the command line arguments for a workload and thus allows configuring your app without requiring interactivity and without re-compiling the binary.</p>
+<p>A arguments resource supplies the command line arguments for a <a href="reference/resources-yaml.html#workload">workload</a> and thus allows configuring your app without requiring interactivity and without re-compiling the binary.</p>
 <h2><a class="header" href="#workload" id="workload">Workload</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Workload
@@ -2385,11 +2385,11 @@ spec:
 </code></pre>
 <p>A workload configures an app's resources. It has the following fields:</p>
 <ul>
-<li><code>file</code>: Specifies the file resource to use for the workload (the WASM binary)</li>
-<li><code>runtime</code>: The runtime for the file</li>
-<li><code>capabilities</code>: The capabilities to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).</li>
-<li><code>networkInterface</code>: The network interface to attach</li>
-<li><code>terminalLabel</code>: Unique label by which to identify the workload's terminal</li>
+<li><code>file</code>: Specifies the <a href="reference/resources-yaml.html#file">file resource</a> to use for the workload (the WASM binary)</li>
+<li><code>runtime</code>: The <a href="reference/resources-yaml.html#runtime">runtime</a> for the file</li>
+<li><code>capabilities</code>: The <a href="reference/resources-yaml.html#capability">capabilities</a> to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).</li>
+<li><code>networkInterface</code>: The <a href="reference/resources-yaml.html#network-interface">network interface</a> to attach</li>
+<li><code>terminalLabel</code>: Unique label by which to identify the <a href="reference/resources-yaml.html#workload">workload</a>'s terminal</li>
 <li><code>terminalHostNodeId</code>: The node ID to attach the resource to</li>
 </ul>
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
