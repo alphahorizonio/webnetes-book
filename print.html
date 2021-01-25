@@ -2636,7 +2636,12 @@ spec:
     - twillio_tcp
     - twillio_tcp_fallback
 </code></pre>
-<p>A network references the <a href="reference/resources-yaml.html#signaler">signalers</a>, <a href="reference/resources-yaml.html#stun-server">STUN servers</a> &amp; <a href="reference/resources-yaml.html#turn-server">TURN servers</a> by their label and thus defines a overlay network by which the <a href="reference/../architecture/networking.html">networking system</a> can connect nodes.</p>
+<p>A network defines a global peer-to-peer overlay network. It has the following fields:</p>
+<ul>
+<li><code>signaler</code>: The label of a <a href="reference/resources-yaml.html#signaler">signaler</a> to use</li>
+<li><code>stunServers</code>s: An array of <a href="reference/resources-yaml.html#stun-server">STUN server</a> labels</li>
+<li><code>turnServers</code>s: An array of <a href="reference/resources-yaml.html#turn-server">TURN server</a> labels</li>
+</ul>
 <h2><a class="header" href="#network-interface" id="network-interface">Network Interface</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: NetworkInterface
@@ -2647,7 +2652,11 @@ spec:
   network: unisockets_public
   prefix: 127.19.0
 </code></pre>
-<p>A network interface allows connecting to a <a href="reference/resources-yaml.html#network">network</a>'s subnet by a prefix, which is the first three octets of an IPv4 address.</p>
+<p>A network interface allow connecting to a <a href="reference/resources-yaml.html#network">network</a>'s subnet. It has the following fields:</p>
+<ul>
+<li><code>network</code>: The label of the <a href="reference/resources-yaml.html#network">network</a> in which the subnet resides. If it does not exist, it will be created.</li>
+<li><code>prefix</code>: The first three octets of the subnet to create/join.</li>
+</ul>
 <h2><a class="header" href="#tracker" id="tracker">Tracker</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Tracker
