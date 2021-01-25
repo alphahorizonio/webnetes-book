@@ -2,11 +2,13 @@
 
 After [distributing](./distribute.md), we have now successfully deployed some resources to the cluster.
 
-You can also check the resource graph of the target node to see the resource:
+On the target node, you can also check the resource graph to see the resources:
 
 ![webnetesctl target node resource graph](./img/target-node-resource-graph.png)
 
-If we minimize the terminal and click on the target node in the manager node, we can also see the newly created resources:
+Feel free to play around with the target node's interface; you might find an easteregg or two 😉
+
+On the management node, if we minimize the terminal and click on the target node, we can also see the newly created resources:
 
 ![webnetesctl resources on node in globe](./img/target-node-on-globe.png)
 

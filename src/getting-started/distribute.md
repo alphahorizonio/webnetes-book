@@ -12,7 +12,7 @@ Let's get started!
 
 ## Defining the Resources
 
-The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime etc. It is quite similar to how [Kubernetes](https://kubernetes.io/) handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.
+The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime and so on. This is quite similar to how [Kubernetes](https://kubernetes.io/) handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.
 
 You can find a pre-configured `stack.yaml` file for the examples in the corresponding source code; see [alphahorizonio/webnetes/examples](https://github.com/alphahorizonio/webnetes/tree/main/examples) for a list of all examples. To get a head start, you can use the `stack.yaml` of the example you've used. A typical `stack.yaml` (here of the C TCP Echo Server example) looks something like the following:
 
@@ -253,7 +253,7 @@ You can find a full reference of the available resources in the [Resources YAML 
 
 ## Seeding the WebAssembly Binary
 
-Next up, you have to make the WebAssembly binary available to Webnetes. This is done using [WebTorrent](https://webtorrent.io/), a BitTorrent implementation using WebRTC. For your convenience, a `seed` Make target has been added to the examples, but you can also seed using something like [WebTorrent Desktop](https://webtorrent.io/desktop/), [instant.io](https://instant.io/), [webnetesctl](https://webnetes.dev/) or [webnetesctl Lite](https://lite.webnetes.dev/). For the following we'll use the `seed` Make target because it's the most convenient. Note that for Go there are two targets: `seed-go` and `seed-tinygo`. Consult the relevant [Develop section](./develop/go.md) for more information on what each target does.
+Next up, you have to make the WebAssembly binary available to Webnetes. This is done using [WebTorrent](https://webtorrent.io/), a BitTorrent implementation using WebRTC. For your convenience, a `seed` Make target has been added to the examples, but you can also seed using something like [WebTorrent Desktop](https://webtorrent.io/desktop/), [instant.io](https://instant.io/), [webnetesctl](https://webnetes.dev/) or [webnetesctl Lite](https://lite.webnetes.dev/). For the following we'll use the `seed` Make target because it's the most convenient. Note that for Go there are two targets: `seed-go` and `seed-tinygo`. Consult the relevant [Develop section](./develop/go.md#make-configuration) for more information on what each target does.
 
 Let's seed the WebAssembly binary; we'll use the [C TCP Echo Server](./develop/c.md#tcp-echo-server) as an example:
 
@@ -296,11 +296,11 @@ We now have to create a cluster using a cluster ID. We'll choose `69.42.8` in th
 
 ![webnetesctl created screen](./img/created.png)
 
-You've now created a cluster! Next up is joining nodes. You can either scan the QR code with your phone or click on/share the link; nodes can join the cluster without any further configuration, after which they will see the following screen:
+You've created a cluster! Next up is joining nodes. You can either scan the QR code with your phone or click on/share the link; nodes can join the cluster without any further configuration, after which they will see the following screen:
 
 ![webnetesctl joined screen](./img/joined.png)
 
-Once node have joined, a quick CPU & Network benchmark runs and a short introduction is displayed. On the manager (where you got the link from), you can now go to the management interface by clicking on `Continue to Overview`. It looks something like this, depending on how many nodes you've added and whether the nodes have enabled location access by clicking on the location arrow in the center:
+After a node has joined, a quick CPU & network benchmark runs and a short introduction is displayed. On the manager (where you got the link from), you can now go to the management interface by clicking on `Continue to Overview`. It looks something like this, depending on how many nodes you've added and whether the nodes have enabled location access by clicking on the location arrow in the center:
 
 ![webnetesctl overview screen](./img/overview.png)
 
@@ -312,7 +312,7 @@ If you prefer a more traditional overview or are searching for something, the Ex
 
 ![webnetesctl explorer](./img/explorer.png)
 
-Feel free to try out the other screens before you continue!
+Feel free to try out the other tabs before you continue!
 
 ## Deploying the Resources
 
@@ -366,11 +366,11 @@ spec:
   terminalHostNodeId: 69.42.8.1
 ```
 
-Now, let's select the node you want to deploy to:
+Let's select the node you want to deploy to:
 
 ![webnetesctl node selection dialog](./img/select-node.png)
 
-And click `+ Create resource`. This can take a while; feel free to minimize the dialog while the deployment is in process.
+And click `+ Create Resource`. This can take a while; feel free to minimize the dialog while the deployment is in process.
 
 After the deployment has finished, and assuming you've set the `terminalHostNodeId` to the manager node's IP, a terminal should open up:
 
