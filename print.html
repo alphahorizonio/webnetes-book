@@ -2667,7 +2667,10 @@ spec:
   urls:
     - wss://tracker.openwebtorrent.com
 </code></pre>
-<p>A tracker is a WebTorrent tracker. It tracks the <a href="reference/resources-yaml.html#file">files</a> which are currently being seeded and by whom they are being seeded.</p>
+<p>A tracker configures a WebTorrent tracker, which tracks the <a href="reference/resources-yaml.html#file">files</a> which are currently being seeded and by whom they are being seeded. It has the following fields:</p>
+<ul>
+<li><code>urls</code>: An array of tracker server URLs. Currently, only the first entry is respected.</li>
+</ul>
 <h2><a class="header" href="#repository" id="repository">Repository</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Repository
@@ -2686,7 +2689,12 @@ spec:
     - twillio_tcp
     - twillio_tcp_fallback
 </code></pre>
-<p>A repository references the <a href="reference/resources-yaml.html#tracker">trackers</a>, <a href="reference/resources-yaml.html#stun-server">STUN servers</a> &amp; <a href="reference/resources-yaml.html#turn-server">TURN servers</a> by their labels and thus creates a file repository which can be used to seed &amp; add files.</p>
+<p>A repository enables seeding &amp; adding <a href="reference/resources-yaml.html#file">file</a>s. It has the following fields:</p>
+<ul>
+<li><code>trackers</code>: An array of <a href="reference/resources-yaml.html#tracker">tracker</a> labels</li>
+<li><code>stunServers</code>s: An array of <a href="reference/resources-yaml.html#stun-server">STUN server</a> labels</li>
+<li><code>turnServers</code>s: An array of <a href="reference/resources-yaml.html#turn-server">TURN server</a> labels</li>
+</ul>
 <h2><a class="header" href="#file" id="file">File</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: File
@@ -2697,7 +2705,11 @@ spec:
   repository: webtorrent_public
   uri: 83db73bb4b044a05df306330e421b2e3d38849e4
 </code></pre>
-<p>A file references a file seeded using WebTorrent in a <a href="reference/resources-yaml.html#repository">repository</a> using the <code>uri</code> field, which can be either a BitTorrent info hash or a magnet link.</p>
+<p>A file references a file seeded using WebTorrent in a <a href="reference/resources-yaml.html#repository">repository</a>. It has the following fields:</p>
+<ul>
+<li><code>repository</code>: The <a href="reference/resources-yaml.html#repository">repository</a> to which the file should be added</li>
+<li><code>uri</code>: The magnet link or info hash of the file to add</li>
+</ul>
 <h2><a class="header" href="#arguments" id="arguments">Arguments</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Arguments
@@ -2709,7 +2721,10 @@ spec:
     - -laddr
     - 127.0.8.1:4206
 </code></pre>
-<p>A arguments resource supplies the command line arguments for a <a href="reference/resources-yaml.html#workload">workload</a> and thus allows configuring your app without requiring interactivity and without re-compiling the binary.</p>
+<p>A arguments resource supplies the command line arguments for a <a href="reference/resources-yaml.html#workload">workload</a> and thus allows configuring your app without requiring interactivity and without re-compiling the binary. It has the following fields:</p>
+<ul>
+<li><code>argv</code>: An array of command-line arguments to pass to the workload</li>
+</ul>
 <h2><a class="header" href="#workload" id="workload">Workload</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Workload
@@ -2733,12 +2748,13 @@ spec:
 </code></pre>
 <p>A workload configures an app's resources. It has the following fields:</p>
 <ul>
-<li><code>file</code>: Specifies the <a href="reference/resources-yaml.html#file">file resource</a> to use for the workload (the WASM binary)</li>
-<li><code>runtime</code>: The <a href="reference/resources-yaml.html#runtime">runtime</a> for the file</li>
-<li><code>capabilities</code>: The <a href="reference/resources-yaml.html#capability">capabilities</a> to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).</li>
-<li><code>networkInterface</code>: The <a href="reference/resources-yaml.html#network-interface">network interface</a> to attach</li>
+<li><code>file</code>: The label of the <a href="reference/resources-yaml.html#file">file resource</a> to use for the workload (the WASM binary)</li>
+<li><code>runtime</code>: The label of the <a href="reference/resources-yaml.html#runtime">runtime</a> to use for running the workload</li>
+<li><code>capabilities</code>s: An array of <a href="reference/resources-yaml.html#capability">capability</a> labels. These capabilities must also exist on the processor you are deploying to (the node).</li>
+<li><code>networkInterface</code>: The label of the <a href="reference/resources-yaml.html#network-interface">network interface</a> to attach</li>
+<li><code>arguments</code>: The label of the <a href="reference/resources-yaml.html#network-interface">network interface</a> to attach</li>
 <li><code>terminalLabel</code>: Unique label by which to identify the <a href="reference/resources-yaml.html#workload">workload</a>'s terminal</li>
-<li><code>terminalHostNodeId</code>: The node ID to attach the resource to</li>
+<li><code>terminalHostNodeId</code>: The node ID to attach the terminal to. <code>localhost</code> references the node onto which the workload is being deployed.</li>
 </ul>
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="reference/../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
