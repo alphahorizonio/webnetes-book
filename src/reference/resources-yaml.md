@@ -189,7 +189,9 @@ spec:
     - wss://tracker.openwebtorrent.com
 ```
 
-A tracker is a WebTorrent tracker. It tracks the [files](#file) which are currently being seeded and by whom they are being seeded.
+A tracker configures a WebTorrent tracker, which tracks the [files](#file) which are currently being seeded and by whom they are being seeded. It has the following fields:
+
+- `urls`: An array of tracker server URLs. Currently, only the first entry is respected.
 
 ## Repository
 
@@ -212,7 +214,11 @@ spec:
     - twillio_tcp_fallback
 ```
 
-A repository references the [trackers](#tracker), [STUN servers](#stun-server) & [TURN servers](#turn-server) by their labels and thus creates a file repository which can be used to seed & add files.
+A repository enables seeding & adding [file](#file)s. It has the following fields:
+
+- `trackers`: An array of [tracker](#tracker) labels
+- `stunServers`s: An array of [STUN server](#stun-server) labels
+- `turnServers`s: An array of [TURN server](#turn-server) labels
 
 ## File
 
@@ -227,7 +233,10 @@ spec:
   uri: 83db73bb4b044a05df306330e421b2e3d38849e4
 ```
 
-A file references a file seeded using WebTorrent in a [repository](#repository) using the `uri` field, which can be either a BitTorrent info hash or a magnet link.
+A file references a file seeded using WebTorrent in a [repository](#repository). It has the following fields:
+
+- `repository`: The [repository](#repository) to which the file should be added
+- `uri`: The magnet link or info hash of the file to add
 
 ## Arguments
 
@@ -243,7 +252,9 @@ spec:
     - 127.0.8.1:4206
 ```
 
-A arguments resource supplies the command line arguments for a [workload](#workload) and thus allows configuring your app without requiring interactivity and without re-compiling the binary.
+A arguments resource supplies the command line arguments for a [workload](#workload) and thus allows configuring your app without requiring interactivity and without re-compiling the binary. It has the following fields:
+
+- `argv`: An array of command-line arguments to pass to the workload
 
 ## Workload
 
@@ -271,9 +282,10 @@ spec:
 
 A workload configures an app's resources. It has the following fields:
 
-- `file`: Specifies the [file resource](#file) to use for the workload (the WASM binary)
-- `runtime`: The [runtime](#runtime) for the file
-- `capabilities`: The [capabilities](#capability) to add to the workload. These capabilities must also exist on the processor you are deploying to (the node).
-- `networkInterface`: The [network interface](#network-interface) to attach
+- `file`: The label of the [file resource](#file) to use for the workload (the WASM binary)
+- `runtime`: The label of the [runtime](#runtime) to use for running the workload
+- `capabilities`s: An array of [capability](#capability) labels. These capabilities must also exist on the processor you are deploying to (the node).
+- `networkInterface`: The label of the [network interface](#network-interface) to attach
+- `arguments`: The label of the [network interface](#network-interface) to attach
 - `terminalLabel`: Unique label by which to identify the [workload](#workload)'s terminal
-- `terminalHostNodeId`: The node ID to attach the resource to
+- `terminalHostNodeId`: The node ID to attach the terminal to. `localhost` references the node onto which the workload is being deployed.
