@@ -2567,7 +2567,11 @@ spec:
     - net_listen
     - net_accept
 </code></pre>
-<p>A processor defines a virtual node. It references the <a href="reference/resources-yaml.html#runtime">runtimes</a> and <a href="reference/resources-yaml.html#capability">capabilities</a> of the virtual node by their label in it's spec.</p>
+<p>A processor defines a virtual node. It has the following fields:</p>
+<ul>
+<li><code>runtimes</code>: An array of <a href="reference/resources-yaml.html#runtime">runtime</a> labels</li>
+<li><code>capabilties</code>: An array of <a href="reference/resources-yaml.html#capability">capability</a> labels</li>
+</ul>
 <h2><a class="header" href="#signaler" id="signaler">Signaler</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Signaler
@@ -2579,7 +2583,11 @@ spec:
     - wss://signaler.webnetes.dev
   retryAfter: 1000
 </code></pre>
-<p>A signaler signals connections as described in <a href="https://github.com/alphahorizonio/unisockets#components">unisockets</a>.</p>
+<p>A signaler signals connections as described in <a href="https://github.com/alphahorizonio/unisockets#components">unisockets</a>. It has the following fields:</p>
+<ul>
+<li><code>urls</code>: An array of <a href="https://github.com/alphahorizonio/unisockets#signaling-protocol">signaling server</a> URLs. Currently, only the first entry is respected.</li>
+<li><code>retryAfter</code>: An interval in milliseconds after which to try to re-connect to the signaling servers</li>
+</ul>
 <h2><a class="header" href="#stun-server" id="stun-server">STUN Server</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: StunServer
@@ -2590,7 +2598,10 @@ spec:
   urls:
     - stun:stun.l.google.com:19302
 </code></pre>
-<p>A STUN Server creates peer-to-peer connections by hole-punching NATs.</p>
+<p>A STUN Server creates peer-to-peer connections by hole-punching NATs. It has the following fields:</p>
+<ul>
+<li><code>urls</code>: An array of STUN server URLs.</li>
+</ul>
 <h2><a class="header" href="#turn-server" id="turn-server">TURN Server</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: TurnServer
@@ -2603,7 +2614,12 @@ spec:
   username: myusername
   credential: mypassword
 </code></pre>
-<p>A TURN server relays messages when peer-to-peer connections are not possible.</p>
+<p>A TURN server relays messages when peer-to-peer connections are not possible. It has the following fields:</p>
+<ul>
+<li><code>urls</code>: An array of TURN server URLs</li>
+<li><code>username</code>: The username to authenticate with when connecting to the TURN server</li>
+<li><code>credential</code>: The credential to authenticate with when connecting to the TURN server</li>
+</ul>
 <h2><a class="header" href="#network" id="network">Network</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Network
