@@ -71,7 +71,10 @@ spec:
     - net_accept
 ```
 
-A processor defines a virtual node. It references the [runtimes](#runtime) and [capabilities](#capability) of the virtual node by their label in it's spec.
+A processor defines a virtual node. It has the following fields:
+
+- `runtimes`: An array of [runtime](#runtime) labels
+- `capabilties`: An array of [capability](#capability) labels
 
 ## Signaler
 
@@ -87,7 +90,10 @@ spec:
   retryAfter: 1000
 ```
 
-A signaler signals connections as described in [unisockets](https://github.com/alphahorizonio/unisockets#components).
+A signaler signals connections as described in [unisockets](https://github.com/alphahorizonio/unisockets#components). It has the following fields:
+
+- `urls`: An array of [signaling server](https://github.com/alphahorizonio/unisockets#signaling-protocol) URLs. Currently, only the first entry is respected.
+- `retryAfter`: An interval in milliseconds after which to try to re-connect to the signaling servers
 
 ## STUN Server
 
@@ -102,7 +108,9 @@ spec:
     - stun:stun.l.google.com:19302
 ```
 
-A STUN Server creates peer-to-peer connections by hole-punching NATs.
+A STUN Server creates peer-to-peer connections by hole-punching NATs. It has the following fields:
+
+- `urls`: An array of STUN server URLs.
 
 ## TURN Server
 
@@ -119,7 +127,11 @@ spec:
   credential: mypassword
 ```
 
-A TURN server relays messages when peer-to-peer connections are not possible.
+A TURN server relays messages when peer-to-peer connections are not possible. It has the following fields:
+
+- `urls`: An array of TURN server URLs
+- `username`: The username to authenticate with when connecting to the TURN server
+- `credential`: The credential to authenticate with when connecting to the TURN server
 
 ## Network
 
