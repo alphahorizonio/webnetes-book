@@ -166,18 +166,24 @@
                         <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
 <h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
+<p>Webnetes can be used with or without a bundler.</p>
+<h3><a class="header" href="#npm" id="npm">npm</a></h3>
 <p>Webnetes is available on npm. You can add it to your app like so:</p>
 <pre><code class="language-shell">yarn add @alphahorizonio/webnetes
 # Or with npm
 npm i -s @alphahorizonio/webnetes
 </code></pre>
-<p>If you don't have a bundler available, we also provide a ready-to-use precompiled script which you can include like so:</p>
-<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>If you're using the script, the node will be available as <code>window.WebnetesNode</code>. If you used the NPM package, you can import it like so:</p>
+<p>You can now import it like so:</p>
 <pre><code class="language-typescript">import { Node } from &quot;@alphahorizonio/webnetes&quot;;
 </code></pre>
-<h2><a class="header" href="#using-the-library-in-the-browser" id="using-the-library-in-the-browser">Using the Library in the Browser</a></h2>
+<h3><a class="header" href="#script" id="script">Script</a></h3>
+<p>If you don't have a bundler available, or prefer not to use npm, we also provide a ready-to-use precompiled script which you can include like so:</p>
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>The node will be now be available as <code>window.WebnetesNode</code>.</p>
+<h2><a class="header" href="#using-the-library" id="using-the-library">Using the Library</a></h2>
+<p>Webnetes is isomorphic; in runs both on the browser and on the server (using Node.js).</p>
+<h3><a class="header" href="#in-the-browser" id="in-the-browser">In the Browser</a></h3>
 <p>This should enable you to create a minimal node in the browser:</p>
 <pre><code class="language-typescript">const node = new Node(
   async (nodeId, resource) =&gt; {
@@ -227,8 +233,8 @@ npm i -s @alphahorizonio/webnetes
   }
 );
 </code></pre>
-<p>Now, implement the <code>TODO</code>s and <code>open</code> the node using the configuration resources. You can find the full source code <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">in the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
-<h2><a class="header" href="#using-the-library-in-nodejs" id="using-the-library-in-nodejs">Using the Library in Node.js</a></h2>
+<p>Now, implement the <code>TODO</code>s and <code>open</code> the node using the configuration resources. You can find the full source code in <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
+<h3><a class="header" href="#in-nodejs" id="in-nodejs">In Node.js</a></h3>
 <p>Webnetes also has Node.js support. This should enable you to create a minimal node in this context:</p>
 <pre><code class="language-typescript">const node = new Node(
   async (nodeId, resource) =&gt; {
@@ -285,7 +291,7 @@ npm i -s @alphahorizonio/webnetes
   }
 );
 </code></pre>
-<p>Now, <code>open</code> the node using the configuration resources. You can find the full source code <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node">in the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
+<p>Now, <code>open</code> the node using the configuration resources. You can find the full source code in <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node">the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
 
                     </main>
 

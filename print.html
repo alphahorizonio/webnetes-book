@@ -2354,7 +2354,7 @@ spec:
   terminalHostNodeId: localhost
 </code></pre>
 </details>
-<p>You can find a full reference of the available resources in the <a href="getting-started/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<p>You can find a full reference of the available resources in the <a href="getting-started/../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <h2><a class="header" href="#seeding-the-webassembly-binary" id="seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
 <p>Next up, you have to make the WebAssembly binary available to Webnetes. This is done using <a href="https://webtorrent.io/">WebTorrent</a>, a BitTorrent implementation using WebRTC. For your convenience, a <code>seed</code> Make target has been added to the examples, but you can also seed using something like <a href="https://webtorrent.io/desktop/">WebTorrent Desktop</a>, <a href="https://instant.io/">instant.io</a>, <a href="https://webnetes.dev/">webnetesctl</a> or <a href="https://lite.webnetes.dev/">webnetesctl Lite</a>. For the following we'll use the <code>seed</code> Make target because it's the most convenient. Note that for Go there are two targets: <code>seed-go</code> and <code>seed-tinygo</code>. Consult the relevant <a href="getting-started/./develop/go.html#make-configuration">Develop section</a> for more information on what each target does.</p>
 <p>Let's seed the WebAssembly binary; we'll use the <a href="getting-started/./develop/c.html#tcp-echo-server">C TCP Echo Server</a> as an example:</p>
@@ -2443,7 +2443,7 @@ spec:
 <p>After <a href="getting-started/./distribute.html">distributing</a>, we have now successfully deployed some resources to the cluster.</p>
 <p>On the target node, you can also check the resource graph to see the resources:</p>
 <p><img src="getting-started/./img/target-node-resource-graph.png" alt="webnetesctl target node resource graph" /></p>
-<p>Feel free to play around with the target node's interface; you might find an easteregg or two 😉</p>
+<p>Feel free to play around with the target node's interface; you might find an easter egg or two 😉</p>
 <p>On the management node, if we minimize the terminal and click on the target node, we can also see the newly created resources:</p>
 <p><img src="getting-started/./img/target-node-on-globe.png" alt="webnetesctl resources on node in globe" /></p>
 <p>The resources can also be found in the explorer:</p>
@@ -2464,24 +2464,24 @@ spec:
 </ul>
 <p>In Webnetes, a runtime also supports imports, which are enabled using capabilities. Imports are implemented using either the <a href="https://wasi.dev/">WebAssembly System Interface (WASI)</a> whenever supported by the runtime or a custom implementation which we call the JavaScript System Interface (JSSI).</p>
 <p>Another feature is <code>stdin</code>/<code>stdout</code> redirection. Using the <a href="architecture/./networking.html">networking system</a>, Webnetes separates a workload from it's terminal, and enables attaching remote terminals to workloads anywhere in the cluster.</p>
-<p>For more information on how to use the compute system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<p>For more information on how to use the compute system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <p>For more information on how the compute system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/virtualmachine.html">virtual machine documentation</a>.</p>
 <h1><a class="header" href="#networking" id="networking">Networking</a></h1>
 <p>The Webnetes network stack is build on <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a>, a peer-to-peer real-time communication technology. This stack is used universally for both <a href="architecture/./management.html">management</a> and inter-workload communication and exposed using <a href="https://github.com/alphahorizonio/unisockets">unisockets</a>, a universal Berkeley sockets implementation for WebRTC. The stack is configured using resources.</p>
-<p>For more information on how to use the networking system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
-<p>For more information on how the networking system works, consult the <a href="https://alphahorizonio.github.io/unisockets/">unisockets Documentation</a> and in particular the <a href="https://alphahorizonio.github.io/unisockets/classes/transporter.html">unisockets Transporter documentation</a>.</p>
+<p>For more information on how to use the networking system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>.</p>
+<p>For more information on how the networking system works, consult the <a href="https://alphahorizonio.github.io/unisockets/">unisockets documentation</a> and in particular the <a href="https://alphahorizonio.github.io/unisockets/classes/transporter.html">unisockets transporter documentation</a>.</p>
 <h1><a class="header" href="#storage" id="storage">Storage</a></h1>
 <p>The Webnetes storage/registry stack is build on <a href="https://en.wikipedia.org/wiki/WebTorrent">WebTorrent</a>, an implementation of the BitTorrent protocol based on WebRTC. It is used to make binaries available for workloads. The stack is configured using resources.</p>
 <p>To support flexible/private deployments, Webnetes enables using multiple WebTorrent configurations using repositories. Binaries are referenced using an info hash or a magnet link, just like with BitTorrent.</p>
-<p>For more information on how to use the storage system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<p>For more information on how to use the storage system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <p>For more information on how the storage system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/filerepository.html">file repository documentation</a>.</p>
 <h1><a class="header" href="#management" id="management">Management</a></h1>
-<p>Webnetes is based on resources, which are documented in the <a href="architecture/../reference/resources-yaml.html">Resources YAML Reference</a>. The management system manages these resources across the cluster using a peer-to-peer client protocol based on the <a href="architecture/./networking.html">networking system</a>. This protocol is also used to transmit status messages and node information, such as benchmark scores and network performance.</p>
+<p>Webnetes is based on resources, which are documented in the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>. The management system manages these resources across the cluster using a peer-to-peer client protocol based on the <a href="architecture/./networking.html">networking system</a>. This protocol is also used to transmit status messages and node information, such as benchmark scores and network performance.</p>
 <p>For getting a deeper understanding on how the management system works, two pieces are important: the <a href="https://alphahorizonio.github.io/webnetes/classes/resources.html">resources pipe</a>, which handles resources on the local node and the <a href="https://alphahorizonio.github.io/webnetes/classes/peers.html">peer pipe</a>, which manages remote peer pipes and takes care of synchronization.</p>
 <h1><a class="header" href="#components" id="components">Components</a></h1>
-<p>The most high-level components of Webnetes are the <a href="components/./webnetes.html">node</a> and the <a href="components/./webnetesctl.html">app</a>. The former is used to build the app and can be embedded in any node or web app, the latter is a ready-to-use way of using Webnetes.</p>
+<p>The most high-level components of Webnetes are the <a href="components/./webnetes.html">node</a> and the <a href="components/./webnetesctl.html">app</a>. The former is used to build the app and can be embedded in any Node.js or web app, the latter is a ready-to-use way of working with Webnetes.</p>
 <h1><a class="header" href="#node-webnetes" id="node-webnetes">Node (webnetes)</a></h1>
-<p>The node is the embeddable version of Webnetes. It exposes the <a href="components/../architecture">four base systems</a> with an easy-to-use API and is used to power the <a href="components/./webnetesctl.html">app</a>. Using basic knowledge of JavaScript or TypeScript, it can be effortlessly embedded in any Node or web app if you wish to use any of Webnetes' features.</p>
+<p>The node is the embeddable version of Webnetes. It exposes the <a href="components/../architecture">four base systems</a> with an easy-to-use API and is used to power the <a href="components/./webnetesctl.html">app</a>. Using basic knowledge of JavaScript or TypeScript, it can be effortlessly embedded in any Node.js or web app if you wish to use any of Webnetes' features.</p>
 <p>For more information, see the <a href="components/../reference/embedding-api.html">embedding API</a>.</p>
 <h1><a class="header" href="#app-webnetesctl" id="app-webnetesctl">App (webnetesctl)</a></h1>
 <h2><a class="header" href="#introduction-1" id="introduction-1">Introduction</a></h2>
@@ -2489,27 +2489,27 @@ spec:
 <h2><a class="header" href="#implementations" id="implementations">Implementations</a></h2>
 <h3><a class="header" href="#webnetesctl" id="webnetesctl">webnetesctl</a></h3>
 <p><a href="https://webnetes.dev/"><img src="components/../getting-started/img/start.png" alt="webnetesctl start screen" /></a></p>
-<p>Recommended for most users. Webnetesctl is built with React, Ant Design and the <a href="components/./webnetes.html">node</a>. For more information, check out the <a href="https://github.com/alphahorizonio/webnetesctl">source code</a>.</p>
+<p>Recommended for most users. Webnetesctl is built with React, Ant Design and the <a href="components/./webnetes.html">Webnetes node</a>. For more information, check out the <a href="https://github.com/alphahorizonio/webnetesctl">source code</a> or try it out:</p>
 <p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
 </a></p>
 <h3><a class="header" href="#webnetesctl-lite" id="webnetesctl-lite">webnetesctl Lite</a></h3>
 <p><a href="https://lite.webnetes.dev/"><img src="components/../getting-started/img/start-lite.png" alt="webnetesctl Lite start screen" /></a></p>
-<p>For advanced users who prefer something more lightweight. Webnetesctl Lite is built with Vanilla JS; for more information, check out the <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">source code</a>.</p>
+<p>For advanced users who prefer something more lightweight. Webnetesctl Lite is built with Vanilla JS and the <a href="components/./webnetes.html">Webnetes node</a>; for more information, check out the <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">source code</a> or try it out:</p>
 <p><a href="https://lite.webnetes.dev/"><img src="https://img.shields.io/badge/webnetesctl%20Lite-lite.webnetes.dev-blueviolet" alt="Lite" /></a></p>
 <h1><a class="header" href="#bindings" id="bindings">Bindings</a></h1>
 <p>If you want to support something that isn't part of your language's libraries or not supported by your runtime, you can polyfill it using bindings to Webnetes.</p>
-<p>There are currently two bindings for this, in particular to support networking:</p>
+<p>There are currently two bindings which do this, in particular to support networking:</p>
 <ul>
 <li><a href="bindings/./unisockets.html">unisockets</a>, a universal Berkeley sockets implementation</li>
 <li><a href="bindings/./tinynet.html">tinynet</a>, a net implementation for Go and TinyGo based on unisockets</li>
 </ul>
-<p>These bindings are enabled using capabilities.</p>
+<p>These bindings are enabled using <a href="bindings/../reference/resources-yaml.html#capability">capabilities</a>.</p>
 <h1><a class="header" href="#cc-networking-unisockets" id="cc-networking-unisockets">C/C++ Networking (unisockets)</a></h1>
-<p>To support networking in C ABI compatible languages, such as C, C++, Go or TinyGo, unisockets is used. Consult the <a href="https://github.com/alphahorizonio/unisockets">unisockets Documentation</a> for more information.</p>
+<p>To support networking in C ABI compatible languages, such as C, C++, Go or TinyGo, unisockets is used. Consult the <a href="https://github.com/alphahorizonio/unisockets">unisockets documentation</a> for more information.</p>
 <h1><a class="header" href="#go-networking-tinynet" id="go-networking-tinynet">Go Networking (tinynet)</a></h1>
-<p>To support networking in Go and TinyGo, you can either use <a href="bindings/./unisockets.html">unisockets</a> directly, or preferably tinynet, a <code>net</code> implementation for Go and TinyGo based on unisockets. Consult the <a href="https://github.com/alphahorizonio/tinynet">tinynet Documentation</a> for more information.</p>
+<p>To support networking in Go and TinyGo, you can either use <a href="bindings/./unisockets.html">unisockets</a> directly, or preferably tinynet, a <code>net</code> implementation for Go and TinyGo based on unisockets. Consult the <a href="https://github.com/alphahorizonio/tinynet">tinynet documentation</a> for more information.</p>
 <h1><a class="header" href="#reference" id="reference">Reference</a></h1>
-<p>Here you can find reference information on the <a href="reference/./resources-yaml.html">Resources YAML</a> and the <a href="reference/./embedding-api.html">embedding API</a>.</p>
+<p>Here you can find reference information on the <a href="reference/./resources-yaml.html">resources YAML</a> and the <a href="reference/./embedding-api.html">embedding API</a>.</p>
 <h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
 <p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources. Many examples of resource YAML usage can be found in the <code>stack.yaml</code> files in the <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">repository</a>.</p>
 <p>Resources have a few common fields:</p>
@@ -2763,18 +2763,24 @@ spec:
 <h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="reference/../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
 <h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
+<p>Webnetes can be used with or without a bundler.</p>
+<h3><a class="header" href="#npm" id="npm">npm</a></h3>
 <p>Webnetes is available on npm. You can add it to your app like so:</p>
 <pre><code class="language-shell">yarn add @alphahorizonio/webnetes
 # Or with npm
 npm i -s @alphahorizonio/webnetes
 </code></pre>
-<p>If you don't have a bundler available, we also provide a ready-to-use precompiled script which you can include like so:</p>
-<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>If you're using the script, the node will be available as <code>window.WebnetesNode</code>. If you used the NPM package, you can import it like so:</p>
+<p>You can now import it like so:</p>
 <pre><code class="language-typescript">import { Node } from &quot;@alphahorizonio/webnetes&quot;;
 </code></pre>
-<h2><a class="header" href="#using-the-library-in-the-browser" id="using-the-library-in-the-browser">Using the Library in the Browser</a></h2>
+<h3><a class="header" href="#script" id="script">Script</a></h3>
+<p>If you don't have a bundler available, or prefer not to use npm, we also provide a ready-to-use precompiled script which you can include like so:</p>
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>The node will be now be available as <code>window.WebnetesNode</code>.</p>
+<h2><a class="header" href="#using-the-library" id="using-the-library">Using the Library</a></h2>
+<p>Webnetes is isomorphic; in runs both on the browser and on the server (using Node.js).</p>
+<h3><a class="header" href="#in-the-browser" id="in-the-browser">In the Browser</a></h3>
 <p>This should enable you to create a minimal node in the browser:</p>
 <pre><code class="language-typescript">const node = new Node(
   async (nodeId, resource) =&gt; {
@@ -2824,8 +2830,8 @@ npm i -s @alphahorizonio/webnetes
   }
 );
 </code></pre>
-<p>Now, implement the <code>TODO</code>s and <code>open</code> the node using the configuration resources. You can find the full source code <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">in the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
-<h2><a class="header" href="#using-the-library-in-nodejs" id="using-the-library-in-nodejs">Using the Library in Node.js</a></h2>
+<p>Now, implement the <code>TODO</code>s and <code>open</code> the node using the configuration resources. You can find the full source code in <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
+<h3><a class="header" href="#in-nodejs" id="in-nodejs">In Node.js</a></h3>
 <p>Webnetes also has Node.js support. This should enable you to create a minimal node in this context:</p>
 <pre><code class="language-typescript">const node = new Node(
   async (nodeId, resource) =&gt; {
@@ -2882,7 +2888,7 @@ npm i -s @alphahorizonio/webnetes
   }
 );
 </code></pre>
-<p>Now, <code>open</code> the node using the configuration resources. You can find the full source code <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node">in the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
+<p>Now, <code>open</code> the node using the configuration resources. You can find the full source code in <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node">the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
 <h1><a class="header" href="#contributing" id="contributing">Contributing</a></h1>
 <p>Webnetes is being developed as free/libre and open source sofware in the Alpha Horizon organization on <a href="https://github.com/alphahorizonio">GitHub</a>. We appreciate contributions, and there is no need to sign a CLA!</p>
 <h2><a class="header" href="#chat" id="chat">Chat</a></h2>

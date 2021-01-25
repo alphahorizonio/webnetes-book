@@ -405,7 +405,7 @@ spec:
   terminalHostNodeId: localhost
 </code></pre>
 </details>
-<p>You can find a full reference of the available resources in the <a href="../reference/resources-yaml.html">Resources YAML Reference</a>.</p>
+<p>You can find a full reference of the available resources in the <a href="../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <h2><a class="header" href="#seeding-the-webassembly-binary" id="seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
 <p>Next up, you have to make the WebAssembly binary available to Webnetes. This is done using <a href="https://webtorrent.io/">WebTorrent</a>, a BitTorrent implementation using WebRTC. For your convenience, a <code>seed</code> Make target has been added to the examples, but you can also seed using something like <a href="https://webtorrent.io/desktop/">WebTorrent Desktop</a>, <a href="https://instant.io/">instant.io</a>, <a href="https://webnetes.dev/">webnetesctl</a> or <a href="https://lite.webnetes.dev/">webnetesctl Lite</a>. For the following we'll use the <code>seed</code> Make target because it's the most convenient. Note that for Go there are two targets: <code>seed-go</code> and <code>seed-tinygo</code>. Consult the relevant <a href="./develop/go.html#make-configuration">Develop section</a> for more information on what each target does.</p>
 <p>Let's seed the WebAssembly binary; we'll use the <a href="./develop/c.html#tcp-echo-server">C TCP Echo Server</a> as an example:</p>
