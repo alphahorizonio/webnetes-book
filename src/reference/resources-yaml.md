@@ -152,7 +152,11 @@ spec:
     - twillio_tcp_fallback
 ```
 
-A network references the [signalers](#signaler), [STUN servers](#stun-server) & [TURN servers](#turn-server) by their label and thus defines a overlay network by which the [networking system](../architecture/networking.md) can connect nodes.
+A network defines a global peer-to-peer overlay network. It has the following fields:
+
+- `signaler`: The label of a [signaler](#signaler) to use
+- `stunServers`s: An array of [STUN server](#stun-server) labels
+- `turnServers`s: An array of [TURN server](#turn-server) labels
 
 ## Network Interface
 
@@ -167,7 +171,10 @@ spec:
   prefix: 127.19.0
 ```
 
-A network interface allows connecting to a [network](#network)'s subnet by a prefix, which is the first three octets of an IPv4 address.
+A network interface allow connecting to a [network](#network)'s subnet. It has the following fields:
+
+- `network`: The label of the [network](#network) in which the subnet resides. If it does not exist, it will be created.
+- `prefix`: The first three octets of the subnet to create/join.
 
 ## Tracker
 
