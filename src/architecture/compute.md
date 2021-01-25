@@ -11,6 +11,6 @@ In Webnetes, a runtime also supports imports, which are enabled using capabiliti
 
 Another feature is `stdin`/`stdout` redirection. Using the [networking system](./networking.md), Webnetes separates a workload from it's terminal, and enables attaching remote terminals to workloads anywhere in the cluster.
 
-For more information on how to use the compute system, consult the [getting started guide](../getting-started) or the [Resources YAML Reference](../reference/resources-yaml.md).
+For more information on how to use the compute system, consult the [getting started guide](../getting-started) or the [resources YAML reference](../reference/resources-yaml.md).
 
 For more information on how the compute system works, consult the [virtual machine documentation](https://alphahorizonio.github.io/webnetes/classes/virtualmachine.html).

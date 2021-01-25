@@ -4,6 +4,10 @@ Embedding the [node](../components/webnetes.md) is easy and [API documentation i
 
 ## Getting the Library
 
+Webnetes can be used with or without a bundler.
+
+### npm
+
 Webnetes is available on npm. You can add it to your app like so:
 
 ```shell
@@ -12,19 +16,27 @@ yarn add @alphahorizonio/webnetes
 npm i -s @alphahorizonio/webnetes
 ```
 
-If you don't have a bundler available, we also provide a ready-to-use precompiled script which you can include like so:
-
-```html
-<script src="https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js"></script>
-```
-
-If you're using the script, the node will be available as `window.WebnetesNode`. If you used the NPM package, you can import it like so:
+You can now import it like so:
 
 ```typescript
 import { Node } from "@alphahorizonio/webnetes";
 ```
 
-## Using the Library in the Browser
+### Script
+
+If you don't have a bundler available, or prefer not to use npm, we also provide a ready-to-use precompiled script which you can include like so:
+
+```html
+<script src="https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js"></script>
+```
+
+The node will be now be available as `window.WebnetesNode`.
+
+## Using the Library
+
+Webnetes is isomorphic; in runs both on the browser and on the server (using Node.js).
+
+### In the Browser
 
 This should enable you to create a minimal node in the browser:
 
@@ -78,9 +90,9 @@ const node = new Node(
 );
 ```
 
-Now, implement the `TODO`s and `open` the node using the configuration resources. You can find the full source code [in the repository](https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web). Consult the [API documentation](https://alphahorizonio.github.io/webnetes/classes/node.html) for further resources.
+Now, implement the `TODO`s and `open` the node using the configuration resources. You can find the full source code in [the repository](https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web). Consult the [API documentation](https://alphahorizonio.github.io/webnetes/classes/node.html) for further resources.
 
-## Using the Library in Node.js
+### In Node.js
 
 Webnetes also has Node.js support. This should enable you to create a minimal node in this context:
 
@@ -141,4 +153,4 @@ const node = new Node(
 );
 ```
 
-Now, `open` the node using the configuration resources. You can find the full source code [in the repository](https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node). Consult the [API documentation](https://alphahorizonio.github.io/webnetes/classes/node.html) for further resources.
+Now, `open` the node using the configuration resources. You can find the full source code in [the repository](https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node). Consult the [API documentation](https://alphahorizonio.github.io/webnetes/classes/node.html) for further resources.

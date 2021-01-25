@@ -249,7 +249,7 @@ spec:
 
 </details>
 
-You can find a full reference of the available resources in the [Resources YAML Reference](../reference/resources-yaml.md).
+You can find a full reference of the available resources in the [resources YAML reference](../reference/resources-yaml.md).
 
 ## Seeding the WebAssembly Binary
 

@@ -6,7 +6,7 @@ On the target node, you can also check the resource graph to see the resources:
 
 ![webnetesctl target node resource graph](./img/target-node-resource-graph.png)
 
-Feel free to play around with the target node's interface; you might find an easteregg or two 😉
+Feel free to play around with the target node's interface; you might find an easter egg or two 😉
 
 On the management node, if we minimize the terminal and click on the target node, we can also see the newly created resources:
 
