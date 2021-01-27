@@ -4,7 +4,7 @@ Webnetes is being developed as free/libre and open source sofware in the Alpha H
 
 ## Chat
 
-- **Are you a user and have questions?** Join [Webnetes Users on Matrix](https://matrix.to/#/#webnetes-contributors:matrix.org?via=matrix.org) and we'll help you.
+- **Are you a user and have questions?** Join [Webnetes Users on Matrix](https://matrix.to/#/#webnetes-users:matrix.org?via=matrix.org) and we'll help you.
 - **Want to contribute?** Join [Webnetes Contributors on Matrix](https://matrix.to/#/#webnetes-contributors:matrix.org?via=matrix.org) and chat with us!
 
 ## Code of Conduct
