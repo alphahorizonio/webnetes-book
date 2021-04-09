@@ -10,6 +10,8 @@ The Webnetes Project is free and open source, you can find the source code on [G
 
 **Want to learn more about the project?** Continue to the [introduction](./INTRODUCTION.md).
 
+**Want to see it in action?** Check out the [demo video](https://www.youtube.com/watch?v=W0PayDQ7RIg).
+
 **Want to use Webnetes or develop for it?** Follow the [getting started guide](./getting-started) or run the app directly:<br>
 [<img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">](https://webnetes.dev/)
 
