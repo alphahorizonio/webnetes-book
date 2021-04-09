@@ -163,7 +163,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#distribute" id="distribute">Distribute</a></h1>
+                        <h1 id="distribute"><a class="header" href="#distribute">Distribute</a></h1>
 <p>Now that you've got your app's build configuration up and running, you can start deploying your app to Webnetes. Doing so is a pretty simple process:</p>
 <ol>
 <li>Define your app's resources using a <code>stack.yaml</code> file</li>
@@ -173,7 +173,7 @@
 <li>Open your app's terminal and interact with it!</li>
 </ol>
 <p>Let's get started!</p>
-<h2><a class="header" href="#defining-the-resources" id="defining-the-resources">Defining the Resources</a></h2>
+<h2 id="defining-the-resources"><a class="header" href="#defining-the-resources">Defining the Resources</a></h2>
 <p>The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime and so on. This is quite similar to how <a href="https://kubernetes.io/">Kubernetes</a> handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.</p>
 <p>You can find a pre-configured <code>stack.yaml</code> file for the examples in the corresponding source code; see <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">alphahorizonio/webnetes/examples</a> for a list of all examples. To get a head start, you can use the <code>stack.yaml</code> of the example you've used. A typical <code>stack.yaml</code> (here of the C TCP Echo Server example) looks something like the following:</p>
 <details>
@@ -406,7 +406,7 @@ spec:
 </code></pre>
 </details>
 <p>You can find a full reference of the available resources in the <a href="../reference/resources-yaml.html">resources YAML reference</a>.</p>
-<h2><a class="header" href="#seeding-the-webassembly-binary" id="seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
+<h2 id="seeding-the-webassembly-binary"><a class="header" href="#seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
 <p>Next up, you have to make the WebAssembly binary available to Webnetes. This is done using <a href="https://webtorrent.io/">WebTorrent</a>, a BitTorrent implementation using WebRTC. For your convenience, a <code>seed</code> Make target has been added to the examples, but you can also seed using something like <a href="https://webtorrent.io/desktop/">WebTorrent Desktop</a>, <a href="https://instant.io/">instant.io</a>, <a href="https://webnetes.dev/">webnetesctl</a> or <a href="https://lite.webnetes.dev/">webnetesctl Lite</a>. For the following we'll use the <code>seed</code> Make target because it's the most convenient. Note that for Go there are two targets: <code>seed-go</code> and <code>seed-tinygo</code>. Consult the relevant <a href="./develop/go.html#make-configuration">Develop section</a> for more information on what each target does.</p>
 <p>Let's seed the WebAssembly binary; we'll use the <a href="./develop/c.html#tcp-echo-server">C TCP Echo Server</a> as an example:</p>
 <pre><code class="language-shell">$ make seed
@@ -426,7 +426,7 @@ spec:
   repository: webtorrent_public
   uri: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
 </code></pre>
-<h2><a class="header" href="#creating-a-cluster" id="creating-a-cluster">Creating a Cluster</a></h2>
+<h2 id="creating-a-cluster"><a class="header" href="#creating-a-cluster">Creating a Cluster</a></h2>
 <p>Let's create a cluster for our app. We'll use <a href="https://webnetes.dev/">webnetesctl</a> from now on, but feel free to use <a href="https://lite.webnetes.dev/">webnetesctl Lite</a> if you prefer something more lightweight.</p>
 <p>First, open webnetesctl:</p>
 <p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
@@ -444,7 +444,7 @@ spec:
 <p>If you prefer a more traditional overview or are searching for something, the Explorer tab might be of use to you:</p>
 <p><img src="./img/explorer.png" alt="webnetesctl explorer" /></p>
 <p>Feel free to try out the other tabs before you continue!</p>
-<h2><a class="header" href="#deploying-the-resources" id="deploying-the-resources">Deploying the Resources</a></h2>
+<h2 id="deploying-the-resources"><a class="header" href="#deploying-the-resources">Deploying the Resources</a></h2>
 <p>Let's deploy the resources. Doing so is simple; just click <code>+ Create</code> in the top menu and select <code>Resource</code>. Now, paste the contents of the <code>stack.yaml</code> file you've created above into the <code>Definition</code> editor; it's structure will be visualized to the right:</p>
 <p><img src="./img/create-resource.png" alt="webnetesctl create resource dialog" /></p>
 <p>Next, let's adjust the server's network configuration by changing the <code>Arguments</code> resource to use an IP address in the within the cluster ID subnet we've created above (<code>69.42.8</code>):</p>

@@ -163,8 +163,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#assemblyscript" id="assemblyscript">AssemblyScript</a></h1>
-<h2><a class="header" href="#table-of-contents" id="table-of-contents">Table of Contents</a></h2>
+                        <h1 id="assemblyscript"><a class="header" href="#assemblyscript">AssemblyScript</a></h1>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
 <li><a href="#language-support-status">Language Support Status</a></li>
 <li><a href="#hello-world">Hello, world!</a>
@@ -176,13 +176,13 @@
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
+<h2 id="language-support-status"><a class="header" href="#language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#2">2</a></sup></td><td>❌<sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h2>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in AssemblyScript. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/assemblyscript_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#package" id="package">Package</a></h3>
+<h3 id="package"><a class="header" href="#package">Package</a></h3>
 <p>Create <code>package.json</code> with the following content:</p>
 <pre><code class="language-json">{
   &quot;name&quot;: &quot;@alphahorizonio/assemblyscript_hello_world&quot;,
@@ -234,7 +234,7 @@
 <p>Finally, run the following to install the dependencies:</p>
 <pre><code class="language-shell">$ yarn
 </code></pre>
-<h3><a class="header" href="#source-code" id="source-code">Source Code</a></h3>
+<h3 id="source-code"><a class="header" href="#source-code">Source Code</a></h3>
 <p>Create <code>main.ts</code> with the following content:</p>
 <pre><code class="language-typescript">import { Console } from &quot;as-wasi&quot;;
 import &quot;wasi&quot;;
@@ -242,7 +242,7 @@ import &quot;wasi&quot;;
 Console.log(&quot;Hello, world!&quot;);
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration" id="make-configuration">Make Configuration</a></h3>
+<h3 id="make-configuration"><a class="header" href="#make-configuration">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all:
 	@docker run -v ${PWD}:/src:z node sh -c 'cd /src &amp;&amp; yarn &amp;&amp; yarn asbuild'
@@ -261,7 +261,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h3>
+<h3 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h3>
 <p>Now continue to <a href="../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>AssemblyScript targets only WebAssembly.<br></p>

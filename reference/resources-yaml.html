@@ -163,7 +163,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
+                        <h1 id="resources-yaml"><a class="header" href="#resources-yaml">Resources YAML</a></h1>
 <p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources. Many examples of resource YAML usage can be found in the <code>stack.yaml</code> files in the <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">repository</a>.</p>
 <p>Resources have a few common fields:</p>
 <ul>
@@ -173,7 +173,7 @@
 <li><code>spec</code>: The resource-specific data</li>
 </ul>
 <p>This pattern is strongly influenced by <a href="https://kubernetes.io/">Kubernetes</a>.</p>
-<h2><a class="header" href="#runtime" id="runtime">Runtime</a></h2>
+<h2 id="runtime"><a class="header" href="#runtime">Runtime</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Runtime
 metadata:
@@ -189,7 +189,7 @@ spec: {}
 <li><code>jssi_tinygo</code>: For TinyGo using JSSI</li>
 <li><code>jssi_teavm</code>: For Java using JSSI</li>
 </ul>
-<h2><a class="header" href="#capability" id="capability">Capability</a></h2>
+<h2 id="capability"><a class="header" href="#capability">Capability</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Runtime
 metadata:
@@ -207,7 +207,7 @@ spec: {}
 <li><code>net_accept</code>: Enables accepting on a socket</li>
 <li><code>net_connect</code>: Enables connecting to a socket</li>
 </ul>
-<h2><a class="header" href="#processor" id="processor">Processor</a></h2>
+<h2 id="processor"><a class="header" href="#processor">Processor</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Processor
 metadata:
@@ -229,7 +229,7 @@ spec:
 <li><code>runtimes</code>: An array of <a href="#runtime">runtime</a> labels</li>
 <li><code>capabilties</code>: An array of <a href="#capability">capability</a> labels</li>
 </ul>
-<h2><a class="header" href="#signaler" id="signaler">Signaler</a></h2>
+<h2 id="signaler"><a class="header" href="#signaler">Signaler</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Signaler
 metadata:
@@ -245,7 +245,7 @@ spec:
 <li><code>urls</code>: An array of <a href="https://github.com/alphahorizonio/unisockets#signaling-protocol">signaling server</a> URLs. Currently, only the first entry is respected.</li>
 <li><code>retryAfter</code>: An interval in milliseconds after which to try to re-connect to the signaling servers</li>
 </ul>
-<h2><a class="header" href="#stun-server" id="stun-server">STUN Server</a></h2>
+<h2 id="stun-server"><a class="header" href="#stun-server">STUN Server</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: StunServer
 metadata:
@@ -259,7 +259,7 @@ spec:
 <ul>
 <li><code>urls</code>: An array of STUN server URLs.</li>
 </ul>
-<h2><a class="header" href="#turn-server" id="turn-server">TURN Server</a></h2>
+<h2 id="turn-server"><a class="header" href="#turn-server">TURN Server</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: TurnServer
 metadata:
@@ -277,7 +277,7 @@ spec:
 <li><code>username</code>: The username to authenticate with when connecting to the TURN server</li>
 <li><code>credential</code>: The credential to authenticate with when connecting to the TURN server</li>
 </ul>
-<h2><a class="header" href="#network" id="network">Network</a></h2>
+<h2 id="network"><a class="header" href="#network">Network</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Network
 metadata:
@@ -299,7 +299,7 @@ spec:
 <li><code>stunServers</code>s: An array of <a href="#stun-server">STUN server</a> labels</li>
 <li><code>turnServers</code>s: An array of <a href="#turn-server">TURN server</a> labels</li>
 </ul>
-<h2><a class="header" href="#network-interface" id="network-interface">Network Interface</a></h2>
+<h2 id="network-interface"><a class="header" href="#network-interface">Network Interface</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: NetworkInterface
 metadata:
@@ -314,7 +314,7 @@ spec:
 <li><code>network</code>: The label of the <a href="#network">network</a> in which the subnet resides. If it does not exist, it will be created.</li>
 <li><code>prefix</code>: The first three octets of the subnet to create/join.</li>
 </ul>
-<h2><a class="header" href="#tracker" id="tracker">Tracker</a></h2>
+<h2 id="tracker"><a class="header" href="#tracker">Tracker</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Tracker
 metadata:
@@ -328,7 +328,7 @@ spec:
 <ul>
 <li><code>urls</code>: An array of tracker server URLs. Currently, only the first entry is respected.</li>
 </ul>
-<h2><a class="header" href="#repository" id="repository">Repository</a></h2>
+<h2 id="repository"><a class="header" href="#repository">Repository</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Repository
 metadata:
@@ -352,7 +352,7 @@ spec:
 <li><code>stunServers</code>s: An array of <a href="#stun-server">STUN server</a> labels</li>
 <li><code>turnServers</code>s: An array of <a href="#turn-server">TURN server</a> labels</li>
 </ul>
-<h2><a class="header" href="#file" id="file">File</a></h2>
+<h2 id="file"><a class="header" href="#file">File</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: File
 metadata:
@@ -367,7 +367,7 @@ spec:
 <li><code>repository</code>: The <a href="#repository">repository</a> to which the file should be added</li>
 <li><code>uri</code>: The magnet link or info hash of the file to add</li>
 </ul>
-<h2><a class="header" href="#arguments" id="arguments">Arguments</a></h2>
+<h2 id="arguments"><a class="header" href="#arguments">Arguments</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Arguments
 metadata:
@@ -382,7 +382,7 @@ spec:
 <ul>
 <li><code>argv</code>: An array of command-line arguments to pass to the workload</li>
 </ul>
-<h2><a class="header" href="#workload" id="workload">Workload</a></h2>
+<h2 id="workload"><a class="header" href="#workload">Workload</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Workload
 metadata:

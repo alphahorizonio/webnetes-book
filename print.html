@@ -165,19 +165,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#the-webnetes-project" id="the-webnetes-project">The Webnetes Project</a></h1>
+                        <h1 id="the-webnetes-project"><a class="header" href="#the-webnetes-project">The Webnetes Project</a></h1>
 <p><a href="https://webnetes.dev/"><img src="./getting-started/img/start.png" alt="webnetesctl start screen" /></a></p>
 <p><strong>The Webnetes Project</strong> is an effort to build a peer-to-peer computing platform for the browser and node. It uses <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a> for compute, <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> for networking and <a href="https://en.wikipedia.org/wiki/WebTorrent">WebTorrent</a> for storage.</p>
 <p>The Webnetes Project is free and open source, you can find the source code on <a href="https://github.com/alphahorizonio/webnetes">GitHub</a>. Issues and feature requests can be posted on the <a href="https://github.com/alphahorizonio/webnetes/issues">GitHub issue tracker</a>. For more information on contributing, see the <a href="./CONTRIBUTING.html">contributing guide</a>.</p>
-<h2><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h2>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p><strong>Want to learn more about the project?</strong> Continue to the <a href="./INTRODUCTION.html">introduction</a>.</p>
+<p><strong>Want to see it in action?</strong> Check out the <a href="https://www.youtube.com/watch?v=W0PayDQ7RIg">demo video</a>.</p>
 <p><strong>Want to use Webnetes or develop for it?</strong> Follow the <a href="./getting-started">getting started guide</a> or run the app directly:<br></p>
 <p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
 </a></p>
-<h2><a class="header" href="#license" id="license">License</a></h2>
+<h2 id="license"><a class="header" href="#license">License</a></h2>
 <p>The Webnetes Project © 2021 Felix Pojtinger and contributors</p>
 <p>SPDX-License-Identifier: AGPL-3.0</p>
-<h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>Webnetes is a peer-to-peer computing platform for the browser and node. Unlike traditional, server-only container orchestration systems such as <a href="https://kubernetes.io/">Kubernetes</a>, which usually use <a href="https://opencontainers.org/">OCI containers</a> for compute, <a href="https://github.com/containernetworking/cni">CNI</a> for networking and <a href="https://github.com/container-storage-interface/spec">CSI</a> for storage, Webnetes switches these components out in favor of <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> and <a href="https://en.wikipedia.org/wiki/WebTorrent">WebTorrent</a>. By doing so, Webnetes is <strong>universal</strong> — it runs on every system, from the server (using <a href="https://nodejs.org/en/">Node</a>) to the browser, with full interoperability.</p>
 <p>By using standardized web APIs and polyfilling APIs that would normally only be found on the server (such as <a href="https://en.wikipedia.org/wiki/Berkeley_sockets">Berkeley sockets</a>) to work everywhere, Webnetes is able to bridge the gap between devices. It even runs on iOS (using Safari) and other heavily restricted proprietary mobile operating systems, without requiring any installation. Joining a cluster becomes as easy as scanning a QR code or clicking a link; no need for proprietary app distribution mechanisms like the App Store or the Play Store. Many workloads can thus also be moved from the server to the client, removing the dependency on expensive servers or proprietary cloud systems such as AWS or GCP.</p>
 <p>Due to recent advancements to the web platform, apps are no longer limited to only using JavaScript — Webnetes uses WebAssembly, which means that many languages, including C, C++, Go, Rust and Java, are supported. You also aren't limited to apps without native capabilities either; almost all web APIs are available, including <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API">Web Bluetooth</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/USB">Web USB</a>, <a href="https://www.w3.org/TR/webmidi/">Web MIDI</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API">File System Access</a> and many more. In most cases, getting an app to run in Webnetes simply means to (re-)compile it to WebAssembly. Even software that depends on lower-level networking (such as TCP client/server systems) or terminals runs effortlessly. Thanks to the power of WebRTC, typical networking barriers in building distributed apps are also removed; Webnetes creates global peer-to-peer overlay networks, removing the need for complex and expensive VPN or tunneling setups.</p>
@@ -185,7 +186,7 @@
 <blockquote>
 <p>While we do believe that Webnetes is already useful for solving many of the problems of today's distributed apps, please keep in mind that Webnetes is experimental and, as of 2021, primarily a research project. If you would like to help us get it production ready, please consider <a href="./CONTRIBUTING.html">contributing</a>.</p>
 </blockquote>
-<h1><a class="header" href="#getting-started" id="getting-started">Getting Started</a></h1>
+<h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
 <p>In this guide, we'll do the following:</p>
 <ol>
 <li><a href="getting-started/./develop">Develop</a> an app which runs on Webnetes</li>
@@ -196,11 +197,11 @@
 <blockquote>
 <p>Need help? Join <a href="https://matrix.to/#/#webnetes-contributors:matrix.org?via=matrix.org">Webnetes Users on Matrix</a> and we'll help you.</p>
 </blockquote>
-<h1><a class="header" href="#develop" id="develop">Develop</a></h1>
+<h1 id="develop"><a class="header" href="#develop">Develop</a></h1>
 <p>Getting started developing for Webnetes is simple and not much harder than native development; migrating existing apps is also possible. In most cases, the only difference from a Webnetes-enabled project to a native-only project is the additional WebAssembly target.</p>
 <p>We have guides for a many popular, officially supported languages like Go and Rust to get you started quickly. If your language doesn't have such a guide yet, you can probably still get it to work; see <a href="getting-started/develop/./more.html">More</a>.</p>
-<h1><a class="header" href="#c" id="c">C</a></h1>
-<h2><a class="header" href="#table-of-contents" id="table-of-contents">Table of Contents</a></h2>
+<h1 id="c"><a class="header" href="#c">C</a></h1>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/c.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/c.html#hello-world">Hello, world!</a>
@@ -228,13 +229,13 @@
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
+<h2 id="language-support-status"><a class="header" href="#language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h2>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#source-code" id="source-code">Source Code</a></h3>
+<h3 id="source-code"><a class="header" href="#source-code">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
 <pre><code class="language-c">#include &lt;stdio.h&gt;
 
@@ -245,7 +246,7 @@ int main() {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#cmake-configuration" id="cmake-configuration">CMake Configuration</a></h3>
+<h3 id="cmake-configuration"><a class="header" href="#cmake-configuration">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
 
@@ -273,7 +274,7 @@ if(WASI)
 endif()
 </code></pre>
 <p>It allows compilation of both the native &amp; the WebAssembly target.</p>
-<h3><a class="header" href="#make-configuration" id="make-configuration">Make Configuration</a></h3>
+<h3 id="make-configuration"><a class="header" href="#make-configuration">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -298,7 +299,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-1" id="next-steps-1">Next Steps</a></h3>
+<h3 id="next-steps-1"><a class="header" href="#next-steps-1">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -307,9 +308,9 @@ seed: wasm
 Hello, world!
 </code></pre>
 <p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
-<h2><a class="header" href="#tcp-echo-server" id="tcp-echo-server">TCP Echo Server</a></h2>
+<h2 id="tcp-echo-server"><a class="header" href="#tcp-echo-server">TCP Echo Server</a></h2>
 <p>Webnetes has support for networking. Let's create a TCP echo server in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_server">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-1" id="source-code-1">Source Code</a></h3>
+<h3 id="source-code-1"><a class="header" href="#source-code-1">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
 <details>
 	<summary>C Source</summary>
@@ -515,7 +516,7 @@ int main(int argc, char *argv[]) {
 </details>
 <p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
-<h3><a class="header" href="#cmake-configuration-1" id="cmake-configuration-1">CMake Configuration</a></h3>
+<h3 id="cmake-configuration-1"><a class="header" href="#cmake-configuration-1">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
 
@@ -544,9 +545,9 @@ if(WASI)
 endif()
 </code></pre>
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
-<h3><a class="header" href="#make-configuration-1" id="make-configuration-1">Make Configuration</a></h3>
+<h3 id="make-configuration-1"><a class="header" href="#make-configuration-1">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/c.html#make-configuration">Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-2" id="next-steps-2">Next Steps</a></h3>
+<h3 id="next-steps-2"><a class="header" href="#next-steps-2">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -567,9 +568,9 @@ endif()
 You've sent: Hello, reader!
 </code></pre>
 <p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
-<h2><a class="header" href="#tcp-echo-client" id="tcp-echo-client">TCP Echo Client</a></h2>
+<h2 id="tcp-echo-client"><a class="header" href="#tcp-echo-client">TCP Echo Client</a></h2>
 <p>Now that we've got a TCP echo server, let's create a TCP echo client in C with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/c_echo_client">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-2" id="source-code-2">Source Code</a></h3>
+<h3 id="source-code-2"><a class="header" href="#source-code-2">Source Code</a></h3>
 <p>Create <code>main.c</code> with the following content:</p>
 <details>
 	<summary>C Source</summary>
@@ -739,7 +740,7 @@ int main(int argc, char *argv[]) {
 </details>
 <p>It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/c_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.c</code>, which allows networking to function.</p>
-<h3><a class="header" href="#cmake-configuration-2" id="cmake-configuration-2">CMake Configuration</a></h3>
+<h3 id="cmake-configuration-2"><a class="header" href="#cmake-configuration-2">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
 
@@ -768,9 +769,9 @@ if(WASI)
 endif()
 </code></pre>
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
-<h3><a class="header" href="#make-configuration-2" id="make-configuration-2">Make Configuration</a></h3>
+<h3 id="make-configuration-2"><a class="header" href="#make-configuration-2">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/c.html#make-configuration">Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-3" id="next-steps-3">Next Steps</a></h3>
+<h3 id="next-steps-3"><a class="header" href="#next-steps-3">Next Steps</a></h3>
 <p>First, <a href="getting-started/develop/c.html#next-steps-1">build and run the TCP echo server</a>.</p>
 <p>In a second terminal, build the native target:</p>
 <pre><code class="language-shell">$ make native
@@ -797,8 +798,8 @@ You've sent: Hello, dear reader!
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://github.com/WebAssembly/threads">WebAssembly threads</a> are not yet implemented.</p>
 </div>
-<h1><a class="header" href="#c-1" id="c-1">C++</a></h1>
-<h2><a class="header" href="#table-of-contents-1" id="table-of-contents-1">Table of Contents</a></h2>
+<h1 id="c-1"><a class="header" href="#c-1">C++</a></h1>
+<h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/cpp.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/cpp.html#hello-world">Hello, world!</a>
@@ -826,13 +827,13 @@ You've sent: Hello, dear reader!
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status-1" id="language-support-status-1">Language Support Status</a></h2>
+<h2 id="language-support-status-1"><a class="header" href="#language-support-status-1">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world-1" id="hello-world-1">Hello, world!</a></h2>
+<h2 id="hello-world-1"><a class="header" href="#hello-world-1">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in C++ with native and WebAssembly targets. For C++, the process is pretty much the same as for <a href="getting-started/develop/./c.html">C</a>. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-3" id="source-code-3">Source Code</a></h3>
+<h3 id="source-code-3"><a class="header" href="#source-code-3">Source Code</a></h3>
 <p>Create <code>main.cpp</code> with the following content:</p>
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -843,7 +844,7 @@ int main() {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#cmake-configuration-3" id="cmake-configuration-3">CMake Configuration</a></h3>
+<h3 id="cmake-configuration-3"><a class="header" href="#cmake-configuration-3">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
 
@@ -871,13 +872,13 @@ if(WASI)
 endif()
 </code></pre>
 <p>It allows compilation of both the native &amp; the WebAssembly target.</p>
-<h3><a class="header" href="#make-configuration-3" id="make-configuration-3">Make Configuration</a></h3>
+<h3 id="make-configuration-3"><a class="header" href="#make-configuration-3">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-4" id="next-steps-4">Next Steps</a></h3>
+<h3 id="next-steps-4"><a class="header" href="#next-steps-4">Next Steps</a></h3>
 <p>See <a href="getting-started/develop/./c.html#next-steps">C Hello, world! Next Steps</a>.</p>
-<h2><a class="header" href="#tcp-echo-server-1" id="tcp-echo-server-1">TCP Echo Server</a></h2>
+<h2 id="tcp-echo-server-1"><a class="header" href="#tcp-echo-server-1">TCP Echo Server</a></h2>
 <p>Webnetes has support for networking. Let's create a TCP echo server in C++ with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_echo_server">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-4" id="source-code-4">Source Code</a></h3>
+<h3 id="source-code-4"><a class="header" href="#source-code-4">Source Code</a></h3>
 <p>Create <code>main.cpp</code> with the following content:</p>
 <details>
 	<summary>C++ Source</summary>
@@ -1047,7 +1048,7 @@ int main(int argc, char *argv[]) {
 </details>
 <p>It is a very simple TCP server that listens to messages, prefixes them with <code>You've sent: </code> and sends them back to the sender.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/cpp_echo_server/unisockets.h">unisockets.h</a> header in the same directory as <code>main.cpp</code>, which allows networking to function.</p>
-<h3><a class="header" href="#cmake-configuration-4" id="cmake-configuration-4">CMake Configuration</a></h3>
+<h3 id="cmake-configuration-4"><a class="header" href="#cmake-configuration-4">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
 
@@ -1076,13 +1077,13 @@ if(WASI)
 endif()
 </code></pre>
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
-<h3><a class="header" href="#make-configuration-4" id="make-configuration-4">Make Configuration</a></h3>
+<h3 id="make-configuration-4"><a class="header" href="#make-configuration-4">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-5" id="next-steps-5">Next Steps</a></h3>
+<h3 id="next-steps-5"><a class="header" href="#next-steps-5">Next Steps</a></h3>
 <p>See <a href="getting-started/develop/./c.html#next-steps-1">C TCP Echo Server Next Steps</a>.</p>
-<h2><a class="header" href="#tcp-echo-client-1" id="tcp-echo-client-1">TCP Echo Client</a></h2>
+<h2 id="tcp-echo-client-1"><a class="header" href="#tcp-echo-client-1">TCP Echo Client</a></h2>
 <p>Now that we've got a TCP echo server, let's create a TCP echo client in C++ with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/cpp_echo_client">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-5" id="source-code-5">Source Code</a></h3>
+<h3 id="source-code-5"><a class="header" href="#source-code-5">Source Code</a></h3>
 <p>Create <code>main.cpp</code> with the following content:</p>
 <details>
 	<summary>C++ Source</summary>
@@ -1237,7 +1238,7 @@ int main(int argc, char *argv[]) {
 </details>
 <p>It is a very simple TCP client that reads a message from standard input, sends it to the server, waits for a reply, and prints it to standard out.</p>
 <p>Now, copy and paste the <a href="https://github.com/alphahorizonio/webnetes/blob/main/examples/cpp_echo_client/unisockets.h">unisockets.h</a> header in the same directory as <code>main.cpp</code>, which allows networking to function.</p>
-<h3><a class="header" href="#cmake-configuration-5" id="cmake-configuration-5">CMake Configuration</a></h3>
+<h3 id="cmake-configuration-5"><a class="header" href="#cmake-configuration-5">CMake Configuration</a></h3>
 <p>Create <code>CMakeLists.txt</code> with the following content:</p>
 <pre><code class="language-CMake">cmake_minimum_required(VERSION 3.13.4)
 
@@ -1266,15 +1267,15 @@ if(WASI)
 endif()
 </code></pre>
 <p>It allows compilation of both the native &amp; the WebAssembly target. Note <code>-DUNISOCKETS_WITH_ALIAS</code>, which allows networking to function.</p>
-<h3><a class="header" href="#make-configuration-5" id="make-configuration-5">Make Configuration</a></h3>
+<h3 id="make-configuration-5"><a class="header" href="#make-configuration-5">Make Configuration</a></h3>
 <p>See <a href="getting-started/develop/./c.html#make-configuration">C Hello, world! Make Configuration</a>.</p>
-<h3><a class="header" href="#next-steps-6" id="next-steps-6">Next Steps</a></h3>
+<h3 id="next-steps-6"><a class="header" href="#next-steps-6">Next Steps</a></h3>
 <p>See <a href="getting-started/develop/./c.html#next-steps-2">C TCP Echo Client Next Steps</a>.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p><a href="https://github.com/WebAssembly/threads">WebAssembly threads</a> are not yet implemented.</p>
 </div>
-<h1><a class="header" href="#go" id="go">Go</a></h1>
-<h2><a class="header" href="#table-of-contents-2" id="table-of-contents-2">Table of Contents</a></h2>
+<h1 id="go"><a class="header" href="#go">Go</a></h1>
+<h2 id="table-of-contents-2"><a class="header" href="#table-of-contents-2">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/go.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/go.html#hello-world">Hello, world!</a>
@@ -1302,19 +1303,19 @@ endif()
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status-2" id="language-support-status-2">Language Support Status</a></h2>
+<h2 id="language-support-status-2"><a class="header" href="#language-support-status-2">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
 </tbody></table>
 <p>Go &amp; <a href="https://tinygo.org/">TinyGo</a> are supported, but the latter only has limited support for concurrency.</p>
-<h2><a class="header" href="#hello-world-2" id="hello-world-2">Hello, world!</a></h2>
+<h2 id="hello-world-2"><a class="header" href="#hello-world-2">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Go with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/go_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#module" id="module">Module</a></h3>
+<h3 id="module"><a class="header" href="#module">Module</a></h3>
 <p>Run the following to initialize your module:</p>
 <pre><code class="language-shell">$ go mod init module github.com/myuser/mymodule
 </code></pre>
 <p>Don't forget to change <code>github.com/myuser/mymodule</code> to a more appropriate module path.</p>
-<h3><a class="header" href="#source-code-6" id="source-code-6">Source Code</a></h3>
+<h3 id="source-code-6"><a class="header" href="#source-code-6">Source Code</a></h3>
 <p>Create <code>main.go</code> with the following content:</p>
 <pre><code class="language-go">package main
 
@@ -1325,7 +1326,7 @@ func main() {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-6" id="make-configuration-6">Make Configuration</a></h3>
+<h3 id="make-configuration-6"><a class="header" href="#make-configuration-6">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native-go native-tinygo wasm-go wasm-tinygo
 
@@ -1363,7 +1364,7 @@ seed-tinygo: wasm-tinygo
 <li><code>make seed-tinygo</code> seeds the WebAssembly target built with TinyGo, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-7" id="next-steps-7">Next Steps</a></h3>
+<h3 id="next-steps-7"><a class="header" href="#next-steps-7">Next Steps</a></h3>
 <p>Build all targets:</p>
 <pre><code class="language-shell">$ make
 </code></pre>
@@ -1376,11 +1377,11 @@ Hello, world!
 Hello, world!
 </code></pre>
 <p>The native targets work! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly targets.</p>
-<h2><a class="header" href="#tcp-chat-server" id="tcp-chat-server">TCP Chat Server</a></h2>
+<h2 id="tcp-chat-server"><a class="header" href="#tcp-chat-server">TCP Chat Server</a></h2>
 <p>Webnetes has support for networking. Let's create a TCP chat server in Go with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/go_chat_server">GitHub</a>.</p>
-<h3><a class="header" href="#module-1" id="module-1">Module</a></h3>
+<h3 id="module-1"><a class="header" href="#module-1">Module</a></h3>
 <p>See <a href="getting-started/develop/go.html#module">Hello, world! Module</a>.</p>
-<h3><a class="header" href="#source-code-7" id="source-code-7">Source Code</a></h3>
+<h3 id="source-code-7"><a class="header" href="#source-code-7">Source Code</a></h3>
 <p>Create <code>main.go</code> with the following content:</p>
 <details>
 	<summary>Go Source</summary>
@@ -1480,7 +1481,7 @@ func main() {
 </code></pre>
 </details>
 <p>It is a very simple TCP server that listens to messages, assigns an ID to clients, and broadcasts the messages to every other client.</p>
-<h3><a class="header" href="#make-configuration-7" id="make-configuration-7">Make Configuration</a></h3>
+<h3 id="make-configuration-7"><a class="header" href="#make-configuration-7">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -1505,7 +1506,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-8" id="next-steps-8">Next Steps</a></h3>
+<h3 id="next-steps-8"><a class="header" href="#next-steps-8">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1537,11 +1538,11 @@ seed: wasm
 <pre><code>&lt;80f9391f-7eea-45f6-9b50-1f0482bee9e7&gt;: Hello from client 2 in terminal 3!
 </code></pre>
 <p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
-<h2><a class="header" href="#tcp-chat-client" id="tcp-chat-client">TCP Chat Client</a></h2>
+<h2 id="tcp-chat-client"><a class="header" href="#tcp-chat-client">TCP Chat Client</a></h2>
 <p>Now that we've got a TCP chat server, let's create a TCP chat client in Go with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/go_chat_client">GitHub</a>.</p>
-<h3><a class="header" href="#module-2" id="module-2">Module</a></h3>
+<h3 id="module-2"><a class="header" href="#module-2">Module</a></h3>
 <p>See <a href="getting-started/develop/go.html#module">Hello, world! Module</a>.</p>
-<h3><a class="header" href="#source-code-8" id="source-code-8">Source Code</a></h3>
+<h3 id="source-code-8"><a class="header" href="#source-code-8">Source Code</a></h3>
 <p>Create <code>main.go</code> with the following content:</p>
 <details>
 	<summary>Go Source</summary>
@@ -1637,7 +1638,7 @@ func main() {
 </code></pre>
 </details>
 <p>It is a very simple TCP client that reads a message from standard input and sends it to the server. In another Goroutine, it waits for any messages from the server, and prints them to standard out.</p>
-<h3><a class="header" href="#make-configuration-8" id="make-configuration-8">Make Configuration</a></h3>
+<h3 id="make-configuration-8"><a class="header" href="#make-configuration-8">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -1662,7 +1663,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-9" id="next-steps-9">Next Steps</a></h3>
+<h3 id="next-steps-9"><a class="header" href="#next-steps-9">Next Steps</a></h3>
 <p>First, <a href="getting-started/develop/go.html#next-steps-1">build and run the TCP chat server</a>.</p>
 <p>In a second terminal, build the native target:</p>
 <pre><code class="language-shell">$ make native
@@ -1679,8 +1680,8 @@ Connected to 127.0.0.1:4206
 &lt;c22c532b-bd68-42d6-b2d3-bf69cf0dce8b&gt;: Hello from the native Go chat client!
 </code></pre>
 <p>The native target works! Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
-<h1><a class="header" href="#rust" id="rust">Rust</a></h1>
-<h2><a class="header" href="#table-of-contents-3" id="table-of-contents-3">Table of Contents</a></h2>
+<h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
+<h2 id="table-of-contents-3"><a class="header" href="#table-of-contents-3">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/rust.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/rust.html#hello-world">Hello, world!</a>
@@ -1692,24 +1693,24 @@ Connected to 127.0.0.1:4206
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status-3" id="language-support-status-3">Language Support Status</a></h2>
+<h2 id="language-support-status-3"><a class="header" href="#language-support-status-3">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world-3" id="hello-world-3">Hello, world!</a></h2>
+<h2 id="hello-world-3"><a class="header" href="#hello-world-3">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Rust with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/rust_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#crate" id="crate">Crate</a></h3>
+<h3 id="crate"><a class="header" href="#crate">Crate</a></h3>
 <p>Run the following to initialize your crate:</p>
 <pre><code class="language-shell">$ cargo new --bin rust_hello_world
 </code></pre>
-<h3><a class="header" href="#source-code-9" id="source-code-9">Source Code</a></h3>
+<h3 id="source-code-9"><a class="header" href="#source-code-9">Source Code</a></h3>
 <p>Replace <code>src/main.rs</code> with the following content:</p>
 <pre><pre class="playground"><code class="language-rust">fn main() {
     println!(&quot;Hello, world!&quot;);
 }
 </code></pre></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-9" id="make-configuration-9">Make Configuration</a></h3>
+<h3 id="make-configuration-9"><a class="header" href="#make-configuration-9">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -1735,7 +1736,7 @@ seed: clean wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-10" id="next-steps-10">Next Steps</a></h3>
+<h3 id="next-steps-10"><a class="header" href="#next-steps-10">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1747,8 +1748,8 @@ Hello, world!
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>No Rust bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
 </div>
-<h1><a class="header" href="#zig" id="zig">Zig</a></h1>
-<h2><a class="header" href="#table-of-contents-4" id="table-of-contents-4">Table of Contents</a></h2>
+<h1 id="zig"><a class="header" href="#zig">Zig</a></h1>
+<h2 id="table-of-contents-4"><a class="header" href="#table-of-contents-4">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/zig.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/zig.html#hello-world">Hello, world!</a>
@@ -1759,13 +1760,13 @@ Hello, world!
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status-4" id="language-support-status-4">Language Support Status</a></h2>
+<h2 id="language-support-status-4"><a class="header" href="#language-support-status-4">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world-4" id="hello-world-4">Hello, world!</a></h2>
+<h2 id="hello-world-4"><a class="header" href="#hello-world-4">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Zig with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/zig_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#source-code-10" id="source-code-10">Source Code</a></h3>
+<h3 id="source-code-10"><a class="header" href="#source-code-10">Source Code</a></h3>
 <p>Create <code>main.zig</code> with the following content:</p>
 <pre><code class="language-zig">const std = @import(&quot;std&quot;);
 
@@ -1775,7 +1776,7 @@ pub fn main() !void {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-10" id="make-configuration-10">Make Configuration</a></h3>
+<h3 id="make-configuration-10"><a class="header" href="#make-configuration-10">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -1801,7 +1802,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-11" id="next-steps-11">Next Steps</a></h3>
+<h3 id="next-steps-11"><a class="header" href="#next-steps-11">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
@@ -1813,8 +1814,8 @@ Hello, world!
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>No Zig bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
 </div>
-<h1><a class="header" href="#java" id="java">Java</a></h1>
-<h2><a class="header" href="#table-of-contents-5" id="table-of-contents-5">Table of Contents</a></h2>
+<h1 id="java"><a class="header" href="#java">Java</a></h1>
+<h2 id="table-of-contents-5"><a class="header" href="#table-of-contents-5">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/java.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/java.html#hello-world">Hello, world!</a>
@@ -1826,13 +1827,13 @@ Hello, world!
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status-5" id="language-support-status-5">Language Support Status</a></h2>
+<h2 id="language-support-status-5"><a class="header" href="#language-support-status-5">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world-5" id="hello-world-5">Hello, world!</a></h2>
+<h2 id="hello-world-5"><a class="header" href="#hello-world-5">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Java with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/rust_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#pom" id="pom">POM</a></h3>
+<h3 id="pom"><a class="header" href="#pom">POM</a></h3>
 <p>Create <code>pom.xml</code> with the following content:</p>
 <details>
 	<summary>XML Source</summary>
@@ -1959,7 +1960,7 @@ Hello, world!
 </code></pre>
 </details>
 <p>Don't forget to change <code>groupId</code> etc. to more appropriate values.</p>
-<h3><a class="header" href="#source-code-11" id="source-code-11">Source Code</a></h3>
+<h3 id="source-code-11"><a class="header" href="#source-code-11">Source Code</a></h3>
 <p>Create <code>src/main/java/dev/webnetes/examples/java/hello_world/Application.java</code> with the following content:</p>
 <pre><code class="language-java">package dev.webnetes.examples.java.hello_world;
 
@@ -1970,7 +1971,7 @@ public class Application {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-11" id="make-configuration-11">Make Configuration</a></h3>
+<h3 id="make-configuration-11"><a class="header" href="#make-configuration-11">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all:
 	@docker run -v ${PWD}:/src:z -v ${PWD}/.m2:/root/.m2:z maven sh -c 'cd /src &amp;&amp; mvn clean install'
@@ -1989,7 +1990,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-12" id="next-steps-12">Next Steps</a></h3>
+<h3 id="next-steps-12"><a class="header" href="#next-steps-12">Next Steps</a></h3>
 <p>Build the native &amp; the WebAssembly target:</p>
 <pre><code class="language-shell">$ make
 </code></pre>
@@ -2001,8 +2002,8 @@ Hello, world!
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>No Java bindings to <a href="https://github.com/alphahorizonio/unisockets">unisockets</a> have been implemented yet.</p>
 </div>
-<h1><a class="header" href="#assemblyscript" id="assemblyscript">AssemblyScript</a></h1>
-<h2><a class="header" href="#table-of-contents-6" id="table-of-contents-6">Table of Contents</a></h2>
+<h1 id="assemblyscript"><a class="header" href="#assemblyscript">AssemblyScript</a></h1>
+<h2 id="table-of-contents-6"><a class="header" href="#table-of-contents-6">Table of Contents</a></h2>
 <ul>
 <li><a href="getting-started/develop/assemblyscript.html#language-support-status">Language Support Status</a></li>
 <li><a href="getting-started/develop/assemblyscript.html#hello-world">Hello, world!</a>
@@ -2014,13 +2015,13 @@ Hello, world!
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status-6" id="language-support-status-6">Language Support Status</a></h2>
+<h2 id="language-support-status-6"><a class="header" href="#language-support-status-6">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#2">2</a></sup></td><td>❌<sup class="footnote-reference"><a href="#3">3</a></sup></td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world-6" id="hello-world-6">Hello, world!</a></h2>
+<h2 id="hello-world-6"><a class="header" href="#hello-world-6">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in AssemblyScript. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/assemblyscript_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#package" id="package">Package</a></h3>
+<h3 id="package"><a class="header" href="#package">Package</a></h3>
 <p>Create <code>package.json</code> with the following content:</p>
 <pre><code class="language-json">{
   &quot;name&quot;: &quot;@alphahorizonio/assemblyscript_hello_world&quot;,
@@ -2072,7 +2073,7 @@ Hello, world!
 <p>Finally, run the following to install the dependencies:</p>
 <pre><code class="language-shell">$ yarn
 </code></pre>
-<h3><a class="header" href="#source-code-12" id="source-code-12">Source Code</a></h3>
+<h3 id="source-code-12"><a class="header" href="#source-code-12">Source Code</a></h3>
 <p>Create <code>main.ts</code> with the following content:</p>
 <pre><code class="language-typescript">import { Console } from &quot;as-wasi&quot;;
 import &quot;wasi&quot;;
@@ -2080,7 +2081,7 @@ import &quot;wasi&quot;;
 Console.log(&quot;Hello, world!&quot;);
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration-12" id="make-configuration-12">Make Configuration</a></h3>
+<h3 id="make-configuration-12"><a class="header" href="#make-configuration-12">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all:
 	@docker run -v ${PWD}:/src:z node sh -c 'cd /src &amp;&amp; yarn &amp;&amp; yarn asbuild'
@@ -2099,7 +2100,7 @@ seed: all
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps-13" id="next-steps-13">Next Steps</a></h3>
+<h3 id="next-steps-13"><a class="header" href="#next-steps-13">Next Steps</a></h3>
 <p>Now continue to <a href="getting-started/develop/../distribute.html">Distribute</a> to learn how to run the WebAssembly target.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>AssemblyScript targets only WebAssembly.<br></p>
@@ -2110,9 +2111,9 @@ seed: all
 <div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
 <p>AssemblyScript does <a href="https://github.com/AssemblyScript/assemblyscript/issues/376">not yet support async/await</a>.<br></p>
 </div>
-<h1><a class="header" href="#more" id="more">More</a></h1>
+<h1 id="more"><a class="header" href="#more">More</a></h1>
 <p>Webnetes can, in addition to the languages documented before, also run any further languages supported by the runtimes as <a href="getting-started/develop/../../architecture/compute.html">documented in Compute</a>. Even if your language doesn't support any of the ones specified there, adding support for another one is easy (just add your own handler to the <a href="https://github.com/alphahorizonio/webnetes/blob/main/lib/controllers/virtual-machine.ts#L12-L18">virtual machine</a>). If you wish to have another runtime officially supported, please open a new issue in the <a href="https://github.com/alphahorizonio/webnetes/issues">GitHub issue tracker</a> and we'll look into it.</p>
-<h1><a class="header" href="#distribute" id="distribute">Distribute</a></h1>
+<h1 id="distribute"><a class="header" href="#distribute">Distribute</a></h1>
 <p>Now that you've got your app's build configuration up and running, you can start deploying your app to Webnetes. Doing so is a pretty simple process:</p>
 <ol>
 <li>Define your app's resources using a <code>stack.yaml</code> file</li>
@@ -2122,7 +2123,7 @@ seed: all
 <li>Open your app's terminal and interact with it!</li>
 </ol>
 <p>Let's get started!</p>
-<h2><a class="header" href="#defining-the-resources" id="defining-the-resources">Defining the Resources</a></h2>
+<h2 id="defining-the-resources"><a class="header" href="#defining-the-resources">Defining the Resources</a></h2>
 <p>The first step is to define your app's resources. Here you'll configure the app's capabilities, it's network configuration, runtime and so on. This is quite similar to how <a href="https://kubernetes.io/">Kubernetes</a> handles it's resource definition; if you've used the latter before, you'll quickly get the hang of how to use Webnetes YAML.</p>
 <p>You can find a pre-configured <code>stack.yaml</code> file for the examples in the corresponding source code; see <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">alphahorizonio/webnetes/examples</a> for a list of all examples. To get a head start, you can use the <code>stack.yaml</code> of the example you've used. A typical <code>stack.yaml</code> (here of the C TCP Echo Server example) looks something like the following:</p>
 <details>
@@ -2355,7 +2356,7 @@ spec:
 </code></pre>
 </details>
 <p>You can find a full reference of the available resources in the <a href="getting-started/../reference/resources-yaml.html">resources YAML reference</a>.</p>
-<h2><a class="header" href="#seeding-the-webassembly-binary" id="seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
+<h2 id="seeding-the-webassembly-binary"><a class="header" href="#seeding-the-webassembly-binary">Seeding the WebAssembly Binary</a></h2>
 <p>Next up, you have to make the WebAssembly binary available to Webnetes. This is done using <a href="https://webtorrent.io/">WebTorrent</a>, a BitTorrent implementation using WebRTC. For your convenience, a <code>seed</code> Make target has been added to the examples, but you can also seed using something like <a href="https://webtorrent.io/desktop/">WebTorrent Desktop</a>, <a href="https://instant.io/">instant.io</a>, <a href="https://webnetes.dev/">webnetesctl</a> or <a href="https://lite.webnetes.dev/">webnetesctl Lite</a>. For the following we'll use the <code>seed</code> Make target because it's the most convenient. Note that for Go there are two targets: <code>seed-go</code> and <code>seed-tinygo</code>. Consult the relevant <a href="getting-started/./develop/go.html#make-configuration">Develop section</a> for more information on what each target does.</p>
 <p>Let's seed the WebAssembly binary; we'll use the <a href="getting-started/./develop/c.html#tcp-echo-server">C TCP Echo Server</a> as an example:</p>
 <pre><code class="language-shell">$ make seed
@@ -2375,7 +2376,7 @@ spec:
   repository: webtorrent_public
   uri: d1eb90cb38bbffd1705f49e3e68a57d2c104b594
 </code></pre>
-<h2><a class="header" href="#creating-a-cluster" id="creating-a-cluster">Creating a Cluster</a></h2>
+<h2 id="creating-a-cluster"><a class="header" href="#creating-a-cluster">Creating a Cluster</a></h2>
 <p>Let's create a cluster for our app. We'll use <a href="https://webnetes.dev/">webnetesctl</a> from now on, but feel free to use <a href="https://lite.webnetes.dev/">webnetesctl Lite</a> if you prefer something more lightweight.</p>
 <p>First, open webnetesctl:</p>
 <p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
@@ -2393,7 +2394,7 @@ spec:
 <p>If you prefer a more traditional overview or are searching for something, the Explorer tab might be of use to you:</p>
 <p><img src="getting-started/./img/explorer.png" alt="webnetesctl explorer" /></p>
 <p>Feel free to try out the other tabs before you continue!</p>
-<h2><a class="header" href="#deploying-the-resources" id="deploying-the-resources">Deploying the Resources</a></h2>
+<h2 id="deploying-the-resources"><a class="header" href="#deploying-the-resources">Deploying the Resources</a></h2>
 <p>Let's deploy the resources. Doing so is simple; just click <code>+ Create</code> in the top menu and select <code>Resource</code>. Now, paste the contents of the <code>stack.yaml</code> file you've created above into the <code>Definition</code> editor; it's structure will be visualized to the right:</p>
 <p><img src="getting-started/./img/create-resource.png" alt="webnetesctl create resource dialog" /></p>
 <p>Next, let's adjust the server's network configuration by changing the <code>Arguments</code> resource to use an IP address in the within the cluster ID subnet we've created above (<code>69.42.8</code>):</p>
@@ -2439,7 +2440,7 @@ spec:
 <p>After the deployment has finished, and assuming you've set the <code>terminalHostNodeId</code> to the manager node's IP, a terminal should open up:</p>
 <p><img src="getting-started/./img/terminal.png" alt="webnetesctl terminal" /></p>
 <p>Awesome, you've just deployed your first app to webnetes! You could now repeat this process for the <a href="getting-started/./develop/c.html#tcp-echo-client">C TCP Echo Client</a> and test the full network, or continue to <a href="getting-started/./operate.html">Operate</a> for further operation resources.</p>
-<h1><a class="header" href="#operate" id="operate">Operate</a></h1>
+<h1 id="operate"><a class="header" href="#operate">Operate</a></h1>
 <p>After <a href="getting-started/./distribute.html">distributing</a>, we have now successfully deployed some resources to the cluster.</p>
 <p>On the target node, you can also check the resource graph to see the resources:</p>
 <p><img src="getting-started/./img/target-node-resource-graph.png" alt="webnetesctl target node resource graph" /></p>
@@ -2449,12 +2450,12 @@ spec:
 <p>The resources can also be found in the explorer:</p>
 <p><img src="getting-started/./img/resources-in-explorer.png" alt="webnetesctl resource on node in explorer" /></p>
 <p>Using the explorer or the overview, resources can now also be deleted.</p>
-<h2><a class="header" href="#youre-done" id="youre-done">You're Done!</a></h2>
+<h2 id="youre-done"><a class="header" href="#youre-done">You're Done!</a></h2>
 <p>🎉 That's it! You now know how to develop, distribute and operate your apps on Webnetes. There are many more features of Webnetes that we haven't touched on yet (the augmented reality resource graph, cluster statistics in the overview etc.), so feel free to play around with it!</p>
-<h1><a class="header" href="#architecture" id="architecture">Architecture</a></h1>
+<h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
 <p>Webnetes is made up of four high-level, independent systems: a <a href="architecture/./compute.html">compute system</a>, a <a href="architecture/./networking.html">networking system</a>, a <a href="architecture/./storage.html">storage system</a> and finally a <a href="architecture/./management.html">management system</a>, which, once combined, form a <a href="architecture/../components/webnetes.html">Webnetes node</a>.</p>
 <p>While the following is not exhaustive documentation, it should give you a quick overview of the systems; for a deeper understanding, please consult the linked source code documentation.</p>
-<h1><a class="header" href="#compute" id="compute">Compute</a></h1>
+<h1 id="compute"><a class="header" href="#compute">Compute</a></h1>
 <p>The Webnetes compute stack is build on <a href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>, a byte-code format. The stack is configured using resources. In order to run WebAssembly (or WASM for short), a virtual machine is required. In the case of Webnetes, this component is called a runtime; the following are currently supported:</p>
 <ul>
 <li><a href="https://wasi.dev/">WASI</a> via <a href="https://github.com/wasmerio/wasmer-js">wasmer-js</a> — currently used to support C, C++, Rust, Zig, AssemblyScript and TinyGo (<code>wasm32-wasi</code> target)</li>
@@ -2466,37 +2467,37 @@ spec:
 <p>Another feature is <code>stdin</code>/<code>stdout</code> redirection. Using the <a href="architecture/./networking.html">networking system</a>, Webnetes separates a workload from it's terminal, and enables attaching remote terminals to workloads anywhere in the cluster.</p>
 <p>For more information on how to use the compute system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <p>For more information on how the compute system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/virtualmachine.html">virtual machine documentation</a>.</p>
-<h1><a class="header" href="#networking" id="networking">Networking</a></h1>
+<h1 id="networking"><a class="header" href="#networking">Networking</a></h1>
 <p>The Webnetes network stack is build on <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a>, a peer-to-peer real-time communication technology. This stack is used universally for both <a href="architecture/./management.html">management</a> and inter-workload communication and exposed using <a href="https://github.com/alphahorizonio/unisockets">unisockets</a>, a universal Berkeley sockets implementation for WebRTC. The stack is configured using resources.</p>
 <p>For more information on how to use the networking system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <p>For more information on how the networking system works, consult the <a href="https://alphahorizonio.github.io/unisockets/">unisockets documentation</a> and in particular the <a href="https://alphahorizonio.github.io/unisockets/classes/transporter.html">unisockets transporter documentation</a>.</p>
-<h1><a class="header" href="#storage" id="storage">Storage</a></h1>
+<h1 id="storage"><a class="header" href="#storage">Storage</a></h1>
 <p>The Webnetes storage/registry stack is build on <a href="https://en.wikipedia.org/wiki/WebTorrent">WebTorrent</a>, an implementation of the BitTorrent protocol based on WebRTC. It is used to make binaries available for workloads. The stack is configured using resources.</p>
 <p>To support flexible/private deployments, Webnetes enables using multiple WebTorrent configurations using repositories. Binaries are referenced using an info hash or a magnet link, just like with BitTorrent.</p>
 <p>For more information on how to use the storage system, consult the <a href="architecture/../getting-started">getting started guide</a> or the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>.</p>
 <p>For more information on how the storage system works, consult the <a href="https://alphahorizonio.github.io/webnetes/classes/filerepository.html">file repository documentation</a>.</p>
-<h1><a class="header" href="#management" id="management">Management</a></h1>
+<h1 id="management"><a class="header" href="#management">Management</a></h1>
 <p>Webnetes is based on resources, which are documented in the <a href="architecture/../reference/resources-yaml.html">resources YAML reference</a>. The management system manages these resources across the cluster using a peer-to-peer client protocol based on the <a href="architecture/./networking.html">networking system</a>. This protocol is also used to transmit status messages and node information, such as benchmark scores and network performance.</p>
 <p>For getting a deeper understanding on how the management system works, two pieces are important: the <a href="https://alphahorizonio.github.io/webnetes/classes/resources.html">resources pipe</a>, which handles resources on the local node and the <a href="https://alphahorizonio.github.io/webnetes/classes/peers.html">peer pipe</a>, which manages remote peer pipes and takes care of synchronization.</p>
-<h1><a class="header" href="#components" id="components">Components</a></h1>
+<h1 id="components"><a class="header" href="#components">Components</a></h1>
 <p>The most high-level components of Webnetes are the <a href="components/./webnetes.html">node</a> and the <a href="components/./webnetesctl.html">app</a>. The former is used to build the app and can be embedded in any Node.js or web app, the latter is a ready-to-use way of working with Webnetes.</p>
-<h1><a class="header" href="#node-webnetes" id="node-webnetes">Node (webnetes)</a></h1>
+<h1 id="node-webnetes"><a class="header" href="#node-webnetes">Node (webnetes)</a></h1>
 <p>The node is the embeddable version of Webnetes. It exposes the <a href="components/../architecture">four base systems</a> with an easy-to-use API and is used to power the <a href="components/./webnetesctl.html">app</a>. Using basic knowledge of JavaScript or TypeScript, it can be effortlessly embedded in any Node.js or web app if you wish to use any of Webnetes' features.</p>
 <p>For more information, see the <a href="components/../reference/embedding-api.html">embedding API</a>.</p>
-<h1><a class="header" href="#app-webnetesctl" id="app-webnetesctl">App (webnetesctl)</a></h1>
-<h2><a class="header" href="#introduction-1" id="introduction-1">Introduction</a></h2>
+<h1 id="app-webnetesctl"><a class="header" href="#app-webnetesctl">App (webnetesctl)</a></h1>
+<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
 <p>To interact with the <a href="components/./webnetes.html">node</a>, an app is used. It provides an easy-to-use interface to develop, distribute and operate apps on Webnetes. It should be noted that while webnetesctl is the primary app, you can also choose to use an alternative for a more lightweight experience or even build your own app without too much effort.</p>
-<h2><a class="header" href="#implementations" id="implementations">Implementations</a></h2>
-<h3><a class="header" href="#webnetesctl" id="webnetesctl">webnetesctl</a></h3>
+<h2 id="implementations"><a class="header" href="#implementations">Implementations</a></h2>
+<h3 id="webnetesctl"><a class="header" href="#webnetesctl">webnetesctl</a></h3>
 <p><a href="https://webnetes.dev/"><img src="components/../getting-started/img/start.png" alt="webnetesctl start screen" /></a></p>
 <p>Recommended for most users. Webnetesctl is built with React, Ant Design and the <a href="components/./webnetes.html">Webnetes node</a>. For more information, check out the <a href="https://github.com/alphahorizonio/webnetesctl">source code</a> or try it out:</p>
 <p><a href="https://webnetes.dev/"><img src="https://github.com/alphahorizonio/webnetesctl/raw/main/img/launch.png" width="240">
 </a></p>
-<h3><a class="header" href="#webnetesctl-lite" id="webnetesctl-lite">webnetesctl Lite</a></h3>
+<h3 id="webnetesctl-lite"><a class="header" href="#webnetesctl-lite">webnetesctl Lite</a></h3>
 <p><a href="https://lite.webnetes.dev/"><img src="components/../getting-started/img/start-lite.png" alt="webnetesctl Lite start screen" /></a></p>
 <p>For advanced users who prefer something more lightweight. Webnetesctl Lite is built with Vanilla JS and the <a href="components/./webnetes.html">Webnetes node</a>; for more information, check out the <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">source code</a> or try it out:</p>
 <p><a href="https://lite.webnetes.dev/"><img src="https://img.shields.io/badge/webnetesctl%20Lite-lite.webnetes.dev-blueviolet" alt="Lite" /></a></p>
-<h1><a class="header" href="#bindings" id="bindings">Bindings</a></h1>
+<h1 id="bindings"><a class="header" href="#bindings">Bindings</a></h1>
 <p>If you want to support something that isn't part of your language's libraries or not supported by your runtime, you can polyfill it using bindings to Webnetes.</p>
 <p>There are currently two bindings which do this, in particular to support networking:</p>
 <ul>
@@ -2504,13 +2505,13 @@ spec:
 <li><a href="bindings/./tinynet.html">tinynet</a>, a net implementation for Go and TinyGo based on unisockets</li>
 </ul>
 <p>These bindings are enabled using <a href="bindings/../reference/resources-yaml.html#capability">capabilities</a>.</p>
-<h1><a class="header" href="#cc-networking-unisockets" id="cc-networking-unisockets">C/C++ Networking (unisockets)</a></h1>
+<h1 id="cc-networking-unisockets"><a class="header" href="#cc-networking-unisockets">C/C++ Networking (unisockets)</a></h1>
 <p>To support networking in C ABI compatible languages, such as C, C++, Go or TinyGo, unisockets is used. Consult the <a href="https://github.com/alphahorizonio/unisockets">unisockets documentation</a> for more information.</p>
-<h1><a class="header" href="#go-networking-tinynet" id="go-networking-tinynet">Go Networking (tinynet)</a></h1>
+<h1 id="go-networking-tinynet"><a class="header" href="#go-networking-tinynet">Go Networking (tinynet)</a></h1>
 <p>To support networking in Go and TinyGo, you can either use <a href="bindings/./unisockets.html">unisockets</a> directly, or preferably tinynet, a <code>net</code> implementation for Go and TinyGo based on unisockets. Consult the <a href="https://github.com/alphahorizonio/tinynet">tinynet documentation</a> for more information.</p>
-<h1><a class="header" href="#reference" id="reference">Reference</a></h1>
+<h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <p>Here you can find reference information on the <a href="reference/./resources-yaml.html">resources YAML</a> and the <a href="reference/./embedding-api.html">embedding API</a>.</p>
-<h1><a class="header" href="#resources-yaml" id="resources-yaml">Resources YAML</a></h1>
+<h1 id="resources-yaml"><a class="header" href="#resources-yaml">Resources YAML</a></h1>
 <p>Webnetes is based on the concept of resources as the primary means of configuration. This is a listing of all available resources. Many examples of resource YAML usage can be found in the <code>stack.yaml</code> files in the <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples">repository</a>.</p>
 <p>Resources have a few common fields:</p>
 <ul>
@@ -2520,7 +2521,7 @@ spec:
 <li><code>spec</code>: The resource-specific data</li>
 </ul>
 <p>This pattern is strongly influenced by <a href="https://kubernetes.io/">Kubernetes</a>.</p>
-<h2><a class="header" href="#runtime" id="runtime">Runtime</a></h2>
+<h2 id="runtime"><a class="header" href="#runtime">Runtime</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Runtime
 metadata:
@@ -2536,7 +2537,7 @@ spec: {}
 <li><code>jssi_tinygo</code>: For TinyGo using JSSI</li>
 <li><code>jssi_teavm</code>: For Java using JSSI</li>
 </ul>
-<h2><a class="header" href="#capability" id="capability">Capability</a></h2>
+<h2 id="capability"><a class="header" href="#capability">Capability</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Runtime
 metadata:
@@ -2554,7 +2555,7 @@ spec: {}
 <li><code>net_accept</code>: Enables accepting on a socket</li>
 <li><code>net_connect</code>: Enables connecting to a socket</li>
 </ul>
-<h2><a class="header" href="#processor" id="processor">Processor</a></h2>
+<h2 id="processor"><a class="header" href="#processor">Processor</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Processor
 metadata:
@@ -2576,7 +2577,7 @@ spec:
 <li><code>runtimes</code>: An array of <a href="reference/resources-yaml.html#runtime">runtime</a> labels</li>
 <li><code>capabilties</code>: An array of <a href="reference/resources-yaml.html#capability">capability</a> labels</li>
 </ul>
-<h2><a class="header" href="#signaler" id="signaler">Signaler</a></h2>
+<h2 id="signaler"><a class="header" href="#signaler">Signaler</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Signaler
 metadata:
@@ -2592,7 +2593,7 @@ spec:
 <li><code>urls</code>: An array of <a href="https://github.com/alphahorizonio/unisockets#signaling-protocol">signaling server</a> URLs. Currently, only the first entry is respected.</li>
 <li><code>retryAfter</code>: An interval in milliseconds after which to try to re-connect to the signaling servers</li>
 </ul>
-<h2><a class="header" href="#stun-server" id="stun-server">STUN Server</a></h2>
+<h2 id="stun-server"><a class="header" href="#stun-server">STUN Server</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: StunServer
 metadata:
@@ -2606,7 +2607,7 @@ spec:
 <ul>
 <li><code>urls</code>: An array of STUN server URLs.</li>
 </ul>
-<h2><a class="header" href="#turn-server" id="turn-server">TURN Server</a></h2>
+<h2 id="turn-server"><a class="header" href="#turn-server">TURN Server</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: TurnServer
 metadata:
@@ -2624,7 +2625,7 @@ spec:
 <li><code>username</code>: The username to authenticate with when connecting to the TURN server</li>
 <li><code>credential</code>: The credential to authenticate with when connecting to the TURN server</li>
 </ul>
-<h2><a class="header" href="#network" id="network">Network</a></h2>
+<h2 id="network"><a class="header" href="#network">Network</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Network
 metadata:
@@ -2646,7 +2647,7 @@ spec:
 <li><code>stunServers</code>s: An array of <a href="reference/resources-yaml.html#stun-server">STUN server</a> labels</li>
 <li><code>turnServers</code>s: An array of <a href="reference/resources-yaml.html#turn-server">TURN server</a> labels</li>
 </ul>
-<h2><a class="header" href="#network-interface" id="network-interface">Network Interface</a></h2>
+<h2 id="network-interface"><a class="header" href="#network-interface">Network Interface</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: NetworkInterface
 metadata:
@@ -2661,7 +2662,7 @@ spec:
 <li><code>network</code>: The label of the <a href="reference/resources-yaml.html#network">network</a> in which the subnet resides. If it does not exist, it will be created.</li>
 <li><code>prefix</code>: The first three octets of the subnet to create/join.</li>
 </ul>
-<h2><a class="header" href="#tracker" id="tracker">Tracker</a></h2>
+<h2 id="tracker"><a class="header" href="#tracker">Tracker</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Tracker
 metadata:
@@ -2675,7 +2676,7 @@ spec:
 <ul>
 <li><code>urls</code>: An array of tracker server URLs. Currently, only the first entry is respected.</li>
 </ul>
-<h2><a class="header" href="#repository" id="repository">Repository</a></h2>
+<h2 id="repository"><a class="header" href="#repository">Repository</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Repository
 metadata:
@@ -2699,7 +2700,7 @@ spec:
 <li><code>stunServers</code>s: An array of <a href="reference/resources-yaml.html#stun-server">STUN server</a> labels</li>
 <li><code>turnServers</code>s: An array of <a href="reference/resources-yaml.html#turn-server">TURN server</a> labels</li>
 </ul>
-<h2><a class="header" href="#file" id="file">File</a></h2>
+<h2 id="file"><a class="header" href="#file">File</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: File
 metadata:
@@ -2714,7 +2715,7 @@ spec:
 <li><code>repository</code>: The <a href="reference/resources-yaml.html#repository">repository</a> to which the file should be added</li>
 <li><code>uri</code>: The magnet link or info hash of the file to add</li>
 </ul>
-<h2><a class="header" href="#arguments" id="arguments">Arguments</a></h2>
+<h2 id="arguments"><a class="header" href="#arguments">Arguments</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Arguments
 metadata:
@@ -2729,7 +2730,7 @@ spec:
 <ul>
 <li><code>argv</code>: An array of command-line arguments to pass to the workload</li>
 </ul>
-<h2><a class="header" href="#workload" id="workload">Workload</a></h2>
+<h2 id="workload"><a class="header" href="#workload">Workload</a></h2>
 <pre><code class="language-yaml">apiVersion: schema.webnetes.dev/v1alpha1
 kind: Workload
 metadata:
@@ -2760,11 +2761,11 @@ spec:
 <li><code>terminalLabel</code>: Unique label by which to identify the <a href="reference/resources-yaml.html#workload">workload</a>'s terminal</li>
 <li><code>terminalHostNodeId</code>: The node ID to attach the terminal to. <code>localhost</code> references the node onto which the workload is being deployed.</li>
 </ul>
-<h1><a class="header" href="#embedding-api" id="embedding-api">Embedding API</a></h1>
+<h1 id="embedding-api"><a class="header" href="#embedding-api">Embedding API</a></h1>
 <p>Embedding the <a href="reference/../components/webnetes.html">node</a> is easy and <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation is available</a>.</p>
-<h2><a class="header" href="#getting-the-library" id="getting-the-library">Getting the Library</a></h2>
+<h2 id="getting-the-library"><a class="header" href="#getting-the-library">Getting the Library</a></h2>
 <p>Webnetes can be used with or without a bundler.</p>
-<h3><a class="header" href="#npm" id="npm">npm</a></h3>
+<h3 id="npm"><a class="header" href="#npm">npm</a></h3>
 <p>Webnetes is available on npm. You can add it to your app like so:</p>
 <pre><code class="language-shell">yarn add @alphahorizonio/webnetes
 # Or with npm
@@ -2773,14 +2774,14 @@ npm i -s @alphahorizonio/webnetes
 <p>You can now import it like so:</p>
 <pre><code class="language-typescript">import { Node } from &quot;@alphahorizonio/webnetes&quot;;
 </code></pre>
-<h3><a class="header" href="#script" id="script">Script</a></h3>
+<h3 id="script"><a class="header" href="#script">Script</a></h3>
 <p>If you don't have a bundler available, or prefer not to use npm, we also provide a ready-to-use precompiled script which you can include like so:</p>
 <pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/@alphahorizonio/webnetes@0.1.2/dist/webLibIIFE/index.iife.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>The node will be now be available as <code>window.WebnetesNode</code>.</p>
-<h2><a class="header" href="#using-the-library" id="using-the-library">Using the Library</a></h2>
+<h2 id="using-the-library"><a class="header" href="#using-the-library">Using the Library</a></h2>
 <p>Webnetes is isomorphic; in runs both on the browser and on the server (using Node.js).</p>
-<h3><a class="header" href="#in-the-browser" id="in-the-browser">In the Browser</a></h3>
+<h3 id="in-the-browser"><a class="header" href="#in-the-browser">In the Browser</a></h3>
 <p>This should enable you to create a minimal node in the browser:</p>
 <pre><code class="language-typescript">const node = new Node(
   async (nodeId, resource) =&gt; {
@@ -2831,7 +2832,7 @@ npm i -s @alphahorizonio/webnetes
 );
 </code></pre>
 <p>Now, implement the <code>TODO</code>s and <code>open</code> the node using the configuration resources. You can find the full source code in <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_web">the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
-<h3><a class="header" href="#in-nodejs" id="in-nodejs">In Node.js</a></h3>
+<h3 id="in-nodejs"><a class="header" href="#in-nodejs">In Node.js</a></h3>
 <p>Webnetes also has Node.js support. This should enable you to create a minimal node in this context:</p>
 <pre><code class="language-typescript">const node = new Node(
   async (nodeId, resource) =&gt; {
@@ -2889,14 +2890,14 @@ npm i -s @alphahorizonio/webnetes
 );
 </code></pre>
 <p>Now, <code>open</code> the node using the configuration resources. You can find the full source code in <a href="https://github.com/alphahorizonio/webnetes/tree/main/app/webnetes_node">the repository</a>. Consult the <a href="https://alphahorizonio.github.io/webnetes/classes/node.html">API documentation</a> for further resources.</p>
-<h1><a class="header" href="#contributing" id="contributing">Contributing</a></h1>
+<h1 id="contributing"><a class="header" href="#contributing">Contributing</a></h1>
 <p>Webnetes is being developed as free/libre and open source sofware in the Alpha Horizon organization on <a href="https://github.com/alphahorizonio">GitHub</a>. We appreciate contributions, and there is no need to sign a CLA!</p>
-<h2><a class="header" href="#chat" id="chat">Chat</a></h2>
+<h2 id="chat"><a class="header" href="#chat">Chat</a></h2>
 <ul>
 <li><strong>Are you a user and have questions?</strong> Join <a href="https://matrix.to/#/#webnetes-users:matrix.org?via=matrix.org">Webnetes Users on Matrix</a> and we'll help you.</li>
 <li><strong>Want to contribute?</strong> Join <a href="https://matrix.to/#/#webnetes-contributors:matrix.org?via=matrix.org">Webnetes Contributors on Matrix</a> and chat with us!</li>
 </ul>
-<h2><a class="header" href="#code-of-conduct" id="code-of-conduct">Code of Conduct</a></h2>
+<h2 id="code-of-conduct"><a class="header" href="#code-of-conduct">Code of Conduct</a></h2>
 <p>Please follow our <a href="https://github.com/alphahorizonio/webnetes-book/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>.</p>
 
                     </main>

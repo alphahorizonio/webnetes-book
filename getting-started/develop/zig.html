@@ -163,8 +163,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#zig" id="zig">Zig</a></h1>
-<h2><a class="header" href="#table-of-contents" id="table-of-contents">Table of Contents</a></h2>
+                        <h1 id="zig"><a class="header" href="#zig">Zig</a></h1>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
 <li><a href="#language-support-status">Language Support Status</a></li>
 <li><a href="#hello-world">Hello, world!</a>
@@ -175,13 +175,13 @@
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#language-support-status" id="language-support-status">Language Support Status</a></h2>
+<h2 id="language-support-status"><a class="header" href="#language-support-status">Language Support Status</a></h2>
 <table><thead><tr><th>Native</th><th>WebAssembly</th><th>Networking</th><th>Concurrency</th></tr></thead><tbody>
 <tr><td>✅</td><td>✅</td><td>❌<sup class="footnote-reference"><a href="#1">1</a></sup></td><td>✅</td></tr>
 </tbody></table>
-<h2><a class="header" href="#hello-world" id="hello-world">Hello, world!</a></h2>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello, world!</a></h2>
 <p>Let's start by writing a hello world app in Zig with native and WebAssembly targets. The full source code of this example is available on <a href="https://github.com/alphahorizonio/webnetes/tree/main/examples/zig_hello_world">GitHub</a>.</p>
-<h3><a class="header" href="#source-code" id="source-code">Source Code</a></h3>
+<h3 id="source-code"><a class="header" href="#source-code">Source Code</a></h3>
 <p>Create <code>main.zig</code> with the following content:</p>
 <pre><code class="language-zig">const std = @import(&quot;std&quot;);
 
@@ -191,7 +191,7 @@ pub fn main() !void {
 }
 </code></pre>
 <p>It prints <code>Hello, world!</code> to standard output.</p>
-<h3><a class="header" href="#make-configuration" id="make-configuration">Make Configuration</a></h3>
+<h3 id="make-configuration"><a class="header" href="#make-configuration">Make Configuration</a></h3>
 <p>Create a <code>Makefile</code> with the following content:</p>
 <pre><code class="language-Makefile">all: native wasm
 
@@ -217,7 +217,7 @@ seed: wasm
 <li><code>make seed</code> seeds the WebAssembly target, which will come in handy later.</li>
 </ul>
 <p>All of them use Docker, so there is no need to install any dependencies on the host.</p>
-<h3><a class="header" href="#next-steps" id="next-steps">Next Steps</a></h3>
+<h3 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h3>
 <p>Build the native target:</p>
 <pre><code class="language-shell">$ make native
 </code></pre>
